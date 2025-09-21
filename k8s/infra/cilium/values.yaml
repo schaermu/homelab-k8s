@@ -1,0 +1,66 @@
+kubeProxyReplacement: true
+rollOutCiliumPods: true
+
+k8sClientRateLimit:
+  qps: 50
+  burst: 100
+
+k8sServiceHost: localhost
+k8sServicePort: 7445
+
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+
+externalIPs:
+  enabled: true
+hubble:
+  enabled: true
+  tls:
+    auto:
+      method: "cronJob"
+  relay:
+    enabled: true
+    rollOutPods: true
+  ui:
+    enabled: true
+    rollOutPods: true
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+      hosts:
+        - hubble.homelab.schaermu.ch
+      tls:
+        - secretName: hubble-tls-certificate
+          hosts:
+            - hubble.homelab.schaermu.ch
+
+l2announcements:
+  enabled: true
+
+operator:
+  replicas: 1
+
+ipam:
+  mode: kubernetes
+
+securityContext:
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE

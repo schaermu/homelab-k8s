@@ -1,0 +1,7 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cert-manager-startupapicheck
+  namespace: cert-manager
+spec:
+  ttlSecondsAfterFinished: 60

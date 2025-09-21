@@ -1,0 +1,8 @@
+.env
+.bitwarden/
+output/
+
+.terraform/
+*.tfstate*
+
+secrets/

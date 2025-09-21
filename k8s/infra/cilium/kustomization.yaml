@@ -1,0 +1,20 @@
+# kubernetes/cilium/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - announce.yaml
+  - ip-pool.yaml
+  - https://doc.crds.dev/raw/github.com/cilium/cilium@1.18.1 # renovate: helm=cilium registry=https://helm.cilium.io
+
+helmCharts:
+  - name: cilium
+    repo: https://helm.cilium.io
+    version: 1.18.1
+    releaseName: cilium
+    includeCRDs: true
+    namespace: kube-system
+    valuesFile: values.yaml
+
+patches:
+  - path: patches/delete-hubble-tls-job.yaml

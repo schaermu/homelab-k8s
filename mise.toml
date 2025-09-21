@@ -1,0 +1,24 @@
+[tools]
+opentofu = "latest"
+talosctl = "latest"
+kubectl = "latest"
+kubeseal = "latest"
+kubeconform = "latest"
+kustomize = "latest"
+yq = "latest"
+helm = "latest"
+
+[env]
+_.file = '.env'
+MANIFEST_INPUT_DIR = "k8s"
+MANIFEST_OUTPUT_DIR = "rendered-manifests"
+
+[tasks.tofu]
+dir = "tofu"
+run = "tofu"
+
+[tasks.kubectl]
+run = "KUBECONFIG=tofu/output/kube-config.yaml kubectl"
+
+[tasks.talosctl]
+run = "TALOSCONFIG=tofu/output/talos-config.yaml talosctl"

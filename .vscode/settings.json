@@ -1,0 +1,17 @@
+{
+    "editor.autoIndent": "full",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.tabSize": 2,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.associations": {
+        "*.yaml.tftpl": "yaml",
+    },
+    "[terraform]": {
+        "editor.defaultFormatter": "hashicorp.terraform"
+    },
+    "[terraform-vars]": {
+        "editor.defaultFormatter": "hashicorp.terraform"
+    },
+}

@@ -1,0 +1,13 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: securityheaders
+  namespace: traefik
+spec:
+  headers:
+    forceSTSHeader: false
+    stsPreload: false
+    stsSeconds: 15552000
+    customFrameOptionsValue: SAMEORIGIN
+    referrerPolicy: 'same-origin'
+    sslRedirect: true
