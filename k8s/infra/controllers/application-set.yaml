@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: controllers
+  namespace: argocd
+  labels:
+    lab.schaermu: controllers
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/schaermu/homelab-k8s
+        revision: HEAD
+        directories:
+          - path: k8s/infra/controllers/*
+  template:
+    metadata:
+      name: '{{ path.basename }}'
+      labels:
+        lab.schaermu: controllers
+    spec:
+      project: controllers
+      source:
+        plugin:
+          name: kustomize-build-with-helm
+        repoURL: https://github.com/schaermu/homelab-k8s
+        targetRevision: HEAD
+        path: '{{ path }}'
+      destination:
+        name: in-cluster
+        namespace: argocd
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - ServerSideApply=true

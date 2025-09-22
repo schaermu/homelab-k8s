@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: network
+  namespace: argocd
+spec:
+  sourceRepos:
+    - 'https://github.com/schaermu/homelab-k8s'
+  destinations:
+    - namespace: 'argocd'
+      server: '*'
+    - namespace: 'longhorn-system'
+      server: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

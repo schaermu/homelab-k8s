@@ -22,7 +22,7 @@ configs:
 
 crds:
   install: true
-  keep: true
+  keep: false
 
 controller:
   resources:
