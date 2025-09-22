@@ -7,6 +7,7 @@ configs:
     create: true
     application.resourceTrackingMethod: annotation+label
     admin.enabled: false
+    kustomize.buildOptions: --enable-helm
 
   cmp:
     create: true
@@ -21,7 +22,7 @@ configs:
 
 crds:
   install: true
-  keep: false
+  keep: true
 
 controller:
   resources:

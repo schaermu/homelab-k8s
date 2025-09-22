@@ -46,16 +46,19 @@ resource "helm_release" "argocd" {
     file("${path.module}/../../k8s/infra/argocd/values.yaml")
   ]
 
+  timeout = 600
+
   depends_on = [kubernetes_namespace.argocd]
 }
 
-resource "kubernetes_manifest" "argocd_infra_appset" {
-  manifest = yamldecode(file("${path.module}/../../k8s/sets/infrastructure.yaml"))
 
-  depends_on = [helm_release.argocd]
+resource "kubectl_manifest" "argocd_infra_appset" {
+  yaml_body = file("${path.module}/../../k8s/sets/infrastructure.yaml")
+
+  depends_on = [helm_release.argocd, ]
 }
-resource "kubernetes_manifest" "argocd_project" {
-  manifest = yamldecode(file("${path.module}/../../k8s/sets/project.yaml"))
+resource "kubectl_manifest" "argocd_project" {
+  yaml_body = file("${path.module}/../../k8s/sets/project.yaml")
 
   depends_on = [helm_release.argocd]
 }

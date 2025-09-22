@@ -12,6 +12,10 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "2.38.0"
     }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = ">= 1.7.0"
+    }
     bitwarden = {
       source  = "maxlaverse/bitwarden"
       version = ">=0.16.0,<1.0.0"

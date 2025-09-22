@@ -18,6 +18,10 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = ">=2.38.0,<3.0.0"
     }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = ">= 1.7.0"
+    }
     github = {
       source  = "integrations/github"
       version = "6.6.0"
@@ -66,6 +70,14 @@ provider "kubernetes" {
     "app.kubernetes.io/.*",
     "kustomize.toolkit.fluxcd.io/.*",
   ]
+}
+
+provider "kubectl" {
+  host                   = module.talos_cluster.kube_config.kubernetes_client_configuration.host
+  client_certificate     = base64decode(module.talos_cluster.kube_config.kubernetes_client_configuration.client_certificate)
+  client_key             = base64decode(module.talos_cluster.kube_config.kubernetes_client_configuration.client_key)
+  cluster_ca_certificate = base64decode(module.talos_cluster.kube_config.kubernetes_client_configuration.ca_certificate)
+  load_config_file       = false
 }
 
 provider "github" {
