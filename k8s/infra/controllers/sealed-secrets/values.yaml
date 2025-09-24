@@ -1,4 +1,4 @@
-namespace: sealed-secrets
+namespace: kube-system
 keyrenewperiod: 8766h # ~ 1 year
 
 resources:

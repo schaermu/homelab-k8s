@@ -12,18 +12,10 @@ data "bitwarden_attachment" "sealed_secrets_key" {
   id      = data.bitwarden_item_secure_note.sealed_secrets.attachments[1].id
 }
 
-resource "kubernetes_namespace" "sealed-secrets" {
-  metadata {
-    name = "sealed-secrets"
-  }
-}
-
 resource "kubernetes_secret" "sealed-secrets-key" {
-  depends_on = [kubernetes_namespace.sealed-secrets]
-
   metadata {
     name      = "sealed-secrets-key"
-    namespace = "sealed-secrets"
+    namespace = "kube-system"
     labels = {
       "sealedsecrets.bitnami.com/sealed-secrets-key" = "active"
     }
