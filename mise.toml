@@ -7,6 +7,7 @@ kubeconform = "latest"
 kustomize = "latest"
 yq = "latest"
 helm = "latest"
+argocd = "3.1.7"
 
 [env]
 _.file = '.env'
@@ -22,3 +23,9 @@ run = "KUBECONFIG=tofu/output/kube-config.yaml kubectl"
 
 [tasks.talosctl]
 run = "TALOSCONFIG=tofu/output/talos-config.yaml talosctl"
+
+[tasks.argocd]
+run = "KUBECONFIG=tofu/output/kube-config.yaml argocd --grpc-web"
+
+[tasks.kubeseal]
+run = "KUBECONFIG=tofu/output/kube-config.yaml kubeseal --controller-namespace sealed-secrets --format yaml"
