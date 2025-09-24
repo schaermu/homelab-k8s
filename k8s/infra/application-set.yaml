@@ -5,6 +5,8 @@ metadata:
   namespace: argocd
   labels:
     lab.schaermu: infrastructure
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
 spec:
   generators:
     - git:

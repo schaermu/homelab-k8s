@@ -3,6 +3,8 @@ kind: AppProject
 metadata:
   name: network
   namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
 spec:
   sourceRepos:
     - 'https://github.com/schaermu/homelab-k8s'

@@ -56,4 +56,6 @@ resource "helm_release" "argocd-apps" {
   ]
 
   depends_on = [helm_release.argocd]
+
+  timeout = 600
 }
