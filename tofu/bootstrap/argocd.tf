@@ -1,9 +1,3 @@
-resource "kubernetes_namespace" "argocd" {
-  metadata {
-    name = "argocd"
-  }
-}
-
 # resource "tls_private_key" "argocd" {
 #   algorithm   = "ECDSA"
 #   ecdsa_curve = "P256"
@@ -35,30 +29,31 @@ resource "kubernetes_namespace" "argocd" {
 # }
 
 resource "helm_release" "argocd" {
-  repository = "https://argoproj.github.io/argo-helm"
-  chart      = "argo-cd"
-  version    = "8.5.3"
-
-  name      = "argocd"
-  namespace = "argocd"
+  repository       = "https://argoproj.github.io/argo-helm"
+  chart            = "argo-cd"
+  version          = "8.5.3"
+  name             = "argocd"
+  namespace        = "argocd"
+  create_namespace = true
 
   values = [
-    file("${path.module}/../../k8s/infra/argocd/values.yaml")
+    file("${path.module}/../../k8s/infra/controllers/argocd/values.yaml")
   ]
 
   timeout = 600
-
-  depends_on = [kubernetes_namespace.argocd]
 }
 
+resource "helm_release" "argocd-apps" {
+  name = "argocd-apps"
 
-resource "kubectl_manifest" "argocd_infra_appset" {
-  yaml_body = file("${path.module}/../../k8s/sets/infrastructure.yaml")
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argocd-apps"
+  namespace  = "argocd"
+  version    = "1.6.2"
 
-  depends_on = [helm_release.argocd, ]
-}
-resource "kubectl_manifest" "argocd_project" {
-  yaml_body = file("${path.module}/../../k8s/sets/project.yaml")
+  values = [
+    file("${path.module}/inline-manifests/argocd-apps-values.yaml")
+  ]
 
   depends_on = [helm_release.argocd]
 }

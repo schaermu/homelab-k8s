@@ -1,7 +1,7 @@
 locals {
   cilium = {
     install = file("${path.module}/inline-manifests/cilium-install.yaml")
-    values  = file("${path.module}/../../k8s/infra/cilium/values.yaml")
+    values  = file("${path.module}/../../k8s/infra/network/cilium/values.yaml")
   }
 
   controlplanes = {

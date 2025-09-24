@@ -1,0 +1,32 @@
+applications:
+  infrastructure:
+    name: infrastructure
+    namespace: argocd
+    project: app-of-apps
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    sources:
+    - path: k8s/infra
+      repoURL: https://github.com/schaermu/homelab-k8s
+      targetRevision: HEAD
+    destination:
+      namespace: argocd
+      name: in-cluster
+    syncPolicy:
+      automated:
+        selfHeal: true
+        prune: true
+projects:
+  app-of-apps:
+    name: app-of-apps
+    namespace: argocd
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    sourceRepos:
+    - 'https://github.com/schaermu/homelab-k8s'
+    destinations:
+      - namespace: 'argocd'
+        server: '*'
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
