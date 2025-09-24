@@ -28,4 +28,4 @@ run = "TALOSCONFIG=tofu/output/talos-config.yaml talosctl"
 run = "KUBECONFIG=tofu/output/kube-config.yaml argocd --grpc-web"
 
 [tasks.kubeseal]
-run = "KUBECONFIG=tofu/output/kube-config.yaml kubeseal --controller-namespace sealed-secrets --format yaml"
+run = "KUBECONFIG=tofu/output/kube-config.yaml kubeseal --format yaml"

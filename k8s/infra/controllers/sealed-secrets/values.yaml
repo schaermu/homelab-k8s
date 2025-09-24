@@ -1,5 +1,5 @@
 namespace: kube-system
-keyrenewperiod: 8766h # ~ 1 year
+keyrenewperiod: 8766h
 
 resources:
   limits:
