@@ -31,6 +31,7 @@ resource "proxmox_virtual_environment_vm" "controlplane" {
     bridge = var.cluster.network.bridge
   }
 
+  # system disk with Talos OS
   disk {
     datastore_id = each.value.datastore
     interface    = "scsi0"
@@ -39,7 +40,7 @@ resource "proxmox_virtual_environment_vm" "controlplane" {
     discard      = "on"
     ssd          = true
     file_format  = "raw"
-    size         = each.value.disk
+    size         = 100
     file_id      = var.cluster.talos_image_id
   }
 
@@ -98,6 +99,7 @@ resource "proxmox_virtual_environment_vm" "workers" {
     bridge = var.cluster.network.bridge
   }
 
+  # system disk with Talos OS
   disk {
     datastore_id = each.value.datastore
     interface    = "scsi0"
@@ -106,8 +108,18 @@ resource "proxmox_virtual_environment_vm" "workers" {
     discard      = "on"
     ssd          = true
     file_format  = "raw"
-    size         = each.value.disk
+    size         = 100
     file_id      = var.cluster.talos_image_id
+  }
+
+  # user disk for Longhorn
+  disk {
+    datastore_id = each.value.datastore
+    interface    = "scsi1"
+    iothread     = true
+    cache        = "writethrough"
+    ssd          = true
+    size         = each.value.disk
   }
 
   boot_order = ["scsi0"]

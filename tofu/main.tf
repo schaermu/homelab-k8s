@@ -37,7 +37,6 @@ module "talos_cluster" {
     specs = {
       cpu    = 2
       memory = 8192
-      disk   = 100
     }
   }
 
@@ -48,7 +47,7 @@ module "talos_cluster" {
     specs = {
       cpu    = 2
       memory = 16384
-      disk   = 100
+      disk   = 512
     }
   }
 }

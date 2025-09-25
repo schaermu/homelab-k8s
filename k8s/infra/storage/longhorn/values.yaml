@@ -3,7 +3,8 @@ defaultSettings:
   defaultReplicaCount: 1
   defaultDataLocality: best-effort
   nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
-  defaultDataPath: /var/lib/longhorn
+  storageReservedPercentageForDefaultDisk: 1
+  defaultDataPath: /var/mnt/longhorn
 
 defaultBackupStore:
   backupTarget: ""
