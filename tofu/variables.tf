@@ -30,9 +30,3 @@ variable "github_token" {
   type      = string
   sensitive = true
 }
-
-variable "cloudflare_dns_email" { type = string }
-variable "cloudflare_dns_api_key" {
-  type      = string
-  sensitive = true
-}

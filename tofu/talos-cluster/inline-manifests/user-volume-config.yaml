@@ -1,0 +1,9 @@
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: longhorn
+provisioning:
+  diskSelector:
+    match: disk.dev_path == '/dev/sdb' && !system_disk
+  minSize: "400GiB"
+  grow: true

@@ -71,7 +71,8 @@ resource "talos_machine_configuration_apply" "worker" {
       node_name    = var.proxmox.node
       cluster_name = var.cluster.name
     }),
-    templatefile("${path.module}/machine-configs/worker.yaml.tftpl", {})
+    templatefile("${path.module}/machine-configs/worker.yaml.tftpl", {}),
+    file("${path.module}/inline-manifests/user-volume-config.yaml")
   ]
 
   lifecycle {
