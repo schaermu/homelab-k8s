@@ -15,7 +15,7 @@ spec:
       server: '*'
     - namespace: 'cilium-secrets'
       server: '*'
-    - namespace: 'traefik'
+    - namespace: 'gateway'
       server: '*'
     - namespace: 'kube-system'
       server: '*'

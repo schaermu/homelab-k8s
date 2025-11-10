@@ -1,4 +1,19 @@
 kubeProxyReplacement: true
+gatewayAPI:
+  enabled: true
+  enableAlpn: true
+  gatewayClass:
+    create: true
+
+envoy:
+  securityContext:
+    capabilities:
+      keepCapNetBindService: true
+      envoy:
+        - NET_ADMIN
+        - PERFMON
+        - BPF
+
 rollOutCiliumPods: true
 
 k8sClientRateLimit:
@@ -15,27 +30,6 @@ cgroup:
 
 externalIPs:
   enabled: true
-hubble:
-  enabled: true
-  tls:
-    auto:
-      method: "cronJob"
-  relay:
-    enabled: true
-    rollOutPods: true
-  ui:
-    enabled: true
-    rollOutPods: true
-    ingress:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt
-      hosts:
-        - hubble.homelab.schaermu.ch
-      tls:
-        - secretName: hubble-tls-certificate
-          hosts:
-            - hubble.homelab.schaermu.ch
 
 l2announcements:
   enabled: true

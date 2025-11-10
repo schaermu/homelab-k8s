@@ -1,6 +1,21 @@
 terraform {
   required_version = ">= 1.10.0"
 
+  backend "s3" {
+    bucket                      = var.cloudflare_state_bucket_name
+    key                         = "talos-cluster/terraform.tfstate"
+    region                      = "auto"
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
+    skip_region_validation      = true
+    skip_requesting_account_id  = true
+    skip_s3_checksum            = true
+    use_path_style              = true
+    access_key                  = var.cloudflare_state_access_key
+    secret_key                  = var.cloudflare_state_secret_key
+    endpoints                   = { s3 = var.cloudflare_state_endpoint_url }
+  }
+
   required_providers {
     proxmox = {
       source  = "bpg/proxmox"
@@ -24,7 +39,11 @@ terraform {
     }
     github = {
       source  = "integrations/github"
-      version = "6.6.0"
+      version = ">=6.6.0,<7.0.0"
+    }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = ">=4,<5"
     }
   }
 }
@@ -92,4 +111,7 @@ provider "helm" {
     client_key             = base64decode(module.talos_cluster.kube_config.kubernetes_client_configuration.client_key)
     cluster_ca_certificate = base64decode(module.talos_cluster.kube_config.kubernetes_client_configuration.ca_certificate)
   }
+}
+
+provider "cloudflare" {
 }

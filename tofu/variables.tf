@@ -30,3 +30,14 @@ variable "github_token" {
   type      = string
   sensitive = true
 }
+
+variable "cloudflare_api_token" {
+  type      = string
+  sensitive = true
+}
+variable "cloudflare_state_access_key" { type = string }
+variable "cloudflare_state_secret_key" {
+  type = string
+}
+variable "cloudflare_state_bucket_name" { type = string }
+variable "cloudflare_state_endpoint_url" { type = string }
