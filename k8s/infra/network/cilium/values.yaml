@@ -2,6 +2,7 @@ kubeProxyReplacement: true
 gatewayAPI:
   enabled: true
   enableAlpn: true
+  enableAppProtocol: true
   gatewayClass:
     create: true
 
