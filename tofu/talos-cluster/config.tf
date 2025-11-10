@@ -94,19 +94,12 @@ resource "talos_cluster_kubeconfig" "this" {
   endpoint             = var.cluster.network.virtual_ip
 }
 
-data "talos_cluster_health" "this" {
+resource "time_sleep" "wait_for_cluster" {
   depends_on = [
     talos_machine_bootstrap.this,
     talos_machine_configuration_apply.worker,
     talos_machine_configuration_apply.controlplane
   ]
 
-  client_configuration = data.talos_client_configuration.this.client_configuration
-  control_plane_nodes  = [for _, controlplane in local.controlplanes : controlplane.ip_address]
-  worker_nodes         = [for _, worker in local.workers : worker.ip_address]
-  endpoints            = data.talos_client_configuration.this.endpoints
-
-  timeouts = {
-    read = "10m"
-  }
+  create_duration = "10m"
 }

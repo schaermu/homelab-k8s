@@ -15,6 +15,3 @@ helmCharts:
     includeCRDs: true
     namespace: kube-system
     valuesFile: values.yaml
-
-patches:
-  - path: patches/delete-hubble-tls-job.yaml
