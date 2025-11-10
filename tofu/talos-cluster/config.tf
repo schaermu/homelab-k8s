@@ -94,6 +94,7 @@ resource "talos_cluster_kubeconfig" "this" {
   endpoint             = var.cluster.network.virtual_ip
 }
 
+# talos_cluster_health removed due to https://github.com/siderolabs/terraform-provider-talos/issues/206
 resource "time_sleep" "wait_for_cluster" {
   depends_on = [
     talos_machine_bootstrap.this,
