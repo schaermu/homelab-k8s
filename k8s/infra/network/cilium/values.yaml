@@ -1,33 +1,52 @@
+cluster:
+  name: k8s-homelab
+  id: 1
+
 kubeProxyReplacement: true
-gatewayAPI:
-  enabled: true
-  enableAlpn: true
-  enableAppProtocol: true
-  gatewayClass:
-    create: true
-
-envoy:
-  securityContext:
-    capabilities:
-      keepCapNetBindService: true
-      envoy:
-        - NET_ADMIN
-        - PERFMON
-        - BPF
-
-rollOutCiliumPods: true
-
-k8sClientRateLimit:
-  qps: 50
-  burst: 100
 
 k8sServiceHost: localhost
 k8sServicePort: 7445
+securityContext:
+  capabilities:
+    ciliumAgent: [ CHOWN, KILL, NET_ADMIN, NET_RAW, IPC_LOCK, SYS_ADMIN, SYS_RESOURCE, DAC_OVERRIDE, FOWNER, SETGID, SETUID ]
+    cleanCiliumState: [ NET_ADMIN, SYS_ADMIN, SYS_RESOURCE ]
 
 cgroup:
   autoMount:
     enabled: false
   hostRoot: /sys/fs/cgroup
+
+ipam:
+  mode: kubernetes
+  multiPoolPreAllocation: ""
+
+operator:
+  rollOutPods: true
+  prometheus:
+    metricsService: true
+    enabled: true
+    port: 9963
+    serviceMonitor:
+      enabled: true
+  dashboards:
+    enabled: true
+  resources:
+    limits:
+      cpu: 500m
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 128Mi
+
+# Roll out cilium agent pods automatically when ConfigMap is updated.
+rollOutCiliumPods: true
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 200m
+    memory: 512Mi
 
 externalIPs:
   enabled: true
@@ -35,27 +54,68 @@ externalIPs:
 l2announcements:
   enabled: true
 
-operator:
-  replicas: 1
+loadBalancer:
+  # https://docs.cilium.io/en/stable/network/kubernetes/kubeproxy-free/#maglev-consistent-hashing
+  algorithm: maglev
 
-ipam:
-  mode: kubernetes
+gatewayAPI:
+  enabled: true
+  enableAlpn: true
+  enableAppProtocol: true
 
-securityContext:
-  capabilities:
-    ciliumAgent:
-      - CHOWN
-      - KILL
-      - NET_ADMIN
-      - NET_RAW
-      - IPC_LOCK
-      - SYS_ADMIN
-      - SYS_RESOURCE
-      - DAC_OVERRIDE
-      - FOWNER
-      - SETGID
-      - SETUID
-    cleanCiliumState:
-      - NET_ADMIN
-      - SYS_ADMIN
-      - SYS_RESOURCE
+envoy:
+  prometheus:
+    enabled: true
+    port: "9964"
+    serviceMonitor:
+      enabled: true
+  securityContext:
+    capabilities:
+      keepCapNetBindService: true
+      envoy: [ NET_ADMIN, PERFMON, BPF ]
+
+hubble:
+  enabled: true
+  metrics:
+    enabled:
+      - dns
+      - drop
+      - tcp
+      - flow
+      - port-distribution
+      - icmp
+      - "httpV2:exemplars=true;labelsContext=source_ip,source_namespace,source_workload,destination_ip,destination_namespace,destination_workload,traffic_direction;sourceContext=workload-name|reserved-identity;destinationContext=workload-name|reserved-identity"
+    enableOpenMetrics: true
+    port: 9965
+    serviceMonitor:
+      enabled: true
+    dashboards:
+      enabled: true
+  relay:
+    enabled: true
+    rollOutPods: true
+    prometheus:
+      enabled: true
+      port: 9966
+      serviceMonitor:
+        enabled: true
+  ui:
+    enabled: true
+    rollOutPods: true
+
+ingressController: { enabled: false }
+
+k8sClientRateLimit:
+  qps: 50
+  burst: 100
+
+prometheus:
+  metricsService: true
+  enabled: true
+  port: 9962
+  serviceMonitor:
+    enabled: true
+    trustCRDsExist: true
+
+dashboards:
+  enabled: true

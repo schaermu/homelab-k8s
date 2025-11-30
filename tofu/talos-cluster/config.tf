@@ -29,6 +29,29 @@ data "talos_client_configuration" "this" {
   endpoints = [for _, controlplane in local.controlplanes : controlplane.ip_address]
 }
 
+resource "terraform_data" "cilium_bootstrap_inline_manifests" {
+  input = [
+    {
+      name     = "cilium-bootstrap"
+      contents = file("${local.cilium.install}")
+    },
+    {
+      name = "cilium-values"
+      contents = yamlencode({
+        apiVersion = "v1"
+        kind       = "ConfigMap"
+        metadata = {
+          name      = "cilium-values"
+          namespace = "kube-system"
+        }
+        data = {
+          "values.yaml" = file("${local.cilium.values}")
+        }
+      })
+    }
+  ]
+}
+
 resource "talos_machine_configuration_apply" "controlplane" {
   depends_on = [proxmox_virtual_environment_vm.controlplane]
   for_each   = local.controlplanes
@@ -45,9 +68,9 @@ resource "talos_machine_configuration_apply" "controlplane" {
       cluster_name = var.cluster.name
     }),
     templatefile("${path.module}/machine-configs/controlplane.yaml.tftpl", {
-      virtual_ip     = var.cluster.network.virtual_ip
-      cilium_values  = local.cilium.values
-      cilium_install = local.cilium.install
+      virtual_ip       = var.cluster.network.virtual_ip
+      extra_manifests  = jsonencode(local.extra_manifests)
+      inline_manifests = jsonencode(terraform_data.cilium_bootstrap_inline_manifests.output)
     })
   ]
 

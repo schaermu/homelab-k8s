@@ -1,7 +1,12 @@
 locals {
+  extra_manifests = [
+    "https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.3.0/standard-install.yaml",
+    "https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.3.0/config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml"
+  ]
+
   cilium = {
-    install = file("${path.module}/inline-manifests/cilium-install.yaml")
-    values  = file("${path.module}/../../k8s/infra/network/cilium/values.yaml")
+    install = "${path.module}/inline-manifests/cilium-install.yaml"
+    values  = "${path.module}/../../k8s/infra/network/cilium/values.yaml"
   }
 
   controlplanes = {

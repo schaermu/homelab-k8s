@@ -29,3 +29,6 @@ run = "KUBECONFIG=tofu/output/kube-config.yaml argocd --grpc-web"
 
 [tasks.kubeseal]
 run = "KUBECONFIG=tofu/output/kube-config.yaml kubeseal --format yaml"
+
+[tasks.helm]
+run = "KUBECONFIG=tofu/output/kube-config.yaml helm"
