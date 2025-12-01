@@ -8,7 +8,7 @@ machine:
         ip: ${virtual_ip}
 
 cluster:
-  allowSchedulingOnControlPlanes: false
+  allowSchedulingOnControlPlanes: true
   network:
     cni:
       name: none
@@ -16,3 +16,8 @@ cluster:
     disabled: true
   extraManifests: ${extra_manifests}
   inlineManifests: ${inline_manifests}
+  externalCloudProvider:
+    enabled: true
+    manifests:
+      - https://raw.githubusercontent.com/sergelogvinov/proxmox-cloud-controller-manager/main/docs/deploy/cloud-controller-manager.yml
+      - https://raw.githubusercontent.com/sergelogvinov/proxmox-csi-plugin/main/docs/deploy/proxmox-csi-plugin.yml

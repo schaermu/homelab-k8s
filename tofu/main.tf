@@ -11,7 +11,9 @@ module "talos_cluster" {
   }
 
   proxmox = {
-    node = var.proxmox_node
+    cluster = var.proxmox_cluster
+    node    = var.proxmox_node
+    api_url = var.proxmox_url
   }
 
   cluster = {
@@ -37,6 +39,7 @@ module "talos_cluster" {
     specs = {
       cpu    = 2
       memory = 8192
+      disk   = 128
     }
   }
 
@@ -47,7 +50,7 @@ module "talos_cluster" {
     specs = {
       cpu    = 2
       memory = 16384
-      disk   = 512
+      disk   = 128
     }
   }
 }

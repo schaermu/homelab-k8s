@@ -1,7 +1,9 @@
 variable "proxmox" {
   description = "Proxmox VE configuration"
   type = object({
-    node = string,
+    cluster = string,
+    node    = string,
+    api_url = string,
   })
 }
 

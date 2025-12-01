@@ -4,12 +4,12 @@ data "bitwarden_item_secure_note" "sealed_secrets" {
 
 data "bitwarden_attachment" "sealed_secrets_cert" {
   item_id = data.bitwarden_item_secure_note.sealed_secrets.id
-  id      = data.bitwarden_item_secure_note.sealed_secrets.attachments[0].id
+  id      = data.bitwarden_item_secure_note.sealed_secrets.attachments[1].id
 }
 
 data "bitwarden_attachment" "sealed_secrets_key" {
   item_id = data.bitwarden_item_secure_note.sealed_secrets.id
-  id      = data.bitwarden_item_secure_note.sealed_secrets.attachments[1].id
+  id      = data.bitwarden_item_secure_note.sealed_secrets.attachments[0].id
 }
 
 resource "kubernetes_secret" "sealed-secrets-key" {

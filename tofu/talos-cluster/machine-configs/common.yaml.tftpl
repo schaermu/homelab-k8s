@@ -4,8 +4,8 @@ machine:
   network:
     hostname: ${hostname}
   nodeLabels:
-    topology.kubernetes.io/region: ${cluster_name}
-    topology.kubernetes.io/zone: ${node_name}
+    topology.kubernetes.io/region: ${pve_cluster_name}
+    topology.kubernetes.io/zone: ${pve_node_name}
   sysctls:
     vm.nr_hugepages: "1024"
   kernel:

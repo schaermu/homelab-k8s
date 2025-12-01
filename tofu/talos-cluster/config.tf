@@ -29,7 +29,7 @@ data "talos_client_configuration" "this" {
   endpoints = [for _, controlplane in local.controlplanes : controlplane.ip_address]
 }
 
-resource "terraform_data" "cilium_bootstrap_inline_manifests" {
+resource "terraform_data" "inline_manifests" {
   input = [
     {
       name     = "cilium-bootstrap"
@@ -48,7 +48,51 @@ resource "terraform_data" "cilium_bootstrap_inline_manifests" {
           "values.yaml" = file("${local.cilium.values}")
         }
       })
-    }
+    },
+    {
+      name = "proxmox-cloud-controller-manager"
+      contents = yamlencode({
+        apiVersion = "v1"
+        kind       = "Secret"
+        type       = "Opaque"
+        metadata = {
+          name      = "proxmox-cloud-controller-manager"
+          namespace = "kube-system"
+        }
+        stringData = {
+          "config.yaml" = <<EOF
+clusters:
+  - url: ${var.proxmox.api_url}
+    insecure: false
+    token_id: "${proxmox_virtual_environment_user_token.ccm.id}"
+    token_secret: "${element(split("=", proxmox_virtual_environment_user_token.ccm.value), length(split("=", proxmox_virtual_environment_user_token.ccm.value)) - 1)}"
+    region: ${var.proxmox.cluster}
+EOF
+        }
+      })
+    },
+    {
+      name = "proxmox-csi-plugin"
+      contents = yamlencode({
+        apiVersion = "v1"
+        kind       = "Secret"
+        type       = "Opaque"
+        metadata = {
+          name      = "proxmox-csi-plugin"
+          namespace = "csi-proxmox"
+        }
+        stringData = {
+          "config.yaml" = <<EOF
+clusters:
+  - url: ${var.proxmox.api_url}
+    insecure: false
+    token_id: "${proxmox_virtual_environment_user_token.csi.id}"
+    token_secret: "${element(split("=", proxmox_virtual_environment_user_token.csi.value), length(split("=", proxmox_virtual_environment_user_token.csi.value)) - 1)}"
+    region: ${var.proxmox.cluster}
+EOF
+        }
+      })
+    },
   ]
 }
 
@@ -62,15 +106,15 @@ resource "talos_machine_configuration_apply" "controlplane" {
   endpoint                    = each.value.ip_address
   config_patches = [
     templatefile("${path.module}/machine-configs/common.yaml.tftpl", {
-      hostname     = each.value.hostname
-      install_disk = each.value.install_disk
-      node_name    = var.proxmox.node
-      cluster_name = var.cluster.name
+      hostname         = each.value.hostname
+      install_disk     = each.value.install_disk
+      pve_cluster_name = var.proxmox.cluster
+      pve_node_name    = var.proxmox.node
     }),
     templatefile("${path.module}/machine-configs/controlplane.yaml.tftpl", {
       virtual_ip       = var.cluster.network.virtual_ip
       extra_manifests  = jsonencode(local.extra_manifests)
-      inline_manifests = jsonencode(terraform_data.cilium_bootstrap_inline_manifests.output)
+      inline_manifests = jsonencode(terraform_data.inline_manifests.output)
     })
   ]
 
@@ -89,13 +133,12 @@ resource "talos_machine_configuration_apply" "worker" {
   endpoint                    = each.value.ip_address
   config_patches = [
     templatefile("${path.module}/machine-configs/common.yaml.tftpl", {
-      hostname     = each.value.hostname
-      install_disk = each.value.install_disk
-      node_name    = var.proxmox.node
-      cluster_name = var.cluster.name
+      hostname         = each.value.hostname
+      install_disk     = each.value.install_disk
+      pve_cluster_name = var.proxmox.cluster
+      pve_node_name    = var.proxmox.node
     }),
-    templatefile("${path.module}/machine-configs/worker.yaml.tftpl", {}),
-    file("${path.module}/inline-manifests/user-volume-config.yaml")
+    templatefile("${path.module}/machine-configs/worker.yaml.tftpl", {})
   ]
 
   lifecycle {

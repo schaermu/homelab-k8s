@@ -11,6 +11,7 @@ variable "bw_client_secret" {
 variable "bw_server" { type = string }
 
 variable "proxmox_url" { type = string }
+variable "proxmox_cluster" { type = string }
 variable "proxmox_node" { type = string }
 variable "proxmox_api_token" {
   type      = string
