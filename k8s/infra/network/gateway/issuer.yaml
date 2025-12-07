@@ -1,8 +1,7 @@
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
-  name: cloudflare-issuer
-  namespace: gateway
+  name: cloudflare-cluster-issuer
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
@@ -15,6 +14,3 @@ spec:
             apiTokenSecretRef:
               name: cloudflare-api-token
               key: token
-        selector:
-          dnsZones:
-          - "schaermu.ch"
