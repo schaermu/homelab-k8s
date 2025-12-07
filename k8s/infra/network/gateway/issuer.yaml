@@ -15,3 +15,7 @@ spec:
             apiTokenSecretRef:
               name: cloudflare-api-token
               key: token
+        selector:
+          dnsZones:
+          - 'schaermu.ch'
+          - '*.schaermu.ch'
