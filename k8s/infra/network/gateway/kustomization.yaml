@@ -6,6 +6,6 @@ resources:
   - gateway-class.yaml
   - gateway.yaml
   - certificate.yaml
-  - namespace.yaml
+  - ns.yaml
   - secrets.yaml
   - issuer.yaml
