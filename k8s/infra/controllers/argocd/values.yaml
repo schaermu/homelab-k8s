@@ -6,7 +6,7 @@ configs:
   cm:
     create: true
     application.resourceTrackingMethod: annotation+label
-    admin.enabled: false
+    admin.enabled: true
     kustomize.buildOptions: --enable-helm
 
   cmp:
@@ -18,7 +18,7 @@ configs:
           args: [ kustomize build --enable-helm ]
   params:
     controller.diff.server.side: true
-    server.insecure: false
+    server.insecure: true
 
 crds:
   install: true
