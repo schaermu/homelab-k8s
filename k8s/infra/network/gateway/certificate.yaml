@@ -2,10 +2,10 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: cloudflare-cert
+  name: cert-lab-schaermu
   namespace: gateway
 spec:
-  secretName: cloudflare-cert
+  secretName: cert-lab-schaermu
   issuerRef:
     group: cert-manager.io
     kind: ClusterIssuer
