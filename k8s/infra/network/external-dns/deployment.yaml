@@ -19,8 +19,12 @@ spec:
       - name: external-dns
         image: registry.k8s.io/external-dns/external-dns:0.20.0
         args:
-        - --source=service
-        - --source=ingress
+        # Add desired Gateway API Route sources.
+        - --source=gateway-httproute
+        - --source=gateway-grpcroute
+        - --source=gateway-tlsroute
+        - --source=gateway-tcproute
+        - --source=gateway-udproute
         # Pihole only supports A/CNAME records so there is no mechanism to track ownership.
         # You don't need to set this flag, but if you leave it unset, you will receive warning
         # logs when ExternalDNS attempts to create TXT records.
