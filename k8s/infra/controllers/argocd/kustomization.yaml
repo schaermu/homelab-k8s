@@ -2,8 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - namespace.yaml
-  - routes.yaml
+  - ns.yaml
+  - grpc-service.yaml
+  - grpc-route.yaml
+  - http-route.yaml
 
 helmCharts:
   - name: argo-cd
