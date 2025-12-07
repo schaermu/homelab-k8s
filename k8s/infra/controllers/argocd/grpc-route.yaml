@@ -6,9 +6,15 @@ metadata:
   namespace: argocd
 spec:
   parentRefs:
-    - { name: internal, namespace: gateway }
-  hostnames: [ "argocd.stonegarden.dev" ]
+    - name: external
+      namespace: gateway
+  hostnames:
+    - argocd.lab.schaermu.ch
   rules:
-    - backendRefs: [ { name: argocd-server-grpc, port: 80 } ]
+    - backendRefs:
+        - name: argocd-server-grpc
+          port: 80
       matches:
-        - headers: [ { name: Content-Type, value: application/grpc } ]
+        - headers:
+            - name: Content-Type
+              value: application/grpc

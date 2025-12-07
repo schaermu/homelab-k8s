@@ -6,10 +6,10 @@ metadata:
   namespace: argocd
 spec:
   parentRefs:
-  - name: external
-    namespace: gateway
+    - name: external
+      namespace: gateway
   hostnames:
-  - "argocd.lab.schaermu.ch"
+    - argocd.lab.schaermu.ch
   rules:
     - backendRefs:
         - name: argocd-server
