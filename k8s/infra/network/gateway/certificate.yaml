@@ -5,15 +5,12 @@ metadata:
   name: certificate
   namespace: gateway
 spec:
+  secretName: cloudflare-cert
   issuerRef:
     group: cert-manager.io
-    kind: ClusterIssuer
+    kind: Issuer
     name: cloudflare-issuer
-  usages:
-    - digital signature
-    - key encipherment
-  secretName: cloudflare-cert
   commonName: "*.lab.schaermu.ch"
   dnsNames:
-    - "lab.schaermu.ch"
     - "*.lab.schaermu.ch"
+    - "lab.schaermu.ch"

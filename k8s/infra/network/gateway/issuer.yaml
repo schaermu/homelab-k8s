@@ -17,5 +17,4 @@ spec:
               key: token
         selector:
           dnsZones:
-          - 'schaermu.ch'
-          - '*.schaermu.ch'
+          - "schaermu.ch"
