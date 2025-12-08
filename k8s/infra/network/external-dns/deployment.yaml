@@ -27,6 +27,7 @@ spec:
         - --provider=pihole
         - --pihole-api-version=6
         - --pihole-server=http://192.168.1.206
+        - --log-level=debug
         securityContext:
           runAsNonRoot: true
           runAsUser: 65534
