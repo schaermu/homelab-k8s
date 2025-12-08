@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: external-dns
-  namespace: default
+  namespace: external-dns
 spec:
   strategy:
     type: Recreate
