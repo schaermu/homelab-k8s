@@ -21,8 +21,6 @@ spec:
       server: '*'
     - namespace: 'kube-system'
       server: '*'
-    - namespace: 'external-dns'
-      server: '*'
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'

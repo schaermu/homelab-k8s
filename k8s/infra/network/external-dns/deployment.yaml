@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: external-dns
-  namespace: external-dns
+  namespace: kube-system
 spec:
   strategy:
     type: Recreate
@@ -23,8 +23,6 @@ spec:
         - --source=gateway-httproute
         - --source=gateway-grpcroute
         - --source=gateway-tlsroute
-        - --source=gateway-tcproute
-        - --source=gateway-udproute
         - --registry=noop
         - --policy=upsert-only
         - --provider=pihole
