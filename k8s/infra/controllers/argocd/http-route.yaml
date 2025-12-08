@@ -6,8 +6,10 @@ metadata:
   namespace: argocd
 spec:
   parentRefs:
-    - name: external
+    - group: networking.k8s.io
+      name: external
       namespace: gateway
+      kind: Gateway
   hostnames:
     - argocd.lab.schaermu.ch
   rules:
