@@ -2,7 +2,7 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: GRPCRoute
 metadata:
-  name: argocd-server
+  name: argocd-api
   namespace: argocd
 spec:
   parentRefs:
