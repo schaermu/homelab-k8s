@@ -5,6 +5,8 @@ kind: Kustomization
 resources:
   - announce.yaml
   - ip-pool.yaml
+  - routes.yaml
+  - services.yaml
   - https://doc.crds.dev/raw/github.com/cilium/cilium@1.18.3 # renovate: helm=cilium registry=https://helm.cilium.io
 
 helmCharts:
