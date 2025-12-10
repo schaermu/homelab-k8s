@@ -6,7 +6,7 @@ metadata:
   namespace: argocd
 spec:
   parentRefs:
-    - name: external
+    - name: internal
       namespace: gateway
   hostnames:
     - argocd.lab.schaermu.ch

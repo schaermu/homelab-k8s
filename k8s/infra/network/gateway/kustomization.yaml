@@ -9,3 +9,12 @@ resources:
   - ns.yaml
   - secrets.yaml
   - issuer.yaml
+
+helmCharts:
+  - name: cloudflare-tunnel-gateway-controller
+    repo: oci://ghcr.io/lexfrei/cloudflare-tunnel-gateway-controller/chart
+    version: 0.9.7
+    releaseName: cloudflare-tunnel-gateway-controller
+    namespace: cloudflare-tunnel-system
+    createNamespace: true
+    valuesFile: values/cloudflare-tunnel-gateway-controller.yaml

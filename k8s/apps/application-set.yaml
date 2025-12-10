@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps
+  namespace: argocd
+  labels:
+    lab.schaermu: apps
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/schaermu/homelab-k8s
+        revision: HEAD
+        directories:
+          - path: k8s/apps/*
+  template:
+    metadata:
+      name: '{{ path.basename }}'
+      labels:
+        lab.schaermu: apps
+    spec:
+      project: apps
+      source:
+        repoURL: https://github.com/schaermu/homelab-k8s
+        targetRevision: HEAD
+        path: '{{ path }}'
+      destination:
+        name: in-cluster
+        namespace: argocd
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true

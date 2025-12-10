@@ -6,13 +6,13 @@ metadata:
   namespace: argocd
 spec:
   parentRefs:
-    - name: internal
+    - name: cloudflared
       namespace: gateway
   hostnames:
-    - argocd.lab.schaermu.ch
+    - vault.schaermu.ch
   rules:
     - backendRefs:
-        - name: argocd-server
+        - name: vaultwarden
           port: 80
       matches:
         - path:
