@@ -14,7 +14,7 @@ resources:
 helmCharts:
   - name: cloudflare-tunnel-gateway-controller
     repo: oci://ghcr.io/lexfrei/cloudflare-tunnel-gateway-controller/chart
-    version: 0.9.7
+    version: v0.9.7
     releaseName: cloudflare-tunnel-gateway-controller
     namespace: gateway
     valuesFile: values/cloudflare-tunnel-gateway-controller.yaml
