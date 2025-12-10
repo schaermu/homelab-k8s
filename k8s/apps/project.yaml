@@ -9,6 +9,8 @@ spec:
   sourceRepos:
     - 'https://github.com/schaermu/homelab-k8s'
   destinations:
+    - namespace: 'argocd'
+      server: '*'
     - namespace: 'vaultwarden'
       server: '*'
   clusterResourceWhitelist:
