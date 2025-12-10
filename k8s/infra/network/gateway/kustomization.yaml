@@ -4,7 +4,8 @@ kind: Kustomization
 
 resources:
   - gateway-class.yaml
-  - gateway.yaml
+  - gateway-cf.yaml
+  - gateway-internal.yaml
   - certificate.yaml
   - ns.yaml
   - secrets.yaml
