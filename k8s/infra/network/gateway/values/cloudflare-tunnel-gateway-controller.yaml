@@ -15,7 +15,7 @@ gatewayClassConfig:
   cloudflared:
     enabled: true
     replicas: 2
-    namespace: "cloudflare-tunnel-system"
+    namespace: gateway
     # protocol: "quic"
 
 controller:
