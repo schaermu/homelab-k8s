@@ -2,8 +2,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: argocd-ui
-  namespace: argocd
+  name: vaultwarden-ui
+  namespace: vaultwarden
 spec:
   parentRefs:
     - name: cloudflared
