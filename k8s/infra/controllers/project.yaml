@@ -8,6 +8,7 @@ metadata:
 spec:
   sourceRepos:
     - 'https://github.com/schaermu/homelab-k8s'
+    - 'oci://ghcr.io/lexfrei/cloudflare-tunnel-gateway-controller/chart'
   destinations:
     - namespace: 'argocd'
       server: '*'
