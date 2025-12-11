@@ -8,38 +8,27 @@ gatewayClassConfig:
     name: cloudflare-tunnel-token
     key: tunnel-token
 
-  # Cloudflared deployment configuration
   cloudflared:
     enabled: true
     replicas: 2
     namespace: gateway
-    # protocol: "quic"
 
 controller:
-  # Production logging configuration
   logLevel: "info"
   logFormat: "text"
   gatewayClassName: "cloudflare-tunnel"
   controllerName: "cf.k8s.lex.la/tunnel-controller"
-  # clusterDomain is auto-detected from /etc/resolv.conf
-  # Uncomment to override:
-  # clusterDomain: "cluster.local"
 
-# High availability configuration
 replicaCount: 2
-
-# Enable leader election for HA
 leaderElection:
   enabled: true
   leaseName: "cloudflare-tunnel-gateway-controller-leader"
 
-# PodDisruptionBudget for availability during maintenance
 podDisruptionBudget:
   enabled: true
   minAvailable: 1
   unhealthyPodEvictionPolicy: "IfHealthyBudget"
 
-# Resource management for guaranteed QoS
 resources:
   limits:
     cpu: 200m
@@ -48,7 +37,6 @@ resources:
     cpu: 100m
     memory: 128Mi
 
-# Security contexts (production hardening)
 podSecurityContext:
   runAsNonRoot: true
   runAsUser: 65534
@@ -62,55 +50,4 @@ securityContext:
       - ALL
   readOnlyRootFilesystem: true
 
-# Graceful shutdown configuration
 terminationGracePeriodSeconds: 30
-
-# Prometheus monitoring
-service:
-  type: ClusterIP
-  metricsPort: 8080
-  healthPort: 8081
-  # Optional: Add Prometheus scraping annotations
-  # annotations:
-  #   prometheus.io/scrape: "true"
-  #   prometheus.io/port: "8080"
-  #   prometheus.io/path: "/metrics"
-
-serviceMonitor:
-  enabled: true
-  interval: "30s"
-  labels:
-    prometheus: kube-prometheus
-
-# Network security with strict policies
-networkPolicy:
-  enabled: true
-  # Allow ingress only from monitoring namespace
-  ingress:
-    from:
-      - namespaceSelector:
-          matchLabels:
-            name: monitoring
-      - podSelector:
-          matchLabels:
-            app: prometheus
-
-# Zone-aware distribution for HA across availability zones
-topologySpreadConstraints:
-  - maxSkew: 1
-    topologyKey: topology.kubernetes.io/zone
-    whenUnsatisfiable: ScheduleAnyway
-    labelSelector:
-      matchLabels:
-        app.kubernetes.io/name: cloudflare-tunnel-gateway-controller
-
-# Pod anti-affinity to avoid co-location on same node
-affinity:
-  podAntiAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 100
-        podAffinityTerm:
-          labelSelector:
-            matchLabels:
-              app.kubernetes.io/name: cloudflare-tunnel-gateway-controller
-          topologyKey: kubernetes.io/hostname

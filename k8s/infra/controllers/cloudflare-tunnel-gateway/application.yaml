@@ -11,8 +11,66 @@ spec:
     repoURL: oci://ghcr.io/lexfrei/cloudflare-tunnel-gateway-controller/chart
     targetRevision: 0.9.7
     helm:
-      valueFiles:
-        - values.yaml
+      valuesObject:
+        gatewayClassConfig:
+          create: true
+          tunnelID: "5768dad9-c92d-4b5c-be07-bb61c56db9c0"
+          cloudflareCredentialsSecretRef:
+            name: cloudflare-tunnel-credentials
+            key: api-token
+          tunnelTokenSecretRef:
+            name: cloudflare-tunnel-token
+            key: tunnel-token
+
+          cloudflared:
+            enabled: true
+            replicas: 2
+            namespace: gateway
+
+        controller:
+          logLevel: "info"
+          logFormat: "text"
+          gatewayClassName: "cloudflare-tunnel"
+          controllerName: "cf.k8s.lex.la/tunnel-controller"
+
+        replicaCount: 2
+        leaderElection:
+          enabled: true
+          leaseName: "cloudflare-tunnel-gateway-controller-leader"
+
+        podDisruptionBudget:
+          enabled: true
+          minAvailable: 1
+          unhealthyPodEvictionPolicy: "IfHealthyBudget"
+
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+
+        podSecurityContext:
+          runAsNonRoot: true
+          runAsUser: 65534
+          seccompProfile:
+            type: RuntimeDefault
+
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+
+        terminationGracePeriodSeconds: 30
   destination:
     name: in-cluster
     namespace: cloudflare-tunnel-system
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - ServerSideApply=true
