@@ -1,20 +1,12 @@
-#gateway/kustomization.yaml
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
   - gateway-class.yaml
-  - gateway-cf.yaml
+  - gateway-external.yaml
   - gateway-internal.yaml
   - certificate.yaml
   - ns.yaml
   - secrets.yaml
   - issuer.yaml
-
-helmCharts:
-  - name: cloudflare-tunnel-gateway-controller
-    repo: https://ghcr.io/lexfrei/cloudflare-tunnel-gateway-controller/chart
-    version: 0.9.7
-    releaseName: cloudflare-tunnel-gateway-controller
-    namespace: gateway
-    valuesFile: values/cloudflare-tunnel-gateway-controller.yaml

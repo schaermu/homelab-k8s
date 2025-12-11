@@ -1,12 +1,9 @@
 gatewayClassConfig:
   create: true
-
   tunnelID: "5768dad9-c92d-4b5c-be07-bb61c56db9c0"
-
   cloudflareCredentialsSecretRef:
     name: cloudflare-tunnel-credentials
     key: api-token
-
   tunnelTokenSecretRef:
     name: cloudflare-tunnel-token
     key: tunnel-token
@@ -21,7 +18,7 @@ gatewayClassConfig:
 controller:
   # Production logging configuration
   logLevel: "info"
-  logFormat: "json"
+  logFormat: "text"
   gatewayClassName: "cloudflare-tunnel"
   controllerName: "cf.k8s.lex.la/tunnel-controller"
   # clusterDomain is auto-detected from /etc/resolv.conf
