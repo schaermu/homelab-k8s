@@ -12,7 +12,7 @@ spec:
     targetRevision: 0.9.7
     helm:
       valueFiles:
-      - values.yaml
+      - k8s/infra/controllers/cloudflare-tunnel-gateway/values.yaml
 
   destination:
     name: in-cluster
