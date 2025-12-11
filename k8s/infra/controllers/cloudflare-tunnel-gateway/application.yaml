@@ -14,6 +14,7 @@ spec:
       valuesObject:
         gatewayClassConfig:
           create: true
+          accountId: "59469c6e9b7a0c72d7efceab1b0152b5"
           tunnelID: "5768dad9-c92d-4b5c-be07-bb61c56db9c0"
           cloudflareCredentialsSecretRef:
             name: cloudflare-tunnel-credentials
@@ -28,20 +29,20 @@ spec:
             namespace: gateway
 
         controller:
-          logLevel: "info"
-          logFormat: "text"
-          gatewayClassName: "cloudflare-tunnel"
-          controllerName: "cf.k8s.lex.la/tunnel-controller"
+          logLevel: info
+          logFormat: json
+          gatewayClassName: cloudflare-tunnel
+          controllerName: cf.k8s.lex.la/tunnel-controller
 
         replicaCount: 2
         leaderElection:
           enabled: true
-          leaseName: "cloudflare-tunnel-gateway-controller-leader"
+          leaseName: cloudflare-tunnel-gateway-controller-leader
 
         podDisruptionBudget:
           enabled: true
           minAvailable: 1
-          unhealthyPodEvictionPolicy: "IfHealthyBudget"
+          unhealthyPodEvictionPolicy: IfHealthyBudget
 
         resources:
           limits:

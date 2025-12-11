@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/name: vaultwarden
     app.kubernetes.io/instance: vaultwarden
 spec:
-  storageClassName: proxmox-csi
+  storageClassName: proxmox-data
   accessModes:
     - ReadWriteOnce
   resources:
