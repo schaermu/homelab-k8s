@@ -1,0 +1,18 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudflare-tunnel-gateway-controller
+  namespace: cloudflare-tunnel-system
+spec:
+  project: controllers
+  source:
+    path: .
+    repoURL: oci://ghcr.io/lexfrei/cloudflare-tunnel-gateway-controller/chart
+    targetRevision: 0.9.7
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    name: in-cluster
+    namespace: cloudflare-tunnel-system

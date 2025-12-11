@@ -5,10 +5,4 @@ kind: Kustomization
 resources:
   - ns.yaml
   - secrets.yaml
-
-helmCharts:
-  - name: cloudflare-tunnel-gateway-controller
-    repo: oci://ghcr.io/lexfrei/cloudflare-tunnel-gateway-controller/chart
-    version: 0.9.7
-    namespace: cloudflare-tunnel-system
-    valuesFile: values.yaml
+  - application.yaml
