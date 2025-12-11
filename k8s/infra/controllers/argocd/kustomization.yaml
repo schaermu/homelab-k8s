@@ -6,6 +6,7 @@ resources:
   - grpc-service.yaml
   - grpc-route.yaml
   - http-route.yaml
+  - secrets.yaml
 
 helmCharts:
   - name: argo-cd
