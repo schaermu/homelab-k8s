@@ -1,5 +1,6 @@
 gatewayClassConfig:
   create: true
+  accountId: "59469c6e9b7a0c72d7efceab1b0152b5"
   tunnelID: "5768dad9-c92d-4b5c-be07-bb61c56db9c0"
   cloudflareCredentialsSecretRef:
     name: cloudflare-tunnel-credentials
@@ -7,7 +8,6 @@ gatewayClassConfig:
   tunnelTokenSecretRef:
     name: cloudflare-tunnel-token
     key: tunnel-token
-
   cloudflared:
     enabled: true
     replicas: 2
@@ -15,7 +15,7 @@ gatewayClassConfig:
 
 controller:
   logLevel: "info"
-  logFormat: "text"
+  logFormat: "json"
   gatewayClassName: "cloudflare-tunnel"
   controllerName: "cf.k8s.lex.la/tunnel-controller"
 
