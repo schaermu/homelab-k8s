@@ -1,4 +1,3 @@
-# https://github.com/argoproj/argo-helm/blob/main/charts/argo-cd/values.yaml
 global:
   domain: argocd.lab.schaermu.ch
 
@@ -62,16 +61,7 @@ server:
 repoServer:
   containerSecurityContext:
     readOnlyRootFilesystem: true
-  env:
-    - name: HELM_REGISTRY_CONFIG
-      value: /home/argocd/helm/config.json
-  volumeMounts:
-    - name: oci-ghcr-helm-auth
-      mountPath: /home/argocd/helm
   volumes:
-    - name: oci-ghcr-helm-auth
-      secret:
-        secretName: oci-ghcr-helm-auth
     - name: cmp-kustomize-build-with-helm
       configMap:
         name: argocd-cmp-cm
