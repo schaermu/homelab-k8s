@@ -22,6 +22,8 @@ spec:
       server: '*'
     - namespace: 'cloudflare-tunnel-system'
       server: '*'
+    - namespace: 'csi-proxmox'
+      server: '*'
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
