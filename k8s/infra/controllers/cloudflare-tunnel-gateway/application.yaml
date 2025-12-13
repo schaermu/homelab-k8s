@@ -11,8 +11,27 @@ spec:
     repoURL: oci://ghcr.io/lexfrei/cloudflare-tunnel-gateway-controller/chart
     targetRevision: 0.9.7
     helm:
-      valueFiles:
-      - values.yaml
+      valuesObject:
+        gatewayClassConfig:
+          create: true
+          accountId: "59469c6e9b7a0c72d7efceab1b0152b5"
+          tunnelID: "5768dad9-c92d-4b5c-be07-bb61c56db9c0"
+          cloudflareCredentialsSecretRef:
+            name: cloudflare-tunnel-credentials
+            key: api-token
+          tunnelTokenSecretRef:
+            name: cloudflare-tunnel-token
+            key: tunnel-token
+          cloudflared:
+            enabled: true
+            replicas: 2
+            namespace: gateway
+        replicaCount: 2
+        leaderElection:
+          enabled: true
+        podDisruptionBudget:
+          enabled: true
+        terminationGracePeriodSeconds: 30
 
   destination:
     name: in-cluster
