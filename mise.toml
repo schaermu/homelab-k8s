@@ -28,7 +28,15 @@ run = "TALOSCONFIG=tofu/output/talos-config.yaml talosctl"
 run = "KUBECONFIG=tofu/output/kube-config.yaml argocd --grpc-web"
 
 [tasks.kubeseal]
-run = "KUBECONFIG=tofu/output/kube-config.yaml kubeseal --format yaml"
+run = "KUBECONFIG=tofu/output/kube-config.yaml kubeseal --format yaml --cert secrets/sealed-secrets.cer"
+
+[tasks.sealsecret]
+usage = '''
+arg "<file>"
+'''
+run = '''
+mise run kubeseal --scope cluster-wide < "${usage_file?}" > "${usage_file?%.yaml}-sealed.yaml"
+'''
 
 [tasks.helm]
 run = "KUBECONFIG=tofu/output/kube-config.yaml helm"
