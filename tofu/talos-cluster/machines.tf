@@ -112,15 +112,6 @@ resource "proxmox_virtual_environment_vm" "workers" {
     file_id      = var.cluster.talos_image_id
   }
 
-  # data disk for proxmox csi driver
-  disk {
-    datastore_id = each.value.datastore
-    interface    = "scsi1"
-    iothread     = true
-    ssd          = true
-    size         = each.value.disk
-  }
-
   boot_order = ["scsi0"]
 
   operating_system {
