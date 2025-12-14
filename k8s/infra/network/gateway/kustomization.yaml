@@ -8,5 +8,4 @@ resources:
   - gateway-internal.yaml
   - certificate.yaml
   - ns.yaml
-  - secrets.yaml
   - issuer.yaml
