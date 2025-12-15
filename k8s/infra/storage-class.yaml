@@ -8,7 +8,9 @@ metadata:
 provisioner: csi.proxmox.sinextra.dev
 allowVolumeExpansion: true
 volumeBindingMode: WaitForFirstConsumer
-reclaimPolicy: Delete
+reclaimPolicy: Retain
 parameters:
   csi.storage.k8s.io/fstype: ext4
   storage: local-vms
+  cache: writethrough
+  ssd: "true"

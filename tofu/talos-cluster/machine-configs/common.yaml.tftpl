@@ -3,6 +3,11 @@ machine:
     disk: ${install_disk}
   network:
     hostname: ${hostname}
+    extraHostEntries:
+      - ip: 192.168.1.20
+        aliases:
+          - arthur
+          - arthur.lab.schaermu.ch
   nodeLabels:
     topology.kubernetes.io/region: ${pve_cluster_name}
     topology.kubernetes.io/zone: ${pve_node_name}
@@ -15,3 +20,4 @@ machine:
   kubelet:
     extraArgs:
       rotate-server-certificates: true
+      cloud-provider: external

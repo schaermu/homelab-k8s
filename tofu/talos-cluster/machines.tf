@@ -2,7 +2,7 @@ resource "proxmox_virtual_environment_vm" "controlplane" {
   for_each = local.controlplanes
 
   lifecycle {
-    ignore_changes = [disk[0].file_id]
+    ignore_changes = [disk, ]
   }
 
   vm_id         = each.value.vm_id
@@ -70,7 +70,7 @@ resource "proxmox_virtual_environment_vm" "workers" {
   for_each = local.workers
 
   lifecycle {
-    ignore_changes = [disk[0].file_id]
+    ignore_changes = [disk, ]
   }
 
   vm_id         = each.value.vm_id

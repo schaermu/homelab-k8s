@@ -1,7 +1,7 @@
 resource "helm_release" "argocd" {
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
-  version          = "8.5.3"
+  version          = "9.1.7"
   name             = "argocd"
   namespace        = "argocd"
   create_namespace = true
@@ -19,7 +19,7 @@ resource "helm_release" "argocd-apps" {
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argocd-apps"
   namespace  = "argocd"
-  version    = "1.6.2"
+  version    = "2.0.2"
 
   values = [
     file("${path.module}/inline-manifests/argocd-apps-values.yaml")

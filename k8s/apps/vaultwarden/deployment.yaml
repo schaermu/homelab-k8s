@@ -9,6 +9,8 @@ metadata:
     app.kubernetes.io/instance: vaultwarden
 spec:
   replicas: 1
+  nodeSelector:
+    node-role.kubernetes.io/worker: ""
   selector:
     matchLabels:
       app.kubernetes.io/name: vaultwarden

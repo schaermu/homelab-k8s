@@ -1,4 +1,13 @@
 machine:
+  features:
+    hostDNS:
+      enabled: true
+    kubernetesTalosAPIAccess:
+      enabled: true
+      allowedRoles:
+        - os:reader
+      allowedKubernetesNamespaces:
+        - kube-system
   network:
     interfaces:
     - deviceSelector:
@@ -19,5 +28,5 @@ cluster:
   externalCloudProvider:
     enabled: true
     manifests:
-      - https://raw.githubusercontent.com/sergelogvinov/proxmox-cloud-controller-manager/main/docs/deploy/cloud-controller-manager-talos.yml
-      - https://raw.githubusercontent.com/sergelogvinov/proxmox-csi-plugin/main/docs/deploy/proxmox-csi-plugin-talos.yml
+      - https://raw.githubusercontent.com/sergelogvinov/proxmox-cloud-controller-manager/v0.12.2/docs/deploy/cloud-controller-manager.yml
+      - https://raw.githubusercontent.com/sergelogvinov/proxmox-csi-plugin/v0.17.0/docs/deploy/proxmox-csi-plugin-release.yml

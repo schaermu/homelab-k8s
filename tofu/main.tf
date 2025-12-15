@@ -28,7 +28,7 @@ module "talos_cluster" {
       bridge     = "vmbr0"
       cidr       = "192.168.1.0/24"
       gateway    = "192.168.1.1"
-      dns        = ["1.1.1.1", "1.1.0.0"]
+      dns        = ["192.168.1.206"]
     }
   }
 
