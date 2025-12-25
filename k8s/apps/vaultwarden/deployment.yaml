@@ -20,8 +20,6 @@ spec:
         app.kubernetes.io/name: vaultwarden
         app.kubernetes.io/instance: vaultwarden
     spec:
-      nodeSelector:
-        node-role.kubernetes.io/worker: ""
       volumes:
         - name: pv-vaultwarden-data
           persistentVolumeClaim:
