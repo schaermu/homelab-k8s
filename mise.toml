@@ -22,7 +22,7 @@ run = "tofu"
 run = "KUBECONFIG=tofu/output/kube-config.yaml kubectl"
 
 [tasks.talosctl]
-run = "TALOSCONFIG=tofu/output/talos-config.yaml talosctl"
+run = "TALOSCONFIG=tofu/output/talos-config.yaml talosctl -e 192.168.1.30"
 
 [tasks.argocd]
 run = "KUBECONFIG=tofu/output/kube-config.yaml argocd --grpc-web"
