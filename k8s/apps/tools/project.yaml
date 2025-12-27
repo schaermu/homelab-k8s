@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: infrastructure
+  name: tools
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -9,9 +9,9 @@ spec:
   sourceRepos:
     - 'https://github.com/schaermu/homelab-k8s'
   destinations:
-    - namespace: 'kube-system'
-      server: '*'
     - namespace: 'argocd'
+      server: '*'
+    - namespace: 'vaultwarden'
       server: '*'
   clusterResourceWhitelist:
     - group: '*'

@@ -4,7 +4,7 @@ metadata:
   name: controllers
   namespace: argocd
   labels:
-    lab.schaermu: controllers
+    schaermu.lab/app-group: infrastructure/controllers
 spec:
   generators:
     - git:
@@ -16,7 +16,7 @@ spec:
     metadata:
       name: '{{ path.basename }}'
       labels:
-        lab.schaermu: controllers
+        schaermu.lab/app-group: infrastructure/controllers
     spec:
       project: controllers
       source:

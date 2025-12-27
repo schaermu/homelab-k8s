@@ -18,7 +18,7 @@ spec:
     metadata:
       name: '{{ path.basename }}'
       labels:
-        lab.schaermu: network
+        schaermu.lab/app-group: infrastructure/network
     spec:
       project: network
       source:
