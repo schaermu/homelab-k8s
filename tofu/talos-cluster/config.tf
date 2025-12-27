@@ -110,6 +110,7 @@ resource "talos_machine_configuration_apply" "controlplane" {
       install_disk     = each.value.install_disk
       pve_cluster_name = var.proxmox.cluster
       pve_node_name    = var.proxmox.node
+      pve_vm_id        = each.value.vm_id
     }),
     templatefile("${path.module}/machine-configs/controlplane.yaml.tftpl", {
       virtual_ip       = var.cluster.network.virtual_ip
@@ -137,6 +138,7 @@ resource "talos_machine_configuration_apply" "worker" {
       install_disk     = each.value.install_disk
       pve_cluster_name = var.proxmox.cluster
       pve_node_name    = var.proxmox.node
+      pve_vm_id        = each.value.vm_id
     }),
     templatefile("${path.module}/machine-configs/worker.yaml.tftpl", {})
   ]

@@ -6,8 +6,9 @@ module "talos_cluster" {
   ]
 
   providers = {
-    proxmox = proxmox
-    talos   = talos
+    proxmox   = proxmox
+    talos     = talos
+    bitwarden = bitwarden
   }
 
   proxmox = {

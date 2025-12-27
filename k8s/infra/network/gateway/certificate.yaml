@@ -31,4 +31,3 @@ spec:
   dnsNames:
     - "*.schaermu.ch"
     - "schaermu.ch"
-    - "5768dad9-c92d-4b5c-be07-bb61c56db9c0.cfargotunnel.com" # only to circumvent LE rate limits...
