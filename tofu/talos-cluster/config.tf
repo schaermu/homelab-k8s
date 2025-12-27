@@ -70,29 +70,7 @@ clusters:
 EOF
         }
       })
-    },
-    {
-      name = "proxmox-csi-plugin"
-      contents = yamlencode({
-        apiVersion = "v1"
-        kind       = "Secret"
-        type       = "Opaque"
-        metadata = {
-          name      = "proxmox-csi-plugin"
-          namespace = "csi-proxmox"
-        }
-        stringData = {
-          "config.yaml" = <<EOF
-clusters:
-  - url: ${var.proxmox.api_url}
-    insecure: false
-    token_id: "${proxmox_virtual_environment_user_token.csi.id}"
-    token_secret: "${element(split("=", proxmox_virtual_environment_user_token.csi.value), length(split("=", proxmox_virtual_environment_user_token.csi.value)) - 1)}"
-    region: ${var.proxmox.cluster}
-EOF
-        }
-      })
-    },
+    }
   ]
 }
 
