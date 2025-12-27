@@ -22,7 +22,7 @@ spec:
             claimName: pocket-id-data
       containers:
       - name: pocket-id
-        image: ghcr.io/pocket-id/pocket-id:latest:v1.16.0
+        image: ghcr.io/pocket-id/pocket-id:v1.16.0
         env:
           - name: APP_URL
             value: "https://auth.schaermu.ch"
