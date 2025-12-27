@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: network
+  name: tools
   namespace: argocd
   labels:
     schaermu.lab/project: applications
