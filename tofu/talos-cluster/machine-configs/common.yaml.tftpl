@@ -13,6 +13,14 @@ machine:
       - name: nvme_tcp
       - name: vfio_pci
   kubelet:
+    extraMounts:
+      - destination: /var/mnt/longhorn
+        type: bind
+        source: /var/mnt/longhorn
+        options:
+          - bind
+          - rshared
+          - rw
     extraArgs:
       rotate-server-certificates: true
       cloud-provider: external

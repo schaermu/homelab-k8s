@@ -35,8 +35,7 @@ variable "controlplane" {
 
     specs = object({
       cpu    = number,
-      memory = number,
-      disk   = optional(number)
+      memory = number
     })
   })
 }
