@@ -10,7 +10,6 @@ spec:
     group: cert-manager.io
     kind: ClusterIssuer
     name: cloudflare-cluster-issuer-staging
-  commonName: "*.lab.schaermu.ch"
   dnsNames:
     - "*.lab.schaermu.ch"
     - "lab.schaermu.ch"
@@ -27,7 +26,6 @@ spec:
     group: cert-manager.io
     kind: ClusterIssuer
     name: cloudflare-cluster-issuer-staging
-  commonName: "*.schaermu.ch"
   dnsNames:
     - "*.schaermu.ch"
     - "schaermu.ch"
