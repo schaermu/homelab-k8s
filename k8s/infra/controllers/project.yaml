@@ -22,6 +22,8 @@ spec:
       server: '*'
     - namespace: 'cloudflare-tunnel-system'
       server: '*'
+    - namespace: 'longhorn-system'
+      server: '*'
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
