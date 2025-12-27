@@ -112,6 +112,17 @@ resource "proxmox_virtual_environment_vm" "workers" {
     file_id      = var.cluster.talos_image_id
   }
 
+  # longhorn storage disk
+  disk {
+    datastore_id = each.value.datastore
+    interface    = "scsi1"
+    iothread     = true
+    size         = each.value.disk
+    cache        = "writethrough"
+    discard      = "on"
+    ssd          = true
+  }
+
   boot_order = ["scsi0"]
 
   operating_system {

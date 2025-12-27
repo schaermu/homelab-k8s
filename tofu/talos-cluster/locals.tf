@@ -22,7 +22,6 @@ locals {
       subnet       = split("/", var.cluster.network.cidr)[1]
       cpu          = var.controlplane.specs.cpu
       memory       = var.controlplane.specs.memory
-      disk         = var.controlplane.specs.disk
     }
   }
 
