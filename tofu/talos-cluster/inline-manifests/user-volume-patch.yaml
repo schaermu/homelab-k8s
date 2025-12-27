@@ -1,0 +1,10 @@
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: longhorn
+provisioning:
+  diskSelector:
+    match: disk.dev_path == '/dev/vdb' && !system_disk
+  minSize: "128GiB"
+  maxSize: "256GiB"
+  grow: true

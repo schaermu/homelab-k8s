@@ -118,7 +118,8 @@ resource "talos_machine_configuration_apply" "worker" {
       pve_node_name    = var.proxmox.node
       pve_vm_id        = each.value.vm_id
     }),
-    templatefile("${path.module}/machine-configs/worker.yaml.tftpl", {})
+    templatefile("${path.module}/machine-configs/worker.yaml.tftpl", {}),
+    templatefile("${path.module}/inline-manifests/user-volume-patch.yaml", {})
   ]
 
   lifecycle {
