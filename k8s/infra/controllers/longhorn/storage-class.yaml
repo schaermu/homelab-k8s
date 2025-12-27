@@ -2,12 +2,27 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
+  name: longhorn
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+parameters:
+  numberOfReplicas: "3"
+  staleReplicaTimeout: "2880"
+  fromBackup: ""
+  fsType: "ext4"
+
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
   name: longhorn-encrypted
 provisioner: driver.longhorn.io
 allowVolumeExpansion: true
 parameters:
   numberOfReplicas: "3"
-  staleReplicaTimeout: "2880" # 48 hours in minutes
+  staleReplicaTimeout: "2880"
   fromBackup: ""
   encrypted: "true"
   csi.storage.k8s.io/provisioner-secret-name: ${pvc.name}-longhorn
