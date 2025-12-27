@@ -17,3 +17,4 @@ helmCharts:
     valuesFile: values.yaml
     additionalValuesFiles:
     - patches/helm-registry-secret.yaml
+    - patches/redis-secret-init.yaml
