@@ -37,8 +37,8 @@ spec:
             command:
               - /app/pocket-id
               - healthcheck
-            initialDelaySeconds: 10
-            periodSeconds: 90
+          initialDelaySeconds: 10
+          periodSeconds: 90
         securityContext:
           runAsNonRoot: true
           privileged: false
