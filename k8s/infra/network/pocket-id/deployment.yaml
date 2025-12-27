@@ -16,6 +16,10 @@ spec:
         app: pocket-id
     spec:
       serviceAccountName: pocket-id
+      volumes:
+        - name: pocket-id-data
+          persistentVolumeClaim:
+            claimName: pocket-id-data
       containers:
       - name: pocket-id
         image: ghcr.io/pocket-id/pocket-id:latest:v1.16.0
