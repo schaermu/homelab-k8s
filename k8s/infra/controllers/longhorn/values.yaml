@@ -1,7 +1,14 @@
+global:
+  nodeSelector:
+    schaermu.lab/has-storage: "true"
 preUpgradeChecker:
   jobEnabled: false
-defaultSettings:
-  storageReservedPercentageForDefaultDisk: 1
-  defaultDataPath: /var/mnt/longhorn
+persistence:
+  defaultClassReplicaCount: 2
+defaultBackupStore:
   backupTarget: s3://schaermu-k8s-backups@auto/longhorn
   backupTargetCredentialSecret: longhorn-r2-backups
+defaultSettings:
+  createDefaultDiskLabeledNodes: true
+  storageReservedPercentageForDefaultDisk: 1
+  defaultDataPath: /var/mnt/longhorn
