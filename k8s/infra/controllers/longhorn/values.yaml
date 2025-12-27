@@ -1,3 +1,5 @@
+preUpgradeChecker:
+  jobEnabled: false
 defaultSettings:
   storageReservedPercentageForDefaultDisk: 1
   defaultDataPath: /var/mnt/longhorn
