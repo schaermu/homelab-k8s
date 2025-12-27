@@ -21,9 +21,9 @@ spec:
         app.kubernetes.io/instance: vaultwarden
     spec:
       volumes:
-        - name: pv-vaultwarden-data
+        - name: vaultwarden-data
           persistentVolumeClaim:
-            claimName: pvc-vaultwarden-data
+            claimName: vaultwarden-data
       containers:
         - name: vaultwarden
           image: vaultwarden/server:1.34.1
@@ -39,7 +39,7 @@ spec:
             privileged: false
           volumeMounts:
             - mountPath: /data
-              name: pv-vaultwarden-data
+              name: vaultwarden-data
           resources:
             limits:
               cpu: 100m
