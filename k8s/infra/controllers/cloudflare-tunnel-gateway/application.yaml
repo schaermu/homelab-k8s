@@ -12,6 +12,9 @@ spec:
     targetRevision: 1.0.0
     helm:
       valuesObject:
+        controller:
+          logLevel: "debug"
+          logFormat: "json"
         gatewayClassConfig:
           create: true
           accountID: "59469c6e9b7a0c72d7efceab1b0152b5"
