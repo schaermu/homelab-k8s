@@ -1,5 +1,5 @@
 defaultSettings:
   storageReservedPercentageForDefaultDisk: 1
-  defaultDataPath: /var/lib/longhorn
+  defaultDataPath: /var/mnt/longhorn
   backupTarget: s3://schaermu-k8s-backups@auto/longhorn
   backupTargetCredentialSecret: longhorn-r2-backups
