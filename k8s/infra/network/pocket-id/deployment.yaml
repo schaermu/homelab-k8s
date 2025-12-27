@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pocket-id
+  namespace: pocket-id
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: pocket-id
+  template:
+    metadata:
+      labels:
+        app: pocket-id
+    spec:
+      serviceAccountName: pocket-id
+      containers:
+      - name: pocket-id
+        image: ghcr.io/pocket-id/pocket-id:latest:v1.16.0
+        env:
+          - name: APP_URL
+            value: "https://auth.schaermu.ch"
+          - name: ENCRYPTION_KEY
+            valueFrom:
+              secretKeyRef:
+                name: pocket-id-encryption-key
+                key: encryption-key
+          - name: TRUST_PROXY
+            value: "true"
+        volumeMounts:
+          - mountPath: /app/data
+            name: pocket-id-data
+        livenessProbe:
+          exec:
+            command:
+              - /app/pocket-id
+              - healthcheck
+            initialDelaySeconds: 10
+            periodSeconds: 90
+        securityContext:
+          runAsNonRoot: true
+          privileged: false
+          runAsUser: 65534
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: ["ALL"]
