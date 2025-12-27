@@ -3,7 +3,8 @@ kind: Kustomization
 labels:
 - includeSelectors: true
   pairs:
-    schaermu.lab/app-group: infrastructure/controllers
+    schaermu.lab/project: infrastructure
+    schaermu.lab/app-group: controllers
     app.kubernetes.io/managed-by: argocd
 
 resources:

@@ -4,7 +4,7 @@ metadata:
   name: infrastructure
   namespace: argocd
   labels:
-    lab.schaermu: infrastructure
+    schaermu.lab/project: infrastructure
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
@@ -18,7 +18,7 @@ spec:
     metadata:
       name: '{{ path.basename }}'
       labels:
-        schaermu.lab/app-group: infrastructure
+        schaermu.lab/project: infrastructure
     spec:
       project: infrastructure
       source:
