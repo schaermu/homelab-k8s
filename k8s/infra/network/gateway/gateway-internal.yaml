@@ -5,7 +5,7 @@ metadata:
   name: internal
   namespace: gateway
   annotations:
-    cert-manager.io/cluster-issuer: cloudflare-cluster-issuer
+    cert-manager.io/cluster-issuer: cloudflare-cluster-issuer-staging
 spec:
   gatewayClassName: cilium
   infrastructure:
