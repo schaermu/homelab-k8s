@@ -1,0 +1,32 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: vaultwarden-db
+  namespace: vaultwarden
+spec:
+  instances: 1
+  imagePullPolicy: Always
+  plugins:
+  - name: barman-cloud.cloudnative-pg.io
+    isWALArchiver: true
+    parameters:
+      barmanObjectName: cloudflare-r2-store
+      serverName: vaultwarden-db
+  storage:
+    size: 1Gi
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: vaultwarden-db-backup
+  namespace: vaultwarden
+spec:
+  cluster:
+    name: vaultwarden-db
+  schedule: "0 0 3 * * *" # every day at 3:00 AM
+  backupOwnerReference: self
+  method: plugin
+  pluginConfiguration:
+    pluginName: barman-cloud.cloudnative-pg.io

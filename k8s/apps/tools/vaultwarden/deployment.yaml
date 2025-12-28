@@ -35,6 +35,11 @@ spec:
                   key: admin-token
             - name: WEBSOCKET_ENABLED
               value: "true"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-db-app
+                  key: uri
           securityContext:
             privileged: false
           volumeMounts:
