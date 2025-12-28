@@ -22,6 +22,7 @@ spec:
         args:
         - --source=gateway-httproute
         - --source=gateway-grpcroute
+        - --domain-filter=lab.schaermu.ch
         - --registry=noop
         - --policy=upsert-only
         - --provider=pihole
