@@ -19,4 +19,3 @@ helmCharts:
     - patches/helm-registry-secret.yaml
     - patches/oidc-pocketid.yaml
     - patches/redis-secret-init.yaml
-    - patches/rbac-config.yaml
