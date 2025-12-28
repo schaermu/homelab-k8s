@@ -15,3 +15,18 @@ spec:
       serverName: pocket-id-db
   storage:
     size: 1Gi
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: pocket-id-db-backup
+  namespace: pocket-id
+spec:
+  cluster:
+    name: pocket-id-db
+  schedule: "0 0 3 * * *" # every day at 3:00 AM
+  backupOwnerReference: self
+  method: plugin
+  pluginConfiguration:
+    pluginName: barman-cloud.cloudnative-pg.io
