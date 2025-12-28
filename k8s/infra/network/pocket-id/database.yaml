@@ -12,5 +12,7 @@ spec:
     isWALArchiver: true
     parameters:
       barmanObjectName: cloudflare-r2-store
+      serverName: pocket-id-db
+
   storage:
     size: 1Gi
