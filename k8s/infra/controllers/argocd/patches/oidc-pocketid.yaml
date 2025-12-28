@@ -5,3 +5,6 @@ configs:
       issuer: https://auth.schaermu.ch
       clientID: $argocd-oidc-pocketid:OIDC_CLIENT_ID
       clientSecret: $argocd-oidc-pocketid:OIDC_CLIENT_SECRET
+  rbac:
+    policy.csv: |
+      g, cluster_admin, role:admin
