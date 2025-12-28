@@ -3,5 +3,17 @@ configs:
     oidc.config: |
       name: PocketID
       issuer: https://auth.schaermu.ch
-      clientID: $argocd-oidc-pocketid:OIDC_CLIENT_ID
-      clientSecret: $argocd-oidc-pocketid:OIDC_CLIENT_SECRET
+      clientID: ${OIDC_CLIENT_ID}
+      clientSecret: ${OIDC_CLIENT_SECRET}
+
+extraEnv:
+  - name: OIDC_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        name: argocd-oidc-pocketid
+        key: OIDC_CLIENT_ID
+  - name: OIDC_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: argocd-oidc-pocketid
+        key: OIDC_CLIENT_SECRET
