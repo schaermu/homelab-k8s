@@ -4,16 +4,21 @@ kind: Deployment
 metadata:
   name: pocket-id
   namespace: pocket-id
+  labels:
+    app.kubernetes.io/name: pocket-id
+    app.kubernetes.io/instance: pocket-id
 spec:
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: pocket-id
+      app.kubernetes.io/name: pocket-id
+      app.kubernetes.io/instance: pocket-id
   template:
     metadata:
       labels:
-        app: pocket-id
+        app.kubernetes.io/name: pocket-id
+        app.kubernetes.io/instance: pocket-id
     spec:
       serviceAccountName: pocket-id
       volumes:
