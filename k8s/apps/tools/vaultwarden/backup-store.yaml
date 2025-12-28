@@ -18,7 +18,5 @@ spec:
         key: AWS_SECRET_ACCESS_KEY
     wal:
       compression: gzip
-      encryption: ""
     data:
       compression: gzip
-      encryption: ""
