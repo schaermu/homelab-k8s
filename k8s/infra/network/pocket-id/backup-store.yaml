@@ -5,7 +5,7 @@ metadata:
   name: cloudflare-r2-store
   namespace: pocket-id
 spec:
-  retentionPolicy: "30d"
+  retentionPolicy: 10d
   configuration:
     destinationPath: s3://schaermu-k8s-backups@auto/cloudnative-pg
     endpointURL: https://59469c6e9b7a0c72d7efceab1b0152b5.r2.cloudflarestorage.com
@@ -17,4 +17,4 @@ spec:
         name: pocket-id-db-r2-backups
         key: AWS_SECRET_ACCESS_KEY
     wal:
-      compression: bzip2
+      compression: gzip
