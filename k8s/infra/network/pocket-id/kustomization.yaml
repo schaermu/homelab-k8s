@@ -9,5 +9,6 @@ resources:
   - secrets.yaml
   - route.yaml
   - database.yaml
+  - backup-store.yaml
   - service.yaml
   - deployment.yaml
