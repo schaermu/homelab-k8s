@@ -8,4 +8,5 @@ resources:
   - volume.yaml
   - secrets.yaml
   - route.yaml
+  - database.yaml
   - deployment.yaml
