@@ -24,6 +24,8 @@ spec:
       server: '*'
     - namespace: 'longhorn-system'
       server: '*'
+    - namespace: 'cnpg-system'
+      server: '*'
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
