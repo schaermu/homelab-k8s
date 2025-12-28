@@ -5,5 +5,3 @@ kind: Kustomization
 resources:
   - application.yaml
   - https://github.com/cloudnative-pg/plugin-barman-cloud/releases/download/v0.9.0/manifest.yaml
-  - object-store.yaml
-  - secrets.yaml
