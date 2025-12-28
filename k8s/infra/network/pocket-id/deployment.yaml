@@ -8,8 +8,12 @@ metadata:
     app.kubernetes.io/name: pocket-id
     app.kubernetes.io/instance: pocket-id
 spec:
+  replicas: 2
   strategy:
-    type: Recreate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 1
+    type: RollingUpdate
   selector:
     matchLabels:
       app.kubernetes.io/name: pocket-id
