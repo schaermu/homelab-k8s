@@ -13,19 +13,3 @@ spec:
   dnsNames:
     - "*.lab.schaermu.ch"
     - "lab.schaermu.ch"
-
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: cert-schaermu
-  namespace: gateway
-spec:
-  secretName: cert-schaermu
-  issuerRef:
-    group: cert-manager.io
-    kind: ClusterIssuer
-    name: cloudflare-cluster-issuer-staging
-  dnsNames:
-    - "*.schaermu.ch"
-    - "schaermu.ch"

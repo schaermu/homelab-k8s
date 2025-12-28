@@ -1,33 +1,15 @@
-# gateway/gateway.yaml
+---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: external
   namespace: gateway
-  annotations:
-    cert-manager.io/cluster-issuer: cloudflare-cluster-issuer-staging
 spec:
   gatewayClassName: cloudflare-tunnel
   listeners:
-    - protocol: HTTPS
-      port: 443
-      name: https-gateway
-      hostname: "*.schaermu.ch"
-      tls:
-        certificateRefs:
-          - kind: Secret
-            name: cert-schaermu
-      allowedRoutes:
-        namespaces:
-          from: All
-    - protocol: HTTPS
-      port: 443
-      name: https-domain-gateway
-      hostname: schaermu.ch
-      tls:
-        certificateRefs:
-          - kind: Secret
-            name: cert-schaermu
+    - name: http
+      protocol: HTTP
+      port: 80
       allowedRoutes:
         namespaces:
           from: All
