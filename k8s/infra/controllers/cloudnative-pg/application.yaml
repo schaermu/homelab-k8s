@@ -7,9 +7,11 @@ metadata:
 spec:
   project: controllers
   source:
-    path: cnpg/cloudnative-pg
+    chart: cnpg
     repoURL: https://cloudnative-pg.github.io/charts
     targetRevision: cloudnative-pg-v0.27.0
+    helm:
+      releaseName: cnpg/cloudnative-pg
   destination:
     name: in-cluster
     namespace: cnpg-system
