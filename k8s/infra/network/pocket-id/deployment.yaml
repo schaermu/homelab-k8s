@@ -50,10 +50,3 @@ spec:
               - healthcheck
           initialDelaySeconds: 10
           periodSeconds: 90
-        securityContext:
-          runAsNonRoot: true
-          privileged: false
-          runAsUser: 65534
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop: ["ALL"]
