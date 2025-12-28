@@ -6,7 +6,7 @@ metadata:
   namespace: pocket-id
 spec:
   parentRefs:
-    - name: cloudflared
+    - name: external
       namespace: gateway
   hostnames:
     - auth.schaermu.ch

@@ -6,7 +6,7 @@ metadata:
   namespace: vaultwarden
 spec:
   parentRefs:
-    - name: cloudflared
+    - name: external
       namespace: gateway
   hostnames:
     - vault.schaermu.ch
