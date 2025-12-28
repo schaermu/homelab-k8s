@@ -4,9 +4,12 @@ global:
 configs:
   cm:
     create: true
+    url: https://argocd.lab.schaermu.ch
     application.resourceTrackingMethod: annotation+label
     admin.enabled: true
     kustomize.buildOptions: --enable-helm
+    params:
+      applicationsetcontroller.policy: 'sync'
 
   cmp:
     create: true

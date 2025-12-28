@@ -11,10 +11,11 @@ resources:
 helmCharts:
   - name: argo-cd
     repo: https://argoproj.github.io/argo-helm
-    version: 8.5.3
-    releaseName: "argocd"
+    version: 9.2.2
+    releaseName: argocd
     namespace: argocd
     valuesFile: values.yaml
     additionalValuesFiles:
     - patches/helm-registry-secret.yaml
+    - patches/oidc-pocketid.yaml
     - patches/redis-secret-init.yaml

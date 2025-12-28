@@ -1,0 +1,7 @@
+configs:
+  cm:
+    oidc.config: |
+      name: PocketID
+      issuer: https://auth.schaermu.ch
+      clientID: $argocd-oidc-pocketid:OIDC_CLIENT_ID
+      clientSecret: $argocd-oidc-pocketid:OIDC_CLIENT_SECRET
