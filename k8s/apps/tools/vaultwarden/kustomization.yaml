@@ -6,6 +6,7 @@ resources:
   - ns.yaml
   - secrets.yaml
   - route.yaml
+  - configmap.yaml
   - deployment.yaml
   - database.yaml
   - backup-store.yaml
