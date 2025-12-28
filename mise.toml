@@ -40,3 +40,10 @@ mise run kubeseal --scope cluster-wide < "${usage_file?}" > "${usage_file?%.yaml
 
 [tasks.helm]
 run = "KUBECONFIG=tofu/output/kube-config.yaml helm"
+
+[tasks.backup-db]
+usage = '''
+arg "<namespace>"
+arg "<cluster>"
+'''
+run = "mise run kubectl cnpg backup -n ${usage_namespace?} ${usage_cluster?} --method=plugin --plugin-name=barman-cloud.cloudnative-pg.io"
