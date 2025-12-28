@@ -18,6 +18,7 @@ configs:
         generate:
           command: [ sh, -c ]
           args: [ kustomize build --enable-helm ]
+
   params:
     controller.diff.server.side: true
     server.insecure: true
