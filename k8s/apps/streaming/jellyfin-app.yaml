@@ -12,7 +12,7 @@ spec:
     targetRevision: 2.7.0
     helm:
       releaseName: jellyfin
-      values:
+      valuesObject:
         # expose using gateway api
         httpRoute:
           enabled: true
@@ -27,11 +27,9 @@ spec:
                 - path:
                     type: PathPrefix
                     value: /
-
         # schedule jellyfin on gpu nodes for hw acceleration
         nodeSelector:
           intel.feature.node.kubernetes.io/gpu: "true"
-
         # enable hw acceleration
         securityContext:
           capabilities:
@@ -40,7 +38,6 @@ spec:
             drop:
               - "ALL"
           privileged: false
-
         # mount media nfs volumes and hostPath for hw acceleration
         volumes:
           - name: series
