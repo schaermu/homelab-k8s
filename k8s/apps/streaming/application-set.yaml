@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: streaming
+  namespace: argocd
+  labels:
+    schaermu.lab/project: applications
+    schaermu.lab/app-group: streaming
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/schaermu/homelab-k8s
+        revision: HEAD
+        directories:
+          - path: k8s/apps/streaming/*
+  template:
+    metadata:
+      name: '{{ path.basename }}'
+      labels:
+        schaermu.lab/project: applications
+        schaermu.lab/app-group: streaming
+    spec:
+      project: streaming
+      source:
+        plugin:
+          name: kustomize-build-with-helm
+        repoURL: https://github.com/schaermu/homelab-k8s
+        targetRevision: HEAD
+        path: '{{ path }}'
+      destination:
+        name: in-cluster
+        namespace: argocd
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true

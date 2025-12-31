@@ -1,0 +1,38 @@
+httpRoute:
+  enabled: true
+  annotations: {}
+  parentRefs:
+    - name: internal
+      namespace: gateway
+  hostnames:
+    - jellyfin.lab.schaermu.ch
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+
+# attach nfs storaage to media volume
+persistence:
+  media:
+    existingClaim: jellyfin-media-nfs-pvc
+
+# schedule jellyfin on gpu nodes for hw acceleration
+nodeSelector:
+  intel.feature.node.kubernetes.io/gpu: "true"
+
+# enable hw acceleration
+securityContext:
+  capabilities:
+    add:
+      - "SYS_ADMIN"
+    drop:
+      - "ALL"
+  privileged: false
+volumes:
+  - name: hwa
+    hostPath:
+      path: /host/dev/dri
+volumeMounts:
+  - name: hwa
+    mountPath: /host/dev/dri
