@@ -9,6 +9,7 @@ spec:
   sourceRepos:
     - 'https://github.com/schaermu/homelab-k8s'
     - 'https://jellyfin.github.io/jellyfin-helm'
+    - 'https://github.com/jellyfin/jellyfin-helm.git'
   destinations:
     - namespace: 'argocd'
       server: '*'
