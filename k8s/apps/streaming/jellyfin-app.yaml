@@ -12,47 +12,9 @@ spec:
     targetRevision: 2.7.0
     helm:
       releaseName: jellyfin
-      valuesObject:
-        # expose using gateway api
-        httpRoute:
-          enabled: true
-          annotations: {}
-          parentRefs:
-            - name: internal
-              namespace: gateway
-          hostnames:
-            - jellyfin.lab.schaermu.ch
-          rules:
-            - matches:
-                - path:
-                    type: PathPrefix
-                    value: /
-        # schedule jellyfin on gpu nodes for hw acceleration
-        nodeSelector:
-          intel.feature.node.kubernetes.io/gpu: "true"
-        # enable hw acceleration
-        resources:
-          requests:
-              gpu.intel.com/i915: 1
-          limits:
-              gpu.intel.com/i915: 1
-        # mount media nfs volumes
-        volumes:
-          - name: series
-            nfs:
-              path: /mnt/MAIN_POOL/media/video/Serien
-              server: 192.168.1.244
-          - name: movies
-            nfs:
-              path: /mnt/MAIN_POOL/media/video/Movies
-              server: 192.168.1.244
-        volumeMounts:
-          - mountPath: /series
-            name: series
-            readOnly: true
-          - mountPath: /movies
-            name: movies
-            readOnly: true
+      valueFiles:
+        - jellyfin-values.yaml
+
   destination:
     name: in-cluster
     namespace: jellyfin
