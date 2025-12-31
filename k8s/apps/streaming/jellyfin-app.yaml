@@ -7,8 +7,10 @@ metadata:
 spec:
   project: streaming
   source:
-    chart: jellyfin
-    repoURL: https://jellyfin.github.io/jellyfin-helm
+    # chart: jellyfin
+    path: charts/jellyfin/
+    repoURL: https://github.com/jellyfin/jellyfin-helm.git
+    targetRevision: HEAD # use latest chart version until 3.0.0 drops (HTTPRoute support)
     helm:
       releaseName: jellyfin
       valuesObject:
