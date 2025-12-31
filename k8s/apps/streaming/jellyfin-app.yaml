@@ -13,7 +13,7 @@ spec:
     helm:
       releaseName: jellyfin
       valueFiles:
-        - jellyfin-values.yaml
+        - values.yaml
 
   destination:
     name: in-cluster
