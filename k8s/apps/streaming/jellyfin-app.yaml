@@ -10,7 +10,7 @@ spec:
     # chart: jellyfin
     path: charts/jellyfin/
     repoURL: https://github.com/jellyfin/jellyfin-helm.git
-    targetRevision: HEAD # use latest chart version until 3.0.0 drops (HTTPRoute support)
+    targetRevision: master-vnext # use latest chart version until 3.0.0 drops (HTTPRoute support)
     helm:
       releaseName: jellyfin
       valuesObject:
