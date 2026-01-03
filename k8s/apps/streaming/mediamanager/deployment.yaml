@@ -39,7 +39,7 @@ spec:
           - name: DB_CONNECTION_STRING
             valueFrom:
               secretKeyRef:
-                name: pocket-id-db-app
+                name: mediamanager-db-app
                 key: uri
         volumeMounts:
           - mountPath: /data
