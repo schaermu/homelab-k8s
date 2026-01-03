@@ -34,20 +34,18 @@ spec:
           limits:
               gpu.intel.com/i915: 1
         volumes:
-          - name: series
+          - name: media
             nfs:
-              path: /mnt/MAIN_POOL/media/video/Serien
-              server: 192.168.1.244
-          - name: movies
-            nfs:
-              path: /mnt/MAIN_POOL/media/video/Movies
+              path: /mnt/MAIN_POOL/data/media
               server: 192.168.1.244
         volumeMounts:
-          - mountPath: /series
-            name: series
+          - mountPath: /tv
+            name: media
+            subPath: tv
             readOnly: true
           - mountPath: /movies
-            name: movies
+            name: media
+            subPath: movies
             readOnly: true
   destination:
     name: in-cluster

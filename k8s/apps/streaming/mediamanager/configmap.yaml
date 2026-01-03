@@ -7,24 +7,13 @@ metadata:
 data:
   config.toml: |
     [misc]
-    frontend_url = "http://media.schaermu.ch" # note the lack of a trailing slash
-    cors_urls = ["http://media.schaermu.ch"] # note the lack of a trailing slash
+    frontend_url = "http://media.schaermu.ch"
+    cors_urls = ["http://media.schaermu.ch"]
 
     image_directory = "/data/images"
     tv_directory = "/data/tv"
     movie_directory = "/data/movies"
     torrent_directory = "/data/torrents"
-
-    # Custom Media Libraries
-    # These paths should match your volume mounts in docker-compose.yaml
-    # Example: if you mount "./movies:/media/movies" then use path = "/media/movies/subdirectory"
-    [[misc.tv_libraries]]
-    name = "Live Action"
-    path = "/data/tv/live-action"  # Change this to match your actual TV shows location
-
-    [[misc.movie_libraries]]
-    name = "Documentary"
-    path = "/data/movies/documentary"  # Change this to match your actual movies location
 
     [database]
     host = "db"
@@ -49,29 +38,26 @@ data:
     name = "PocketID"
 
     [torrents]
-    # Transmission settings
-    [torrents.transmission]
+    [torrents.qbittorrent]
     enabled = true
     # username = "OVERRIDEN_BY_SECRET"
     # password = "OVERRIDEN_BY_SECRET"
     https_enabled = true
-    host = "localhost"
-    port = 9091
-    path = "/transmission/rpc" # RPC request path target, usually "/transmission/rpc"
+    host = "http://qbittorrent.download.svc.cluster.local"
+    port = 8080
 
     # SABnzbd settings
     [torrents.sabnzbd]
     enabled = true
-    host = "http://localhost"
-    port = 8080
+    host = "http://sabnzbd.download.svc.cluster.local"
+    port = 8090
     # api_key = "OVERRIDEN_BY_SECRET"
     base_path = "/api"
 
     [indexers]
-    # Prowlarr settings
     [indexers.prowlarr]
-    enabled = false
-    url = "http://localhost:9696"
+    enabled = true
+    url = "http://prowlarr.prowlarr.svc.cluster.local:9696"
     # api_key = "OVERRIDEN_BY_SECRET"
     timeout_seconds = 60
 

@@ -25,16 +25,6 @@ spec:
         app.kubernetes.io/instance: mediamanager
     spec:
       serviceAccountName: mediamanager
-      volumes:
-        - name: mediamanager-config
-          persistentVolumeClaim:
-            claimName: mediamanager-config
-        - name: mediamanager-data
-          persistentVolumeClaim:
-            claimName: mediamanager-data
-        - name: mediamanager-images
-          persistentVolumeClaim:
-            claimName: mediamanager-images
       containers:
       - name: mediamanager-server
         image: ghcr.io/pocket-id/pocket-id:v1.16.0
@@ -58,3 +48,13 @@ spec:
             name: mediamanager-config
           - mountPath: /data/images
             name: mediamanager-images
+      volumes:
+        - name: mediamanager-config
+          persistentVolumeClaim:
+            claimName: mediamanager-config
+        - name: mediamanager-data
+          persistentVolumeClaim:
+            claimName: mediamanager-data
+        - name: mediamanager-images
+          persistentVolumeClaim:
+            claimName: mediamanager-images

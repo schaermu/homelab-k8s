@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mediamanager
-  namespace: mediamanager
+  name: prowlarr
+  namespace: prowlarr
 spec:
   ports:
     - name: http
       protocol: TCP
-      port: 8000
-      targetPort: 8000
+      port: 9696
+      targetPort: 9696
   type: ClusterIP

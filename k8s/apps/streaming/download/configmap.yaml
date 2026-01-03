@@ -18,12 +18,23 @@ metadata:
   namespace: download
 data:
   UMASK_SET: "022"
-  PUID: "0"
-  PGID: "0"
+  PUID: "3001"
+  PGID: "3001"
   TZ: "Europe/Zurich"
-  DOCKER_MODS: "ghcr.io/t-anc/gsp-qbittorent-gluetun-sync-port-mod:main"
+  DOCKER_MODS: "ghcr.io/t-anc/gsp-qbittorent-gluetun-sync-port-mod:main | ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest"
   GSP_MINIMAL_LOGS: "false"
-  GSP_QBT_USERNAME: "admin"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sabnzbd-config
+  namespace: download
+data:
+  UMASK_SET: "022"
+  PUID: "3001"
+  PGID: "3001"
+  TZ: "Europe/Zurich"
 
 ---
 apiVersion: v1
@@ -48,6 +59,12 @@ data:
     Downloads\TempPath=/downloads/incomplete/
     WebUI\Address=*
     WebUI\ServerDomains=*
+    WebUI\LocalHostAuth=false
+    WebUI\AuthSubnetWhitelistEnabled=true
+    WebUI\AuthSubnetWhitelist=192.168.1.0/24
+    WebUI\Password_PBKDF2="@ByteArray(ARQ77eY1NUZaQsuDHbIMCA==:0WMRkYTUWVT9wVvdDtHAjU9b3b7uB8NR1Gur2hmQCvCDpm39Q+PsJRJPaCU51dEiz+dTzh8qbPsL8WkFljQYFQ==)"
+    WebUI\AlternativeUIEnabled=true
+    WebUI\RootFolder=/vuetorrent
 
     [BitTorrent]
     Session\Interface=tun0

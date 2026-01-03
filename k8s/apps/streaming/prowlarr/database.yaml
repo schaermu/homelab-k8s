@@ -1,0 +1,35 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: prowlarr-db
+  namespace: prowlarr
+spec:
+  instances: 1
+  imagePullPolicy: Always
+  plugins:
+  - name: barman-cloud.cloudnative-pg.io
+    isWALArchiver: true
+    parameters:
+      barmanObjectName: minio-store
+      serverName: prowlarr-db
+  storage:
+    size: 1Gi
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: prowlarr-db-backup
+  namespace: prowlarr
+spec:
+  cluster:
+    name: prowlarr-db
+  schedule: "0 0 3 * * *" # every day at 3:00 AM
+  backupOwnerReference: self
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
+    parameters:
+      barmanObjectName: minio-store
+      serverName: prowlarr-db

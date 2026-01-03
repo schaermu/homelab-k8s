@@ -1,0 +1,90 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prowlarr
+  namespace: prowlarr
+  labels:
+    app.kubernetes.io/name: prowlarr
+    app.kubernetes.io/instance: prowlarr
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: prowlarr
+      app.kubernetes.io/instance: prowlarr
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: prowlarr
+        app.kubernetes.io/instance: prowlarr
+    spec:
+      serviceAccountName: prowlarr
+      containers:
+      - name: flaresolverr
+        image: ghcr.io/flaresolverr/flaresolverr:v3.4.6
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: http
+            containerPort: 8191
+            protocol: TCP
+        env:
+          - name: HOST
+            value: "::"
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            cpu: 50m
+            memory: 128Mi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
+      - name: prowlarr
+        image: lscr.io/linuxserver/prowlarr:2.3.0
+        envFrom:
+        - secretRef:
+            name: prowlarr-config-secret
+        env:
+          - name: TZ
+            value: "Europe/Zurich"
+          - name: PUID
+            value: "3001"
+          - name: PGID
+            value: "3001"
+          - name: PROWLARR__POSTGRES__HOST
+            value: "prowlarr-db.prowlarr.svc.cluster.local"
+          - name: PROWLARR__POSTGRES__PORT
+            value: "5432"
+          - name: PROWLARR__POSTGRES__USER
+            valueFrom:
+              secretKeyRef:
+                name: prowlarr-db-app
+                key: username
+          - name: PROWLARR__POSTGRES__PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: prowlarr-db-app
+                key: password
+          - name: PROWLARR__POSTGRES__MAINDB
+            valueFrom:
+              secretKeyRef:
+                name: prowlarr-db-app
+                key: dbname
+        volumeMounts:
+          - mountPath: /config
+            name: prowlarr-config
+      volumes:
+        - name: prowlarr-config
+          persistentVolumeClaim:
+            claimName: prowlarr-config

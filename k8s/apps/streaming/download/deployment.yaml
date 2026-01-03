@@ -65,7 +65,7 @@ spec:
           image: lscr.io/linuxserver/qbittorrent:5.1.4
           imagePullPolicy: IfNotPresent
           ports:
-            - name: http
+            - name: qbittorrent-http
               containerPort: 8080
               protocol: TCP
             - name: torrent-tcp
@@ -94,15 +94,6 @@ spec:
             requests:
               cpu: 50m
               memory: 512Mi
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              add:
-                - SETGID
-              drop:
-                - ALL
-            seccompProfile:
-              type: RuntimeDefault
           livenessProbe:
             httpGet:
               path: /
@@ -112,29 +103,53 @@ spec:
               path: /
               port: http
           volumeMounts:
-            - name: default-config
+            - name: qbittorrent-default-config
               mountPath: /config/qBittorrent/qBittorrent.conf
               subPath: qBittorrent.conf
-            - name: config
+            - name: qbittorrent-config-pv
               mountPath: /config
-            - name: downloads
+            - name: data
               mountPath: /downloads/torrents
               subPath: torrents
+        - name: sabnzbd
+          image: lscr.io/linuxserver/sabnzbd:3.6.4
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: sabnzbd-http
+              containerPort: 8090
+              protocol: TCP
+            - name: sabnzbd-api-http
+              containerPort: 9090
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: sabnzbd-config
+          volumeMounts:
+            - name: data
+              mountPath: /downloads
+              subPath: usenet
+            - name: sabnzbd-config-pv
+              mountPath: /config
+            - name: sabnzbd-config
+              mountPath: /config/sabnzbd.ini
+              subPath: sabnzbd.ini
       volumes:
         - name: gluetun-config
           secret:
             secretName: qbittorrent-gluetun-config
-        - name: default-config
+        - name: qbittorrent-default-config
           configMap:
             name: qbittorrent-default-config
-        - name: config
+        - name: sabnzbd-config
+          secret:
+            secretName: sabnzbd-config-secret
+        - name: qbittorrent-config-pv
           persistentVolumeClaim:
-            claimName: qbittorrent-config
-        - name: torrent-downloads
+            claimName: qbittorrent-config-pvc
+        - name: sabnzbd-config-pv
+          persistentVolumeClaim:
+            claimName: sabnzbd-config-pvc
+        - name: data
           nfs:
-            path: /mnt/MAIN_POOL/media/downloads/torrents
-            server: 192.168.1.244
-        - name: usenet-downloads
-          nfs:
-            path: /mnt/MAIN_POOL/media/downloads/usenet
+            path: /mnt/MAIN_POOL/data
             server: 192.168.1.244
