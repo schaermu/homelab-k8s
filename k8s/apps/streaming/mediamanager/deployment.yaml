@@ -27,7 +27,7 @@ spec:
       serviceAccountName: mediamanager
       containers:
       - name: mediamanager-server
-        image: ghcr.io/pocket-id/pocket-id:v1.16.0
+        image: ghcr.io/maxdorninger/mediamanager/mediamanager:1.11.1
         envFrom:
         - secretRef:
             name: mediamanager-config-secrets
@@ -56,9 +56,6 @@ spec:
         - name: mediamanager-config
           persistentVolumeClaim:
             claimName: mediamanager-config
-        - name: mediamanager-data
-          persistentVolumeClaim:
-            claimName: mediamanager-data
         - name: mediamanager-images
           persistentVolumeClaim:
             claimName: mediamanager-images
