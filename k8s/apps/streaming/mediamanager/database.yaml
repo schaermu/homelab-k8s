@@ -1,0 +1,41 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: mediamanager-db
+  namespace: mediamanager
+spec:
+  instances: 1
+  imagePullPolicy: Always
+  bootstrap:
+    initdb:
+      database: MediaManager
+      owner: MediaManager
+      secret:
+        name: mediamanager-db-secret
+  plugins:
+  - name: barman-cloud.cloudnative-pg.io
+    isWALArchiver: true
+    parameters:
+      barmanObjectName: minio-store
+      serverName: mediamanager-db
+  storage:
+    size: 1Gi
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: mediamanager-db-backup
+  namespace: mediamanager
+spec:
+  cluster:
+    name: mediamanager-db
+  schedule: "0 0 3 * * *" # every day at 3:00 AM
+  backupOwnerReference: self
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
+    parameters:
+      barmanObjectName: minio-store
+      serverName: mediamanager-db

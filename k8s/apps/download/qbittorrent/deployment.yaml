@@ -1,0 +1,154 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+spec:
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      serviceAccountName: qbittorrent
+      initContainers:
+        - name: gluetun
+          image: ghcr.io/qdm12/gluetun:v3.41.0
+          restartPolicy: Always
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: control-server
+              containerPort: 8000
+              protocol: TCP
+            - name: http-proxy
+              containerPort: 8888
+              protocol: TCP
+            - name: tcp-shadowsocks
+              containerPort: 8388
+              protocol: TCP
+            - name: udp-shadowsocks
+              containerPort: 8388
+              protocol: UDP
+          envFrom:
+            - configMapRef:
+                name: gluetun-config
+          env:
+            - name: WIREGUARD_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent-gluetun-config
+                  key: WIREGUARD_PRIVATE_KEY
+          livenessProbe:
+            exec:
+              command:
+                - ip
+                - a
+                - show
+                - tun0
+          readinessProbe:
+            exec:
+              command:
+                - ip
+                - a
+                - show
+                - tun0
+          env:
+            - name: TZ
+              value: "Europe/Zurich"
+            - name: FIREWALL_DEBUG
+              value: "on"
+            - name: FIREWALL_INPUT_PORTS
+              value: "8080"
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - NET_ADMIN
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+          volumeMounts:
+            - name: tun
+              mountPath: /dev/net/tun
+            - name: gluetun-config
+              mountPath: /gluetun/auth/config.toml
+              subPath: gluetun.toml
+      containers:
+        - name: qbittorrent
+          image: lscr.io/linuxserver/qbittorrent:5.1.4
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: torrent-tcp
+              containerPort: 6881
+              protocol: TCP
+            - name: torrent-udp
+              containerPort: 6881
+              protocol: UDP
+          env:
+            - name: UMASK_SET
+              value: "022"
+            - name: PUID
+              value: "0"
+            - name: PGID
+              value: "0"
+            - name: TZ
+              value: "Europe/Zurich"
+            - name: GSP_GTN_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent-gluetun-config
+                  key: GSP_GTN_API_KEY
+            - name: GSP_QBT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent-gluetun-config
+                  key: GSP_QBT_PASSWORD
+          resources:
+            requests:
+              cpu: 50m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              add:
+                - SETGID
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - name: default-config
+              mountPath: /config/qBittorrent/qBittorrent.conf
+              subPath: qBittorrent.conf
+            - name: config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads/torrents
+              subPath: torrents
+      volumes:
+        - name: gluetun-config
+          secret:
+            secretName: qbittorrent-gluetun-config
+        - name: default-config
+          configMap:
+            name: qbittorrent-default-config
+        - name: config
+          persistentVolumeClaim:
+            claimName: qbittorrent-config
+        - name: downloads
+          nfs:
+            path: /mnt/MAIN_POOL/media/downloads/torrents
+            server: 192.168.1.244
+        - name: tun
+          hostPath:
+            path: /dev/net/tun

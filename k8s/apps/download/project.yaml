@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: download
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  sourceRepos:
+    - 'https://github.com/schaermu/homelab-k8s'
+  destinations:
+    - namespace: 'argocd'
+      server: '*'
+    - namespace: 'sabnzbd'
+      server: '*'
+    - namespace: 'qbittorrent'
+      server: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

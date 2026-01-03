@@ -1,0 +1,108 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mediamanager-config
+  namespace: mediamanager
+data:
+  config.toml: |
+    [misc]
+    frontend_url = "http://media.schaermu.ch" # note the lack of a trailing slash
+    cors_urls = ["http://media.schaermu.ch"] # note the lack of a trailing slash
+
+    image_directory = "/data/images"
+    tv_directory = "/data/tv"
+    movie_directory = "/data/movies"
+    torrent_directory = "/data/torrents"
+
+    # Custom Media Libraries
+    # These paths should match your volume mounts in docker-compose.yaml
+    # Example: if you mount "./movies:/media/movies" then use path = "/media/movies/subdirectory"
+    [[misc.tv_libraries]]
+    name = "Live Action"
+    path = "/data/tv/live-action"  # Change this to match your actual TV shows location
+
+    [[misc.movie_libraries]]
+    name = "Documentary"
+    path = "/data/movies/documentary"  # Change this to match your actual movies location
+
+    [database]
+    host = "db"
+    port = 5432
+    user = "MediaManager"
+    password = "MediaManager"
+    dbname = "MediaManager"
+
+    [auth]
+    email_password_resets = false
+
+    # token_secret = "OVERRIDEN_BY_SECRET"
+    session_lifetime = 86400
+    admin_emails = ["schaermu@pm.me"]
+
+    # OpenID Connect settings
+    [auth.openid_connect]
+    enabled = true
+    client_id = "1a5d3084-272a-400c-aca5-6146889abca9"
+    # client_secret = "OVERRIDEN_BY_SECRET"
+    configuration_endpoint = "https://auth.schaermu.ch/.well-known/openid-configuration"
+    name = "PocketID"
+
+    [torrents]
+    # Transmission settings
+    [torrents.transmission]
+    enabled = true
+    # username = "OVERRIDEN_BY_SECRET"
+    # password = "OVERRIDEN_BY_SECRET"
+    https_enabled = true
+    host = "localhost"
+    port = 9091
+    path = "/transmission/rpc" # RPC request path target, usually "/transmission/rpc"
+
+    # SABnzbd settings
+    [torrents.sabnzbd]
+    enabled = true
+    host = "http://localhost"
+    port = 8080
+    # api_key = "OVERRIDEN_BY_SECRET"
+    base_path = "/api"
+
+    [indexers]
+    # Prowlarr settings
+    [indexers.prowlarr]
+    enabled = false
+    url = "http://localhost:9696"
+    # api_key = "OVERRIDEN_BY_SECRET"
+    timeout_seconds = 60
+
+    # Title-based scoring rules
+    [[indexers.title_scoring_rules]]
+    name = "prefer_h265"
+    keywords = ["h265", "hevc", "x265", "h.265", "x.265"]
+    score_modifier = 100
+    negate = false
+
+    [[indexers.title_scoring_rules]]
+    name = "avoid_cam"
+    keywords = ["cam", "ts"]
+    score_modifier = -10000
+    negate = false
+
+    # Indexer flag-based scoring rules
+    [[indexers.indexer_flag_scoring_rules]]
+    name = "prefer_freeleech"
+    flags = ["freeleech", "freeleech75"]
+    score_modifier = 100
+    negate = false
+
+    [[indexers.indexer_flag_scoring_rules]]
+    name = "reject_nuked"
+    flags = ["nuked"]
+    score_modifier = -10000
+    negate = false
+
+    # Scoring rulesets
+    [[indexers.scoring_rule_sets]]
+    name = "default"
+    libraries = ["ALL_TV", "ALL_MOVIES"]
+    rule_names = ["prefer_h265", "avoid_cam", "reject_nuked", "prefer_freeleech"]

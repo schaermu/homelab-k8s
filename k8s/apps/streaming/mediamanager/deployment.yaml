@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mediamanager
+  namespace: mediamanager
+  labels:
+    app.kubernetes.io/name: mediamanager
+    app.kubernetes.io/instance: mediamanager
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mediamanager
+      app.kubernetes.io/instance: mediamanager
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mediamanager
+        app.kubernetes.io/instance: mediamanager
+    spec:
+      serviceAccountName: mediamanager
+      volumes:
+        - name: mediamanager-config
+          persistentVolumeClaim:
+            claimName: mediamanager-config
+        - name: mediamanager-data
+          persistentVolumeClaim:
+            claimName: mediamanager-data
+        - name: mediamanager-images
+          persistentVolumeClaim:
+            claimName: mediamanager-images
+      containers:
+      - name: mediamanager-server
+        image: ghcr.io/pocket-id/pocket-id:v1.16.0
+        envFrom:
+        - secretRef:
+            name: mediamanager-config-secrets
+        env:
+          - name: CONFIG_DIR
+            value: /app/config
+          - name: DB_PROVIDER
+            value: "postgres"
+          - name: DB_CONNECTION_STRING
+            valueFrom:
+              secretKeyRef:
+                name: pocket-id-db-app
+                key: uri
+        volumeMounts:
+          - mountPath: /data
+            name: mediamanager-data
+          - mountPath: /app/config
+            name: mediamanager-config
+          - mountPath: /data/images
+            name: mediamanager-images
