@@ -4,12 +4,10 @@ kind: Kustomization
 
 resources:
   - ns.yaml
-  - service-account.yaml
+  - sa.yaml
   - volume.yaml
   - secrets.yaml
   - route.yaml
-  - database.yaml
-  - backup-store.yaml
   - service.yaml
   - configmap.yaml
   - deployment.yaml
