@@ -65,7 +65,7 @@ spec:
           image: lscr.io/linuxserver/qbittorrent:5.1.4
           imagePullPolicy: IfNotPresent
           ports:
-            - name: qbittorrent-http
+            - name: torrent-http
               containerPort: 8080
               protocol: TCP
             - name: torrent-tcp
@@ -115,10 +115,10 @@ spec:
           image: lscr.io/linuxserver/sabnzbd:3.6.4
           imagePullPolicy: IfNotPresent
           ports:
-            - name: sabnzbd-http
+            - name: sabnzbd
               containerPort: 8090
               protocol: TCP
-            - name: sabnzbd-api-http
+            - name: sabnzbd-api
               containerPort: 9090
               protocol: TCP
           envFrom:
