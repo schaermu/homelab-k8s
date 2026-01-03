@@ -4,10 +4,21 @@ kind: Deployment
 metadata:
   name: media-download-clients
   namespace: download
+  labels:
+    app.kubernetes.io/name: download-clients
+    app.kubernetes.io/instance: download-clients
 spec:
   strategy:
     type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: download-clients
+      app.kubernetes.io/instance: download-clients
   template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: download-clients
+        app.kubernetes.io/instance: download-clients
     spec:
       serviceAccountName: download-clients
       initContainers:
