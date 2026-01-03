@@ -1,0 +1,22 @@
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: minio-store
+  namespace: prowlarr
+spec:
+  retentionPolicy: 10d
+  configuration:
+    destinationPath: s3://k8s-homelab-backups/cloudnative-pg
+    endpointURL: http://192.168.1.244:9000
+    s3Credentials:
+      accessKeyId:
+        name: prowlarr-minio-store
+        key: accessKeyId
+      secretAccessKey:
+        name: prowlarr-minio-store
+        key: secretAccessKey
+    wal:
+      compression: gzip
+    data:
+      compression: gzip

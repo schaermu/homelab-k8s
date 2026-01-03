@@ -15,6 +15,12 @@ spec:
       server: '*'
     - namespace: 'jellyfin'
       server: '*'
+    - namespace: 'mediamanager'
+      server: '*'
+    - namespace: 'prowlarr'
+      server: '*'
+    - namespace: 'download'
+      server: '*'
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'

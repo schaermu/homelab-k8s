@@ -1,0 +1,37 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qbittorrent
+  namespace: download
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: qbittorrent-http
+      name: qbittorrent
+    - port: 6881
+      protocol: TCP
+      targetPort: torrent-tcp
+      name: torrent-tcp
+    - port: 6881
+      protocol: UDP
+      targetPort: torrent-udp
+      name: torrent-udp
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sabnzbd
+  namespace: download
+spec:
+  ports:
+    - port: 8090
+      protocol: TCP
+      targetPort: sabnzbd-http
+      name: sabnzbd
+    - port: 9090
+      protocol: TCP
+      targetPort: sabnzbd-api-http
+      name: sabnzbd-api
