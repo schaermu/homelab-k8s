@@ -39,9 +39,6 @@ spec:
             - name: udp-shadowsocks
               containerPort: 8388
               protocol: UDP
-          envFrom:
-            - configMapRef:
-                name: gluetun-config
           env:
             - name: TZ
               value: "Europe/Zurich"
@@ -49,6 +46,14 @@ spec:
               value: "on"
             - name: FIREWALL_INPUT_PORTS
               value: "8080,8090"
+            - name: SERVER_COUNTRIES
+              value: "Switzerland"
+            - name: VPN_SERVICE_PROVIDER
+              value: "protonvpn"
+            - name: VPN_TYPE
+              value: "wireguard"
+            - name: PORT_FORWARD_ONLY
+              value: "on"
             - name: WIREGUARD_PRIVATE_KEY
               valueFrom:
                 secretKeyRef:
