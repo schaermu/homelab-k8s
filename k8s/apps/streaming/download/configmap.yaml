@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: gluetun-config
-  namespace: qbittorrent
+  namespace: download
 data:
   SERVER_COUNTRIES: "Switzerland"
   VPN_SERVICE_PROVIDER: "protonvpn"
@@ -15,8 +15,12 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: qbittorrent-config
-  namespace: qbittorrent
+  namespace: download
 data:
+  UMASK_SET: "022"
+  PUID: "0"
+  PGID: "0"
+  TZ: "Europe/Zurich"
   DOCKER_MODS: "ghcr.io/t-anc/gsp-qbittorent-gluetun-sync-port-mod:main"
   GSP_MINIMAL_LOGS: "false"
   GSP_QBT_USERNAME: "admin"
@@ -26,7 +30,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: qbittorrent-default-config
-  namespace: qbittorrent
+  namespace: download
 data:
   qBittorrent.conf: |
     [AutoRun]

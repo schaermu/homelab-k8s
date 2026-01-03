@@ -2,13 +2,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: qbittorrent
+  name: media-download-clients
+  namespace: download
 spec:
   strategy:
     type: Recreate
   template:
     spec:
-      serviceAccountName: qbittorrent
+      serviceAccountName: download-clients
       initContainers:
         - name: gluetun
           image: ghcr.io/qdm12/gluetun:v3.41.0
@@ -31,6 +32,12 @@ spec:
             - configMapRef:
                 name: gluetun-config
           env:
+            - name: TZ
+              value: "Europe/Zurich"
+            - name: FIREWALL_DEBUG
+              value: "on"
+            - name: FIREWALL_INPUT_PORTS
+              value: "8080"
             - name: WIREGUARD_PRIVATE_KEY
               valueFrom:
                 secretKeyRef:
@@ -38,25 +45,10 @@ spec:
                   key: WIREGUARD_PRIVATE_KEY
           livenessProbe:
             exec:
-              command:
-                - ip
-                - a
-                - show
-                - tun0
+              command: ["ip","a","show","tun0"]
           readinessProbe:
             exec:
-              command:
-                - ip
-                - a
-                - show
-                - tun0
-          env:
-            - name: TZ
-              value: "Europe/Zurich"
-            - name: FIREWALL_DEBUG
-              value: "on"
-            - name: FIREWALL_INPUT_PORTS
-              value: "8080"
+              command: ["ip","a","show","tun0"]
           securityContext:
             privileged: true
             capabilities:
@@ -64,11 +56,7 @@ spec:
                 - NET_ADMIN
               drop:
                 - ALL
-            seccompProfile:
-              type: RuntimeDefault
           volumeMounts:
-            - name: tun
-              mountPath: /dev/net/tun
             - name: gluetun-config
               mountPath: /gluetun/auth/config.toml
               subPath: gluetun.toml
@@ -86,15 +74,10 @@ spec:
             - name: torrent-udp
               containerPort: 6881
               protocol: UDP
+          envFrom:
+            - configMapRef:
+                name: qbittorrent-config
           env:
-            - name: UMASK_SET
-              value: "022"
-            - name: PUID
-              value: "0"
-            - name: PGID
-              value: "0"
-            - name: TZ
-              value: "Europe/Zurich"
             - name: GSP_GTN_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -106,6 +89,8 @@ spec:
                   name: qbittorrent-gluetun-config
                   key: GSP_QBT_PASSWORD
           resources:
+            limits:
+              squat.ai/tun: "1"
             requests:
               cpu: 50m
               memory: 512Mi
@@ -145,10 +130,11 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: qbittorrent-config
-        - name: downloads
+        - name: torrent-downloads
           nfs:
             path: /mnt/MAIN_POOL/media/downloads/torrents
             server: 192.168.1.244
-        - name: tun
-          hostPath:
-            path: /dev/net/tun
+        - name: usenet-downloads
+          nfs:
+            path: /mnt/MAIN_POOL/media/downloads/usenet
+            server: 192.168.1.244
