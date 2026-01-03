@@ -52,7 +52,7 @@ spec:
             - name: WIREGUARD_PRIVATE_KEY
               valueFrom:
                 secretKeyRef:
-                  name: qbittorrent-gluetun-config
+                  name: guetun-config
                   key: WIREGUARD_PRIVATE_KEY
           livenessProbe:
             exec:
@@ -92,12 +92,12 @@ spec:
             - name: GSP_GTN_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: qbittorrent-gluetun-config
+                  name: guetun-config
                   key: GSP_GTN_API_KEY
             - name: GSP_QBT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: qbittorrent-gluetun-config
+                  name: guetun-config
                   key: GSP_QBT_PASSWORD
           resources:
             requests:
@@ -145,7 +145,7 @@ spec:
       volumes:
         - name: gluetun-config
           secret:
-            secretName: qbittorrent-gluetun-config
+            secretName: guetun-config
         - name: qbittorrent-default-config
           configMap:
             name: qbittorrent-default-config
