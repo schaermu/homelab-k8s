@@ -48,7 +48,7 @@ spec:
             - name: FIREWALL_DEBUG
               value: "on"
             - name: FIREWALL_INPUT_PORTS
-              value: "8080"
+              value: "8080,8090"
             - name: WIREGUARD_PRIVATE_KEY
               valueFrom:
                 secretKeyRef:
@@ -61,12 +61,12 @@ spec:
             exec:
               command: ["ip","a","show","tun0"]
           securityContext:
-            privileged: true
             capabilities:
               add:
                 - NET_ADMIN
-              drop:
-                - ALL
+          resources:
+            limits:
+              squat.ai/tun: "1"
           volumeMounts:
             - name: gluetun-config
               mountPath: /gluetun/auth/config.toml
@@ -100,8 +100,6 @@ spec:
                   name: qbittorrent-gluetun-config
                   key: GSP_QBT_PASSWORD
           resources:
-            limits:
-              squat.ai/tun: "1"
             requests:
               cpu: 50m
               memory: 512Mi
