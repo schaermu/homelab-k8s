@@ -126,7 +126,7 @@ spec:
               mountPath: /downloads/torrents
               subPath: torrents
         - name: sabnzbd
-          image: lscr.io/linuxserver/sabnzbd:3.6.4
+          image: lscr.io/linuxserver/sabnzbd:4.5.5
           imagePullPolicy: IfNotPresent
           ports:
             - name: sabnzbd
