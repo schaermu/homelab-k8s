@@ -36,16 +36,16 @@ spec:
         volumes:
           - name: media
             nfs:
-              path: /mnt/MAIN_POOL/data/media
+              path: /mnt/MAIN_POOL/data
               server: 192.168.1.244
         volumeMounts:
           - mountPath: /tv
             name: media
-            subPath: tv
+            subPath: media/tv
             readOnly: true
           - mountPath: /movies
             name: media
-            subPath: movies
+            subPath: media/movies
             readOnly: true
   destination:
     name: in-cluster

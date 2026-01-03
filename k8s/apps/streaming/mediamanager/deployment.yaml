@@ -49,6 +49,10 @@ spec:
           - mountPath: /data/images
             name: mediamanager-images
       volumes:
+        - name: mediamanager-data
+          nfs:
+            path: /mnt/MAIN_POOL/data
+            server: 192.168.1.244
         - name: mediamanager-config
           persistentVolumeClaim:
             claimName: mediamanager-config
