@@ -35,13 +35,13 @@ data:
     enabled = true
     # username = "OVERRIDEN_BY_SECRET"
     # password = "OVERRIDEN_BY_SECRET"
-    host = "http://qbittorrent.download.svc.cluster.local"
+    host = "http://qbittorrent.download"
     port = 8080
 
     # SABnzbd settings
     [torrents.sabnzbd]
     enabled = true
-    host = "http://sabnzbd.download.svc.cluster.local"
+    host = "http://sabnzbd.download"
     port = 8090
     # api_key = "OVERRIDEN_BY_SECRET"
     base_path = "/api"
@@ -49,7 +49,7 @@ data:
     [indexers]
     [indexers.prowlarr]
     enabled = true
-    url = "http://prowlarr.prowlarr.svc.cluster.local:9696"
+    url = "http://prowlarr.prowlarr:9696"
     # api_key = "OVERRIDEN_BY_SECRET"
     timeout_seconds = 60
 
