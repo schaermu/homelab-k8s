@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: media-data-pv
-  namespace: streaming
+  namespace: mediamanager
   labels:
     bucket: shared
 spec:
@@ -24,17 +24,17 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: media-data-pvc
-  namespace: streaming
+  namespace: mediamanager
 spec:
+  selector:
+    matchLabels:
+      bucket: shared
   accessModes:
   - ReadWriteMany
   storageClassName: nfs
   resources:
     requests:
       storage: 20T
-  selector:
-    matchLabels:
-      bucket: shared
 
 ---
 apiVersion: v1
