@@ -21,6 +21,26 @@ spec:
         app.kubernetes.io/instance: download-clients
     spec:
       serviceAccountName: download-clients
+      volumes:
+        - name: gluetun-config
+          secret:
+            secretName: gluetun-config
+        - name: qbittorrent-default-config
+          configMap:
+            name: qbittorrent-default-config
+        - name: sabnzbd-config
+          secret:
+            secretName: sabnzbd-config-secret
+        - name: qbittorrent-config-pv
+          persistentVolumeClaim:
+            claimName: qbittorrent-config-pvc
+        - name: sabnzbd-config-pv
+          persistentVolumeClaim:
+            claimName: sabnzbd-config-pvc
+        - name: download-data
+          persistentVolumeClaim:
+            claimName: download-data
+
       initContainers:
         - name: gluetun
           image: ghcr.io/qdm12/gluetun:v3.41.0
@@ -122,8 +142,8 @@ spec:
               subPath: qBittorrent.conf
             - name: qbittorrent-config-pv
               mountPath: /config
-            - name: download-clients-data
-              mountPath: /downloads/torrents
+            - name: download-data
+              mountPath: /downloads
               subPath: torrents
         - name: sabnzbd
           image: lscr.io/linuxserver/sabnzbd:4.5.5
@@ -139,7 +159,7 @@ spec:
             - configMapRef:
                 name: sabnzbd-config
           volumeMounts:
-            - name: download-clients-data
+            - name: download-data
               mountPath: /downloads
               subPath: usenet
             - name: sabnzbd-config-pv
@@ -147,23 +167,3 @@ spec:
             - name: sabnzbd-config
               mountPath: /config/sabnzbd.ini
               subPath: sabnzbd.ini
-      volumes:
-        - name: gluetun-config
-          secret:
-            secretName: gluetun-config
-        - name: qbittorrent-default-config
-          configMap:
-            name: qbittorrent-default-config
-        - name: sabnzbd-config
-          secret:
-            secretName: sabnzbd-config-secret
-        - name: qbittorrent-config-pv
-          persistentVolumeClaim:
-            claimName: qbittorrent-config-pvc
-        - name: sabnzbd-config-pv
-          persistentVolumeClaim:
-            claimName: sabnzbd-config-pvc
-        - name: download-clients-data
-          nfs:
-            path: /mnt/MAIN_POOL/data
-            server: 192.168.1.244
