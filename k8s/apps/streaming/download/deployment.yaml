@@ -155,10 +155,6 @@ spec:
           - name: sabnzbd-api
             containerPort: 9090
             protocol: TCP
-          lifecycle:
-            postStart:
-              exec:
-                command: ["/bin/sh", "-c", "chown -R abc:abc /config/sabnzbd.ini"]
           resources:
             requests:
               memory: "500Mi"
@@ -168,6 +164,9 @@ spec:
           envFrom:
           - configMapRef:
               name: sabnzbd-config
+          env:
+          - name: CONFIG
+            value: /config/initial-config/sabnzbd.ini
           volumeMounts:
           - name: download-data
             mountPath: /downloads
@@ -175,6 +174,6 @@ spec:
           - name: sabnzbd-config-pv
             mountPath: /config
           - name: sabnzbd-config
-            mountPath: /config/sabnzbd.ini
+            mountPath: /config/initial-config/sabnzbd.ini
             subPath: sabnzbd.ini
             readOnly: false
