@@ -131,11 +131,11 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: torrent-http
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: torrent-http
           volumeMounts:
           - name: qbittorrent-default-config
             mountPath: /config/qBittorrent/qBittorrent.conf
