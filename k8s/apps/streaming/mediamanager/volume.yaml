@@ -5,12 +5,11 @@ metadata:
   name: media-data-pv
   namespace: mediamanager
   labels:
-    bucket: shared
+    type: nfs-shared-storage
 spec:
   capacity:
     storage: 20T
   volumeMode: Filesystem
-  storageClassName: nfs
   persistentVolumeReclaimPolicy: Retain
   accessModes:
   - ReadWriteMany
@@ -28,10 +27,9 @@ metadata:
 spec:
   selector:
     matchLabels:
-      bucket: shared
+      type: nfs-shared-storage
   accessModes:
   - ReadWriteMany
-  storageClassName: nfs
   resources:
     requests:
       storage: 20T
