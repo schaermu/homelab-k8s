@@ -21,6 +21,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: prowlarr-log-database
+  namespace: prowlarr
 spec:
   name: prowlarr-log
   owner: app
