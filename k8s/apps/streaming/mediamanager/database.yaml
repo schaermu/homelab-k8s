@@ -12,7 +12,7 @@ spec:
       database: MediaManager
       owner: MediaManager
       secret:
-        name: mediamanager-db-user
+        name: mediamanager-db-secret
   plugins:
   - name: barman-cloud.cloudnative-pg.io
     isWALArchiver: true
