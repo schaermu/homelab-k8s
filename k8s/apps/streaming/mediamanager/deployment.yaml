@@ -56,6 +56,9 @@ spec:
             name: mediamanager-data
           - mountPath: /app/config
             name: mediamanager-config
+          - name: mediamanager-config-file
+            mountPath: /app/config/config.toml
+            subPath: config.toml
           - mountPath: /app/images
             name: mediamanager-images
       volumes:
@@ -69,3 +72,6 @@ spec:
         - name: mediamanager-images
           persistentVolumeClaim:
             claimName: mediamanager-images
+        - name: mediamanager-config-file
+          configMap:
+            name: mediamanager-config
