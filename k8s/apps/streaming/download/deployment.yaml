@@ -28,12 +28,12 @@ spec:
         - name: qbittorrent-default-config
           configMap:
             name: qbittorrent-default-config
-        - name: sabnzbd-config
-          secret:
-            secretName: sabnzbd-config-secret
         - name: qbittorrent-config-pv
           persistentVolumeClaim:
             claimName: qbittorrent-config-pvc
+        - name: sabnzbd-config
+          secret:
+            secretName: sabnzbd-config-secret
         - name: sabnzbd-config-pv
           persistentVolumeClaim:
             claimName: sabnzbd-config-pvc
@@ -101,29 +101,29 @@ spec:
           image: lscr.io/linuxserver/qbittorrent:5.1.4
           imagePullPolicy: IfNotPresent
           ports:
-            - name: torrent-http
-              containerPort: 8080
-              protocol: TCP
-            - name: torrent-tcp
-              containerPort: 6881
-              protocol: TCP
-            - name: torrent-udp
-              containerPort: 6881
-              protocol: UDP
+          - name: torrent-http
+            containerPort: 8080
+            protocol: TCP
+          - name: torrent-tcp
+            containerPort: 6881
+            protocol: TCP
+          - name: torrent-udp
+            containerPort: 6881
+            protocol: UDP
           envFrom:
-            - configMapRef:
-                name: qbittorrent-config
+          - configMapRef:
+              name: qbittorrent-config
           env:
-            - name: GSP_GTN_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: gluetun-config
-                  key: GSP_GTN_API_KEY
-            - name: GSP_QBT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: gluetun-config
-                  key: GSP_QBT_PASSWORD
+          - name: GSP_GTN_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: gluetun-config
+                key: GSP_GTN_API_KEY
+          - name: GSP_QBT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: gluetun-config
+                key: GSP_QBT_PASSWORD
           resources:
             requests:
               cpu: 50m
@@ -137,33 +137,40 @@ spec:
               path: /
               port: http
           volumeMounts:
-            - name: qbittorrent-default-config
-              mountPath: /config/qBittorrent/qBittorrent.conf
-              subPath: qBittorrent.conf
-            - name: qbittorrent-config-pv
-              mountPath: /config
-            - name: download-data
-              mountPath: /downloads
-              subPath: torrents
+          - name: qbittorrent-default-config
+            mountPath: /config/qBittorrent/qBittorrent.conf
+            subPath: qBittorrent.conf
+          - name: qbittorrent-config-pv
+            mountPath: /config
+          - name: download-data
+            mountPath: /downloads
+            subPath: torrents
         - name: sabnzbd
           image: lscr.io/linuxserver/sabnzbd:4.5.5
           imagePullPolicy: IfNotPresent
           ports:
-            - name: sabnzbd
-              containerPort: 8090
-              protocol: TCP
-            - name: sabnzbd-api
-              containerPort: 9090
-              protocol: TCP
+          - name: sabnzbd
+            containerPort: 8090
+            protocol: TCP
+          - name: sabnzbd-api
+            containerPort: 9090
+            protocol: TCP
+          resources:
+            requests:
+              memory: "500Mi"
+              cpu: "25m"
+            limits:
+              memory: "4096Mi"
           envFrom:
-            - configMapRef:
-                name: sabnzbd-config
+          - configMapRef:
+              name: sabnzbd-config
           volumeMounts:
-            - name: download-data
-              mountPath: /downloads
-              subPath: usenet
-            - name: sabnzbd-config-pv
-              mountPath: /config
-            - name: sabnzbd-config
-              mountPath: /config/sabnzbd.ini
-              subPath: sabnzbd.ini
+          - name: download-data
+            mountPath: /downloads
+            subPath: usenet
+          - name: sabnzbd-config-pv
+            mountPath: /config
+          - name: sabnzbd-config
+            mountPath: /config/sabnzbd.ini
+            subPath: sabnzbd.ini
+            readOnly: false
