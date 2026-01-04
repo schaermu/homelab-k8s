@@ -27,9 +27,53 @@ spec:
       serviceAccountName: mediamanager
       securityContext:
         fsGroup: 3001
+      volumes:
+        - name: etc-hack
+          emptyDir: {}
+        - name: mediamanager-data
+          nfs:
+            path: /mnt/MAIN_POOL/data
+            server: 192.168.1.244
+        - name: mediamanager-config
+          persistentVolumeClaim:
+            claimName: mediamanager-config
+        - name: mediamanager-images
+          persistentVolumeClaim:
+            claimName: mediamanager-images
+        - name: mediamanager-config-file
+          configMap:
+            name: mediamanager-config
+      initContainers:
+      - name: fix-permissions
+        image: ghcr.io/maxdorninger/mediamanager/mediamanager:1.11.1
+        command: ["/bin/sh", "-c"]
+        args:
+        - mkdir -p /opt/hacked-etc;
+          cp /etc/passwd /opt/hacked-etc/passwd;
+          echo "media:x:3001:3001:Media User:${PWD}:/bin/false" >> /opt/hacked-etc/passwd
+          cat /opt/hacked-etc/passwd;
+          chown -R 3001:3001 /app;
+          ls -la /app;
+        resources:
+          requests:
+            cpu: 10m
+            memory: 16Mi
+          limits:
+            cpu: 50m
+            memory: 32Mi
+        volumeMounts:
+          - name: etc-hack
+            mountPath: /opt/hacked-etc
+          - name: mediamanager-config
+            mountPath: /app/config
+          - name: mediamanager-images
+            mountPath: /app/images
       containers:
       - name: mediamanager-server
         image: ghcr.io/maxdorninger/mediamanager/mediamanager:1.11.1
+        securityContext:
+          runAsUser: 3001
+          runAsGroup: 3001
         envFrom:
         - secretRef:
             name: mediamanager-config-secrets
@@ -56,6 +100,7 @@ spec:
         volumeMounts:
           - mountPath: /data
             name: mediamanager-data
+            #subPath: media
           - mountPath: /app/config
             name: mediamanager-config
           - name: mediamanager-config-file
@@ -63,17 +108,6 @@ spec:
             subPath: config.toml
           - mountPath: /app/images
             name: mediamanager-images
-      volumes:
-        - name: mediamanager-data
-          nfs:
-            path: /mnt/MAIN_POOL/data
-            server: 192.168.1.244
-        - name: mediamanager-config
-          persistentVolumeClaim:
-            claimName: mediamanager-config
-        - name: mediamanager-images
-          persistentVolumeClaim:
-            claimName: mediamanager-images
-        - name: mediamanager-config-file
-          configMap:
-            name: mediamanager-config
+          - name: etc-hack
+            mountPath: /etc/passwd
+            subPath: passwd
