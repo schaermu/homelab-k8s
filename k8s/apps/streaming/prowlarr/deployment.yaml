@@ -31,7 +31,7 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
           - name: http
-            containerPort: 9696
+            containerPort: 8191
             protocol: TCP
         env:
           - name: HOST
@@ -52,6 +52,10 @@ spec:
             port: http
       - name: prowlarr
         image: lscr.io/linuxserver/prowlarr:2.3.0
+        ports:
+          - name: http
+            containerPort: 9696
+            protocol: TCP
         envFrom:
         - secretRef:
             name: prowlarr-config-secret
@@ -79,6 +83,14 @@ spec:
               secretKeyRef:
                 name: prowlarr-db-app
                 key: dbname
+        livenessProbe:
+          httpGet:
+            path: /api/v1/health
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /api/v1/health
+            port: http
         volumeMounts:
           - mountPath: /config
             name: prowlarr-config
