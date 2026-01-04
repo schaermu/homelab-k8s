@@ -43,7 +43,7 @@ spec:
               secretKeyRef:
                 name: mediamanager-db-app
                 key: dbname
-          - name: MEDIAMANAGER_DATABASE__USERNAME
+          - name: MEDIAMANAGER_DATABASE__USER
             valueFrom:
               secretKeyRef:
                 name: mediamanager-db-app
