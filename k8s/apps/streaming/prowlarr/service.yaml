@@ -9,5 +9,5 @@ spec:
     - name: http
       protocol: TCP
       port: 9696
-      targetPort: 9696
+      targetPort: http
   type: ClusterIP
