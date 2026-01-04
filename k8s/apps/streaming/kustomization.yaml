@@ -9,3 +9,4 @@ resources:
   - project.yaml
   - application-set.yaml
   - jellyfin-app.yaml
+  - volume.yaml
