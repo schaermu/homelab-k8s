@@ -18,6 +18,20 @@ spec:
 
 ---
 apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: prowlarr-log-database
+spec:
+  name: prowlarr-log
+  owner: app
+  cluster:
+    name: prowlarr-db
+  extensions:
+    - name: bloom
+      ensure: present
+
+---
+apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
   name: prowlarr-db-backup
