@@ -56,7 +56,7 @@ spec:
             name: mediamanager-data
           - mountPath: /app/config
             name: mediamanager-config
-          - mountPath: /images
+          - mountPath: /data/images
             name: mediamanager-images
       volumes:
         - name: mediamanager-data
