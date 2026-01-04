@@ -35,7 +35,6 @@ data:
     enabled = true
     # username = "OVERRIDEN_BY_SECRET"
     # password = "OVERRIDEN_BY_SECRET"
-    https_enabled = true
     host = "http://qbittorrent.download.svc.cluster.local"
     port = 8080
 
