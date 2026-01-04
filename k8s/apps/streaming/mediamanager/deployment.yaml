@@ -35,9 +35,15 @@ spec:
           - name: CONFIG_DIR
             value: /app/config
           - name: MEDIAMANAGER_DATABASE__HOST
-            value: mediamanager-db.mediamanager.svc.cluster.local
+            valueFrom:
+              secretKeyRef:
+                name: mediamanager-db-app
+                key: host
           - name: MEDIAMANAGER_DATABASE__PORT
-            value: "5432"
+            valueFrom:
+              secretKeyRef:
+                name: mediamanager-db-app
+                key: port
           - name: MEDIAMANAGER_DATABASE__DBNAME
             valueFrom:
               secretKeyRef:
