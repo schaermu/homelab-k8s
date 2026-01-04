@@ -85,11 +85,11 @@ spec:
                 key: dbname
         livenessProbe:
           httpGet:
-            path: /api/v1/health
+            path: /
             port: http
         readinessProbe:
           httpGet:
-            path: /api/v1/health
+            path: /
             port: http
         volumeMounts:
           - mountPath: /config
