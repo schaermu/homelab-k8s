@@ -39,17 +39,20 @@ spec:
           - name: MEDIAMANAGER_DATABASE__PORT
             value: "5432"
           - name: MEDIAMANAGER_DATABASE__DBNAME
-            secretKeyRef:
-              name: mediamanager-db-app
-              key: dbname
+            valueFrom:
+              secretKeyRef:
+                name: mediamanager-db-app
+                key: dbname
           - name: MEDIAMANAGER_DATABASE__USERNAME
-            secretKeyRef:
-              name: mediamanager-db-app
-              key: username
+            valueFrom:
+              secretKeyRef:
+                name: mediamanager-db-app
+                key: username
           - name: MEDIAMANAGER_DATABASE__PASSWORD
-            secretKeyRef:
-              name: mediamanager-db-app
-              key: password
+            valueFrom:
+              secretKeyRef:
+                name: mediamanager-db-app
+                key: password
         volumeMounts:
           - mountPath: /data
             name: mediamanager-data
