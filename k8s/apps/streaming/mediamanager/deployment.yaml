@@ -26,8 +26,6 @@ spec:
     spec:
       serviceAccountName: mediamanager
       securityContext:
-        runAsUser: 3001
-        runAsGroup: 3001
         fsGroup: 3001
       containers:
       - name: mediamanager-server
