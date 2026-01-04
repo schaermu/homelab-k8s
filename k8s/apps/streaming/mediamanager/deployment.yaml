@@ -25,6 +25,10 @@ spec:
         app.kubernetes.io/instance: mediamanager
     spec:
       serviceAccountName: mediamanager
+      securityContext:
+        runAsUser: 3001
+        runAsGroup: 3001
+        fsGroup: 3001
       containers:
       - name: mediamanager-server
         image: ghcr.io/maxdorninger/mediamanager/mediamanager:1.11.1
