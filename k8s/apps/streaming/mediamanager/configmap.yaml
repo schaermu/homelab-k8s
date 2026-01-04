@@ -10,7 +10,7 @@ data:
     frontend_url = "http://media.schaermu.ch"
     cors_urls = ["http://media.schaermu.ch"]
 
-    image_directory = "/images"
+    image_directory = "/app/images"
     tv_directory = "/data/tv"
     movie_directory = "/data/movies"
     torrent_directory = "/data/torrents"
