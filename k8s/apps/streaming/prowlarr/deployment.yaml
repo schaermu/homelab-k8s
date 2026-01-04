@@ -63,9 +63,7 @@ spec:
           - name: PGID
             value: "3001"
           - name: PROWLARR__POSTGRES__HOST
-            value: "prowlarr-db.prowlarr.svc.cluster.local"
-          - name: PROWLARR__POSTGRES__PORT
-            value: "5432"
+            value: prowlarr-db-rw.prowlarr
           - name: PROWLARR__POSTGRES__USER
             valueFrom:
               secretKeyRef:

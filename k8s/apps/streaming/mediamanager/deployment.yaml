@@ -35,15 +35,7 @@ spec:
           - name: CONFIG_DIR
             value: /app/config
           - name: MEDIAMANAGER_DATABASE__HOST
-            valueFrom:
-              secretKeyRef:
-                name: mediamanager-db-app
-                key: host
-          - name: MEDIAMANAGER_DATABASE__PORT
-            valueFrom:
-              secretKeyRef:
-                name: mediamanager-db-app
-                key: port
+            value: mediamanager-db-rw.mediamanager
           - name: MEDIAMANAGER_DATABASE__DBNAME
             valueFrom:
               secretKeyRef:
