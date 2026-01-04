@@ -12,10 +12,10 @@ spec:
     s3Credentials:
       accessKeyId:
         name: mediamanager-minio-store
-        key: accessKeyId
+        key: AWS_ACCESS_KEY_ID
       secretAccessKey:
         name: mediamanager-minio-store
-        key: secretAccessKey
+        key: AWS_SECRET_ACCESS_KEY
     wal:
       compression: gzip
     data:
