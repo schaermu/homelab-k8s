@@ -30,7 +30,7 @@ spec:
       volumes:
         - name: mediamanager-data
           persistentVolumeClaim:
-            claimName: media-data-pvc
+            claimName: mediamanager-data
         - name: mediamanager-config
           persistentVolumeClaim:
             claimName: mediamanager-config
