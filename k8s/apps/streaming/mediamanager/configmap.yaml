@@ -10,17 +10,10 @@ data:
     frontend_url = "http://media.schaermu.ch"
     cors_urls = ["http://media.schaermu.ch"]
 
-    image_directory = "/data/images"
+    image_directory = "/images"
     tv_directory = "/data/tv"
     movie_directory = "/data/movies"
     torrent_directory = "/data/torrents"
-
-    [database]
-    host = "db"
-    port = 5432
-    user = "MediaManager"
-    password = "MediaManager"
-    dbname = "MediaManager"
 
     [auth]
     email_password_resets = false
