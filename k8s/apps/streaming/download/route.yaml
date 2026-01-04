@@ -9,7 +9,7 @@ spec:
     - name: internal
       namespace: gateway
   hostnames:
-    - qbittorrent.lab.schaermu.ch
+    - torrent.lab.schaermu.ch
   rules:
     - backendRefs:
         - name: qbittorrent
@@ -30,7 +30,7 @@ spec:
     - name: internal
       namespace: gateway
   hostnames:
-    - sabnzbd.lab.schaermu.ch
+    - usenet.lab.schaermu.ch
   rules:
     - backendRefs:
         - name: sabnzbd
