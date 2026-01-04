@@ -155,6 +155,10 @@ spec:
           - name: sabnzbd-api
             containerPort: 9090
             protocol: TCP
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "chown -R abc:abc /config/sabnzbd.ini"]
           resources:
             requests:
               memory: "500Mi"
