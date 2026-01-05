@@ -175,6 +175,14 @@ spec:
               cpu: "25m"
             limits:
               memory: "4096Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: sabnzbd
+          readinessProbe:
+            httpGet:
+              path: /
+              port: sabnzbd
           envFrom:
           - configMapRef:
               name: sabnzbd-config
