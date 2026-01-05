@@ -25,8 +25,9 @@ run = "KUBECONFIG=tofu/output/kube-config.yaml kubectl"
 usage = '''
 arg "<pod>"
 arg "<namespace>"
+arg "[container]" optional
 '''
-run = "KUBECONFIG=tofu/output/kube-config.yaml kubectl exec --stdin --tty ${usage_pod?} -n ${usage_namespace?} -- /bin/bash"
+run = "KUBECONFIG=tofu/output/kube-config.yaml kubectl exec --stdin --tty ${usage_pod?} -n ${usage_namespace?} --container ${usage_container?} -- /bin/bash"
 
 [tasks.talosctl]
 run = "TALOSCONFIG=tofu/output/talos-config.yaml talosctl -e 192.168.1.30"

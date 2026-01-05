@@ -158,6 +158,10 @@ spec:
         - name: sabnzbd
           image: lscr.io/linuxserver/sabnzbd:4.5.5
           imagePullPolicy: IfNotPresent
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "cp /tmp/initial-config/sabnzbd.ini /config/sabnzbd.ini || true"]
           ports:
           - name: sabnzbd
             containerPort: 8090
@@ -174,9 +178,6 @@ spec:
           envFrom:
           - configMapRef:
               name: sabnzbd-config
-          env:
-          - name: CONFIG
-            value: /config/initial-config/sabnzbd.ini
           volumeMounts:
             - name: download-data
               mountPath: /downloads
@@ -184,4 +185,4 @@ spec:
             - name: sabnzbd-config-pv
               mountPath: /config
             - name: sabnzbd-config-hack
-              mountPath: /config/initial-config
+              mountPath: /tmp/initial-config
