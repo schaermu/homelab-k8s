@@ -49,7 +49,7 @@ data:
     WebUI\ServerDomains=*
     WebUI\LocalHostAuth=false
     WebUI\AuthSubnetWhitelistEnabled=true
-    WebUI\AuthSubnetWhitelist=192.168.1.0/24
+    WebUI\AuthSubnetWhitelist=192.168.1.0/24,10.244.0.0/16
     WebUI\Password_PBKDF2="@ByteArray(ARQ77eY1NUZaQsuDHbIMCA==:0WMRkYTUWVT9wVvdDtHAjU9b3b7uB8NR1Gur2hmQCvCDpm39Q+PsJRJPaCU51dEiz+dTzh8qbPsL8WkFljQYFQ==)"
     WebUI\AlternativeUIEnabled=true
     WebUI\RootFolder=/vuetorrent
