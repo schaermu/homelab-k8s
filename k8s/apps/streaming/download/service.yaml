@@ -8,16 +8,8 @@ spec:
   ports:
     - port: 8080
       protocol: TCP
-      targetPort: torrent-http
-      name: qbittorrent
-    - port: 6881
-      protocol: TCP
-      targetPort: torrent-tcp
-      name: torrent-tcp
-    - port: 6881
-      protocol: UDP
-      targetPort: torrent-udp
-      name: torrent-udp
+      targetPort: 8080
+      name: http
 
 ---
 apiVersion: v1
@@ -29,9 +21,9 @@ spec:
   ports:
     - port: 8090
       protocol: TCP
-      targetPort: sabnzbd
-      name: sabnzbd
+      targetPort: 8090
+      name: http
     - port: 9090
       protocol: TCP
-      targetPort: sabnzbd-api
-      name: sabnzbd-api
+      targetPort: 9090
+      name: http-api

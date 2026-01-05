@@ -112,16 +112,6 @@ spec:
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:5.1.4
           imagePullPolicy: IfNotPresent
-          ports:
-          - name: torrent-http
-            containerPort: 8080
-            protocol: TCP
-          - name: torrent-tcp
-            containerPort: 6881
-            protocol: TCP
-          - name: torrent-udp
-            containerPort: 6881
-            protocol: UDP
           envFrom:
           - configMapRef:
               name: qbittorrent-config
@@ -144,11 +134,11 @@ spec:
             initialDelaySeconds: 120 # slow startup due to docker mods
             httpGet:
               path: /
-              port: torrent-http
+              port: 8080
           readinessProbe:
             httpGet:
               path: /
-              port: torrent-http
+              port: 8080
           volumeMounts:
           - name: download-data
             mountPath: /downloads
@@ -165,13 +155,6 @@ spec:
             postStart:
               exec:
                 command: ["/bin/sh", "-c", "cp /tmp/initial-config/sabnzbd.ini /config/sabnzbd.ini || true"]
-          ports:
-          - name: sabnzbd
-            containerPort: 8090
-            protocol: TCP
-          - name: sabnzbd-api
-            containerPort: 9090
-            protocol: TCP
           resources:
             requests:
               memory: "500Mi"
@@ -181,11 +164,11 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: sabnzbd
+              port: 8090
           readinessProbe:
             httpGet:
               path: /
-              port: sabnzbd
+              port: 8090
           envFrom:
           - configMapRef:
               name: sabnzbd-config
