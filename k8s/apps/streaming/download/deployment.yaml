@@ -158,6 +158,7 @@ spec:
               path: /
               port: qbittorrent
           readinessProbe:
+            initialDelaySeconds: 120 # slow startup due to docker mods
             httpGet:
               path: /
               port: qbittorrent
