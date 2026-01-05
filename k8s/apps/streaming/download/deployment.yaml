@@ -177,11 +177,11 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: 8090
+              port: sabnzbd
           readinessProbe:
             httpGet:
               path: /
-              port: 8090
+              port: sabnzbd
           envFrom:
           - configMapRef:
               name: sabnzbd-config
