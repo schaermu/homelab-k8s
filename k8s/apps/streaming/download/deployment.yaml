@@ -139,6 +139,7 @@ spec:
               cpu: 50m
               memory: 512Mi
           livenessProbe:
+            initialDelaySeconds: 120 # slow startup due to docker mods
             httpGet:
               path: /
               port: torrent-http
