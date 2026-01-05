@@ -4,7 +4,13 @@ kind: Service
 metadata:
   name: qbittorrent
   namespace: download
+  labels:
+    app.kubernetes.io/name: download-clients
+    app.kubernetes.io/instance: download-clients
 spec:
+  selector:
+    app.kubernetes.io/name: download-clients
+    app.kubernetes.io/instance: download-clients
   type: ClusterIP
   ports:
     - port: 8080
@@ -16,7 +22,13 @@ kind: Service
 metadata:
   name: sabnzbd
   namespace: download
+  labels:
+    app.kubernetes.io/name: download-clients
+    app.kubernetes.io/instance: download-clients
 spec:
+  selector:
+    app.kubernetes.io/name: download-clients
+    app.kubernetes.io/instance: download-clients
   type: ClusterIP
   ports:
     - name: http
