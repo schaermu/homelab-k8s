@@ -42,19 +42,31 @@ spec:
           claimName: download-data
       - name: sabnzbd-config-hack
         emptyDir: {}
+      - name: qbittorrent-config-hack
+        emptyDir: {}
       - name: lsio-modcache
         persistentVolumeClaim:
           claimName: lsio-modcache-pvc
       initContainers:
         - name: fix-config-permissions
           image: busybox:1.36.0
-          command: ["sh", "-c", "cp /config/sabnzbd.ini /tmp/sabnzbd/sabnzbd.ini && chown -R 3001:3001 /tmp/sabnzbd"]
+          command: ["/bin/sh", "-c"]
+          args:
+            - >-
+              cp /config/qBittorrent.conf /tmp/qbittorrent/qBittorrent.conf &&
+              cp /config/sabnzbd.ini /tmp/sabnzbd/sabnzbd.ini;
+              chown -R 3001:3001 /tmp
           volumeMounts:
           - name: sabnzbd-config-hack
             mountPath: /tmp/sabnzbd
+          - name: qbittorrent-config-hack
+            mountPath: /tmp/qbittorrent
           - name: sabnzbd-config
             mountPath: /config/sabnzbd.ini
             subPath: sabnzbd.ini
+          - name: qbittorrent-default-config
+            mountPath: /config/qBittorrent.conf
+            subPath: qBittorrent.conf
         - name: gluetun
           image: ghcr.io/qdm12/gluetun:v3.41.0
           restartPolicy: Always
@@ -115,6 +127,10 @@ spec:
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:5.1.4
           imagePullPolicy: IfNotPresent
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "cp /tmp/initial-config/qBittorrent.conf /config/qBittorrent/qBittorrent.conf || true"]
           envFrom:
           - configMapRef:
               name: qbittorrent-config
@@ -150,7 +166,7 @@ spec:
             mountPath: /downloads
             subPath: torrents
           - name: qbittorrent-default-config
-            mountPath: /config/qBittorrent/qBittorrent.conf
+            mountPath: /tmp/initial-config/qBittorrent.conf
             subPath: qBittorrent.conf
           - name: qbittorrent-config-pv
             mountPath: /config
