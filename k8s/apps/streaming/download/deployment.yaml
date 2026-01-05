@@ -22,75 +22,78 @@ spec:
     spec:
       serviceAccountName: download-clients
       volumes:
-        - name: gluetun-config
-          secret:
-            secretName: gluetun-config
-        - name: qbittorrent-default-config
-          configMap:
-            name: qbittorrent-default-config
-        - name: qbittorrent-config-pv
-          persistentVolumeClaim:
-            claimName: qbittorrent-config-pvc
-        - name: sabnzbd-config
-          secret:
-            secretName: sabnzbd-config-secret
-        - name: sabnzbd-config-pv
-          persistentVolumeClaim:
-            claimName: sabnzbd-config-pvc
-        - name: download-data
-          persistentVolumeClaim:
-            claimName: download-data
-        - name: sabnzbd-config-hack
-          emptyDir: {}
+      - name: gluetun-config
+        secret:
+          secretName: gluetun-config
+      - name: qbittorrent-default-config
+        configMap:
+          name: qbittorrent-default-config
+      - name: qbittorrent-config-pv
+        persistentVolumeClaim:
+          claimName: qbittorrent-config-pvc
+      - name: sabnzbd-config
+        secret:
+          secretName: sabnzbd-config-secret
+      - name: sabnzbd-config-pv
+        persistentVolumeClaim:
+          claimName: sabnzbd-config-pvc
+      - name: download-data
+        persistentVolumeClaim:
+          claimName: download-data
+      - name: sabnzbd-config-hack
+        emptyDir: {}
+      - name: lsio-modcache
+        persistentVolumeClaim:
+          claimName: lsio-modcache-pvc
       initContainers:
         - name: fix-config-permissions
           image: busybox:1.36.0
           command: ["sh", "-c", "cp /config/sabnzbd.ini /tmp/sabnzbd/sabnzbd.ini && chown -R 3001:3001 /tmp/sabnzbd"]
           volumeMounts:
-            - name: sabnzbd-config-hack
-              mountPath: /tmp/sabnzbd
-            - name: sabnzbd-config
-              mountPath: /config/sabnzbd.ini
-              subPath: sabnzbd.ini
+          - name: sabnzbd-config-hack
+            mountPath: /tmp/sabnzbd
+          - name: sabnzbd-config
+            mountPath: /config/sabnzbd.ini
+            subPath: sabnzbd.ini
         - name: gluetun
           image: ghcr.io/qdm12/gluetun:v3.41.0
           restartPolicy: Always
           imagePullPolicy: IfNotPresent
           ports:
-            - name: control-server
-              containerPort: 8000
-              protocol: TCP
-            - name: http-proxy
-              containerPort: 8888
-              protocol: TCP
-            - name: tcp-shadowsocks
-              containerPort: 8388
-              protocol: TCP
-            - name: udp-shadowsocks
-              containerPort: 8388
-              protocol: UDP
+          - name: control-server
+            containerPort: 8000
+            protocol: TCP
+          - name: http-proxy
+            containerPort: 8888
+            protocol: TCP
+          - name: tcp-shadowsocks
+            containerPort: 8388
+            protocol: TCP
+          - name: udp-shadowsocks
+            containerPort: 8388
+            protocol: UDP
           env:
-            - name: TZ
-              value: "Europe/Zurich"
-            - name: FIREWALL_DEBUG
-              value: "on"
-            - name: FIREWALL_INPUT_PORTS
-              value: "8080,8090"
-            - name: SERVER_COUNTRIES
-              value: "Switzerland"
-            - name: VPN_SERVICE_PROVIDER
-              value: "protonvpn"
-            - name: VPN_TYPE
-              value: "wireguard"
-            - name: PORT_FORWARD_ONLY
-              value: "on"
-            - name: VPN_PORT_FORWARDING
-              value: "on"
-            - name: WIREGUARD_PRIVATE_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: gluetun-config
-                  key: WIREGUARD_PRIVATE_KEY
+          - name: TZ
+            value: "Europe/Zurich"
+          - name: FIREWALL_DEBUG
+            value: "on"
+          - name: FIREWALL_INPUT_PORTS
+            value: "8080,8090"
+          - name: SERVER_COUNTRIES
+            value: "Switzerland"
+          - name: VPN_SERVICE_PROVIDER
+            value: "protonvpn"
+          - name: VPN_TYPE
+            value: "wireguard"
+          - name: PORT_FORWARD_ONLY
+            value: "on"
+          - name: VPN_PORT_FORWARDING
+            value: "on"
+          - name: WIREGUARD_PRIVATE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: gluetun-config
+                key: WIREGUARD_PRIVATE_KEY
           livenessProbe:
             exec:
               command: ["ip","a","show","tun0"]
@@ -105,9 +108,9 @@ spec:
             limits:
               squat.ai/tun: "1"
           volumeMounts:
-            - name: gluetun-config
-              mountPath: /gluetun/auth/config.toml
-              subPath: gluetun.toml
+          - name: gluetun-config
+            mountPath: /gluetun/auth/config.toml
+            subPath: gluetun.toml
       containers:
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:5.1.4
@@ -126,6 +129,9 @@ spec:
               secretKeyRef:
                 name: gluetun-config
                 key: GSP_QBT_PASSWORD
+          ports:
+          - name: qbittorrent
+            containerPort: 8080
           resources:
             requests:
               cpu: 50m
@@ -134,11 +140,11 @@ spec:
             initialDelaySeconds: 120 # slow startup due to docker mods
             httpGet:
               path: /
-              port: 8080
+              port: qbittorrent
           readinessProbe:
             httpGet:
               path: /
-              port: 8080
+              port: qbittorrent
           volumeMounts:
           - name: download-data
             mountPath: /downloads
@@ -148,6 +154,8 @@ spec:
             subPath: qBittorrent.conf
           - name: qbittorrent-config-pv
             mountPath: /config
+          - name: lsio-modcache
+            mountPath: /modcache
         - name: sabnzbd
           image: lscr.io/linuxserver/sabnzbd:4.5.5
           imagePullPolicy: IfNotPresent
@@ -155,6 +163,11 @@ spec:
             postStart:
               exec:
                 command: ["/bin/sh", "-c", "cp /tmp/initial-config/sabnzbd.ini /config/sabnzbd.ini || true"]
+          ports:
+          - name: sabnzbd
+            containerPort: 8090
+          - name: sabnzbd-api
+            containerPort: 9090
           resources:
             requests:
               memory: "500Mi"
@@ -173,10 +186,10 @@ spec:
           - configMapRef:
               name: sabnzbd-config
           volumeMounts:
-            - name: download-data
-              mountPath: /downloads
-              subPath: usenet
-            - name: sabnzbd-config-pv
-              mountPath: /config
-            - name: sabnzbd-config-hack
-              mountPath: /tmp/initial-config
+          - name: download-data
+            mountPath: /downloads
+            subPath: usenet
+          - name: sabnzbd-config-pv
+            mountPath: /config
+          - name: sabnzbd-config-hack
+            mountPath: /tmp/initial-config
