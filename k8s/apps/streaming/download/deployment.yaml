@@ -40,8 +40,18 @@ spec:
         - name: download-data
           persistentVolumeClaim:
             claimName: download-data
-
+        - name: sabnzbd-config-hack
+          emptyDir: {}
       initContainers:
+        - name: fix-config-permissions
+          image: busybox:1.36.0
+          command: ["sh", "-c", "cp /config/sabnzbd.ini /tmp/sabnzbd/sabnzbd.ini && chown -R 3001:3001 /tmp/sabnzbd"]
+          volumeMounts:
+            - name: sabnzbd-config-hack
+              mountPath: /tmp/sabnzbd
+            - name: sabnzbd-config
+              mountPath: /config/sabnzbd.ini
+              subPath: sabnzbd.ini
         - name: gluetun
           image: ghcr.io/qdm12/gluetun:v3.41.0
           restartPolicy: Always
@@ -137,14 +147,14 @@ spec:
               path: /
               port: torrent-http
           volumeMounts:
+          - name: download-data
+            mountPath: /downloads
+            subPath: torrents
           - name: qbittorrent-default-config
             mountPath: /config/qBittorrent/qBittorrent.conf
             subPath: qBittorrent.conf
           - name: qbittorrent-config-pv
             mountPath: /config
-          - name: download-data
-            mountPath: /downloads
-            subPath: torrents
         - name: sabnzbd
           image: lscr.io/linuxserver/sabnzbd:4.5.5
           imagePullPolicy: IfNotPresent
@@ -168,11 +178,10 @@ spec:
           - name: CONFIG
             value: /config/initial-config/sabnzbd.ini
           volumeMounts:
-          - name: download-data
-            mountPath: /downloads
-            subPath: usenet
-          - name: sabnzbd-config-pv
-            mountPath: /config
-          - name: sabnzbd-config
-            mountPath: /config/initial-config/sabnzbd.ini
-            subPath: sabnzbd.ini
+            - name: download-data
+              mountPath: /downloads
+              subPath: usenet
+            - name: sabnzbd-config-pv
+              mountPath: /config
+            - name: sabnzbd-config-hack
+              mountPath: /config/initial-config
