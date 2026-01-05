@@ -42,7 +42,7 @@ spec:
             name: mediamanager-config
       containers:
       - name: mediamanager-server
-        image: ghcr.io/maxdorninger/mediamanager/mediamanager:1.11.1
+        image: ghcr.io/maxdorninger/mediamanager/mediamanager:1.12.1
         envFrom:
         - secretRef:
             name: mediamanager-config-secrets
