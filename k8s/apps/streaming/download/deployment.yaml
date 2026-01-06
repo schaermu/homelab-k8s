@@ -91,6 +91,8 @@ spec:
             value: "on"
           - name: FIREWALL_INPUT_PORTS
             value: "8080,8090"
+          - name: DNS_KEEP_NAMESERVER
+            value: "on"
           - name: SERVER_COUNTRIES
             value: "Switzerland"
           - name: VPN_SERVICE_PROVIDER
