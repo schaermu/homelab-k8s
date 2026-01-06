@@ -14,7 +14,7 @@ spec:
       barmanObjectName: minio-store
       serverName: prowlarr-db
   storage:
-    size: 1Gi
+    size: 5Gi
 
 ---
 apiVersion: postgresql.cnpg.io/v1

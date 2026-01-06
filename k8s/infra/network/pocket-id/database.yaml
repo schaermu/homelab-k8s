@@ -14,7 +14,7 @@ spec:
       barmanObjectName: cloudflare-r2-store
       serverName: pocket-id-db
   storage:
-    size: 1Gi
+    size: 5Gi
 
 ---
 apiVersion: postgresql.cnpg.io/v1
