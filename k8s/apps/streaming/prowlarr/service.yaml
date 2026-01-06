@@ -4,7 +4,13 @@ kind: Service
 metadata:
   name: prowlarr
   namespace: prowlarr
+  labels:
+    app.kubernetes.io/name: prowlarr
+    app.kubernetes.io/instance: prowlarr
 spec:
+  selector:
+    app.kubernetes.io/name: prowlarr
+    app.kubernetes.io/instance: prowlarr
   ports:
     - name: http
       protocol: TCP
