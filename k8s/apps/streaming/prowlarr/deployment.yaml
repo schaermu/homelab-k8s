@@ -23,30 +23,30 @@ spec:
     spec:
       serviceAccountName: prowlarr
       containers:
-      - name: flaresolverr
-        image: ghcr.io/flaresolverr/flaresolverr:v3.4.6
-        imagePullPolicy: IfNotPresent
-        ports:
-          - name: http
-            containerPort: 8191
-            protocol: TCP
-        env:
-          - name: HOST
-            value: "::"
-        resources:
-          limits:
-            memory: 512Mi
-          requests:
-            cpu: 50m
-            memory: 128Mi
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: http
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: http
+      # - name: flaresolverr
+      #   image: ghcr.io/flaresolverr/flaresolverr:v3.4.6
+      #   imagePullPolicy: IfNotPresent
+      #   ports:
+      #     - name: http
+      #       containerPort: 8191
+      #       protocol: TCP
+      #   env:
+      #     - name: HOST
+      #       value: "::"
+      #   resources:
+      #     limits:
+      #       memory: 512Mi
+      #     requests:
+      #       cpu: 50m
+      #       memory: 128Mi
+      #   livenessProbe:
+      #     httpGet:
+      #       path: /health
+      #       port: http
+      #   readinessProbe:
+      #     httpGet:
+      #       path: /health
+      #       port: http
       - name: prowlarr
         image: lscr.io/linuxserver/prowlarr:2.3.0
         ports:
@@ -63,6 +63,10 @@ spec:
             value: "3001"
           - name: PGID
             value: "3001"
+          - name: PROWLARR__UPDATE__AUTOMATICALLY
+            value: "false"
+          - name: PROWLARR__UPDATE__MECHANISM
+            value: "External"
           - name: PROWLARR__POSTGRES__HOST
             value: prowlarr-db-rw.prowlarr
           - name: PROWLARR__POSTGRES__USER

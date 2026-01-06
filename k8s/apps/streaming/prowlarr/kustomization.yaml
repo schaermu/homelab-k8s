@@ -11,5 +11,4 @@ resources:
   - database.yaml
   - backup-store.yaml
   - service.yaml
-  - configmap.yaml
   - deployment.yaml
