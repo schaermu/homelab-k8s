@@ -15,25 +15,34 @@ spec:
     - type: IPAddress
       value: 192.168.1.50
   listeners:
-    - protocol: HTTPS
-      port: 443
-      name: https-gateway
-      hostname: "*.lab.schaermu.ch"
-      tls:
-        certificateRefs:
-          - kind: Secret
-            name: cert-lab-schaermu
-      allowedRoutes:
-        namespaces:
-          from: All
-    - protocol: HTTPS
-      port: 443
-      name: https-domain-gateway
-      hostname: lab.schaermu.ch
-      tls:
-        certificateRefs:
-          - kind: Secret
-            name: cert-lab-schaermu
-      allowedRoutes:
-        namespaces:
-          from: All
+  - name: http-gateway
+    protocol: HTTP
+    port: 80
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            https-upgrade: "true"
+  - name: https-gateway
+    protocol: HTTPS
+    port: 443
+    hostname: "*.lab.schaermu.ch"
+    tls:
+      certificateRefs:
+      - kind: Secret
+        name: cert-lab-schaermu
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: https-domain-gateway
+    protocol: HTTPS
+    port: 443
+    hostname: lab.schaermu.ch
+    tls:
+      certificateRefs:
+      - kind: Secret
+        name: cert-lab-schaermu
+    allowedRoutes:
+      namespaces:
+        from: All
