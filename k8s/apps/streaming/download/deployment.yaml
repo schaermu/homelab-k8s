@@ -155,19 +155,19 @@ spec:
               cpu: 50m
               memory: 512Mi
           livenessProbe:
-            initialDelaySeconds: 120 # slow startup due to docker mods
+            initialDelaySeconds: 60 # slow startup due to docker mods
             httpGet:
               path: /
               port: qbittorrent
           readinessProbe:
-            initialDelaySeconds: 120 # slow startup due to docker mods
+            initialDelaySeconds: 60 # slow startup due to docker mods
             httpGet:
               path: /
               port: qbittorrent
           volumeMounts:
           - name: download-data
             mountPath: /downloads
-            subPath: media/torrents
+            subPath: media/download/torrents
           - name: qbittorrent-default-config
             mountPath: /tmp/initial-config/qBittorrent.conf
             subPath: qBittorrent.conf
@@ -207,7 +207,7 @@ spec:
           volumeMounts:
           - name: download-data
             mountPath: /downloads
-            subPath: media/usenet
+            subPath: media/download/usenet
           - name: sabnzbd-config-pv
             mountPath: /config
           - name: sabnzbd-config-hack
