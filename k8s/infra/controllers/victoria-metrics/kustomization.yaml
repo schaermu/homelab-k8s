@@ -6,9 +6,9 @@ resources:
   - ns.yaml
 
 helmCharts:
-  - name: vmks
+  - name: vm/victoria-metrics-k8s-stack
     repo: https://victoriametrics.github.io/helm-charts/
     version: 0.67.0
-    releaseName: vm/victoria-metrics-k8s-stack
+    releaseName: vm-operator
     namespace: vm-system
     valuesFile: values.yaml
