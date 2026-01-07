@@ -13,13 +13,12 @@ argocd = "3.1.7"
 _.file = '.env'
 MANIFEST_INPUT_DIR = "k8s"
 MANIFEST_OUTPUT_DIR = "rendered-manifests"
+KUBECONFIG = "tofu/output/kube-config.yaml"
+TALOSCONFIG = "tofu/output/talos-config.yaml"
 
 [tasks.tofu]
 dir = "tofu"
 run = "tofu"
-
-[tasks.kubectl]
-run = "KUBECONFIG=tofu/output/kube-config.yaml kubectl"
 
 [tasks.pod-exec]
 usage = '''
@@ -28,27 +27,15 @@ arg "<namespace>"
 arg "[container]" optional
 arg "[command]" optional default="/bin/sh"
 '''
-run = "KUBECONFIG=tofu/output/kube-config.yaml kubectl exec --stdin --tty ${usage_pod?} -n ${usage_namespace?} -c ${usage_container?} -- ${usage_command?}"
-
-[tasks.talosctl]
-run = "TALOSCONFIG=tofu/output/talos-config.yaml talosctl -e 192.168.1.30"
-
-[tasks.argocd]
-run = "KUBECONFIG=tofu/output/kube-config.yaml argocd --grpc-web"
-
-[tasks.kubeseal]
-run = "KUBECONFIG=tofu/output/kube-config.yaml kubeseal --format yaml --cert secrets/sealed-secrets.cer"
+run = "kubectl exec --stdin --tty ${usage_pod?} -n ${usage_namespace?} -c ${usage_container?} -- ${usage_command?}"
 
 [tasks.sealsecret]
 usage = '''
 arg "<file>"
 '''
 run = '''
-mise run kubeseal --scope cluster-wide < "${usage_file?}" > "${usage_file?%.yaml}-sealed.yaml"
+kubeseal --format yaml --cert secrets/sealed-secrets.cer --scope cluster-wide < "${usage_file?}" > "${usage_file?%.yaml}-sealed.yaml"
 '''
-
-[tasks.helm]
-run = "KUBECONFIG=tofu/output/kube-config.yaml helm"
 
 [tasks.backup-db]
 usage = '''

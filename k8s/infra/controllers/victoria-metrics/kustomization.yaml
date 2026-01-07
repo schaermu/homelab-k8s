@@ -6,7 +6,7 @@ resources:
   - ns.yaml
 
 helmCharts:
-  - name: vm/victoria-metrics-k8s-stack
+  - name: victoria-metrics-k8s-stack
     repo: https://victoriametrics.github.io/helm-charts/
     version: 0.67.0
     releaseName: vm-operator
