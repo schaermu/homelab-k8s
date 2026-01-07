@@ -1,0 +1,38 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vm-operator
+  namespace: argocd
+spec:
+  project: controllers
+  source:
+    chart: .
+    repoURL: oci://ghcr.io/victoriametrics/helm-charts/victoria-metrics-k8s-stack
+    targetRevision: 0.67.0
+    helm:
+      releaseName: vm-operator
+      valueFiles:
+      - values.yaml
+  destination:
+    name: in-cluster
+    namespace: vm-system
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+    - RespectIgnoreDifferences=true
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: vm-operator-validation
+      namespace: vm-system
+      jsonPointers:
+        - /data
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      name: vm-operator-admission
+      jqPathExpressions:
+      - '.webhooks[]?.clientConfig.caBundle'
