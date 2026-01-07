@@ -167,7 +167,7 @@ spec:
           volumeMounts:
           - name: download-data
             mountPath: /downloads
-            subPath: torrents
+            subPath: media/torrents
           - name: qbittorrent-default-config
             mountPath: /tmp/initial-config/qBittorrent.conf
             subPath: qBittorrent.conf
@@ -207,7 +207,7 @@ spec:
           volumeMounts:
           - name: download-data
             mountPath: /downloads
-            subPath: usenet
+            subPath: media/usenet
           - name: sabnzbd-config-pv
             mountPath: /config
           - name: sabnzbd-config-hack
