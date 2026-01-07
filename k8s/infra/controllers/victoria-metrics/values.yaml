@@ -58,9 +58,25 @@ kubeApiServer:
   enabled: true
 
 kubeControllerManager:
-  enabled: false
+  enabled: true
   service:
-    enabled: false
+    enabled: true
+  vmScrape:
+    spec:
+      jobLabel: jobLabel
+      namespaceSelector:
+        matchNames:
+          - kube-system
+      endpoints:
+        - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+          # bearerTokenSecret:
+          #   key: ""
+          port: http-metrics
+          scheme: https
+          tlsConfig:
+            caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            serverName: localhost
+            insecureSkipVerify: true
 
 kubeDns:
   enabled: false
@@ -78,9 +94,22 @@ kubeEtcd:
     enabled: false
 
 kubeScheduler:
-  enabled: false
+  enabled: true
   service:
-    enabled: false
+    enabled: true
+  vmScrape:
+    spec:
+      jobLabel: jobLabel
+      namespaceSelector:
+        matchNames: [kube-system]
+      endpoints:
+        - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+          port: http-metrics
+          scheme: https
+          tlsConfig:
+            caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            serverName: 127.0.0.1
+            insecureSkipVerify: true
 
 kubeProxy:
   enabled: false
