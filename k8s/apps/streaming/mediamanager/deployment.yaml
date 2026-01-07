@@ -46,6 +46,8 @@ spec:
         env:
           - name: CONFIG_DIR
             value: /app/config
+          - name: MEDIAMANAGER_LOG_LEVEL
+            value: DEBUG
           - name: MEDIAMANAGER_DATABASE__HOST
             value: mediamanager-db-rw.mediamanager
           - name: MEDIAMANAGER_DATABASE__DBNAME
