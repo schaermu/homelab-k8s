@@ -1,5 +1,3 @@
-argocdReleaseOverride: "vm-operator"
-
 victoria-metrics-operator:
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
