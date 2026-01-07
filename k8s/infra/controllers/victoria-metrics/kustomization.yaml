@@ -9,6 +9,6 @@ helmCharts:
   - name: victoria-metrics-k8s-stack
     repo: https://victoriametrics.github.io/helm-charts/
     version: 0.67.0
-    releaseName: vm-operator
+    releaseName: vmks
     namespace: vm-system
     valuesFile: values.yaml
