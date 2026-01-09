@@ -57,7 +57,37 @@ spec:
             hostnames:
             - vmagent.lab.schaermu.ch
         grafana:
-          enabled: false
+          enabled: true
+          admin:
+            existingSecret: grafana-admin-password
+          persistence:
+            type: pvc
+            enabled: true
+            storageClassName: longhorn
+            size: 500Mi
+          sidecar:
+            datasources:
+              enabled: true
+              initDatasources: true
+              label: grafana_datasource
+            dashboards:
+              provider:
+                name: default
+                orgid: 1
+              folder: /var/lib/grafana/dashboards
+              defaultFolderName: default
+              enabled: true
+              multicluster: false
+              searchNamespace: "ALL"
+          forceDeployDatasource: false
+          vmScrape:
+            enabled: true
+            spec:
+              selector:
+                matchLabels:
+                  app.kubernetes.io/name: '{{ include "grafana.name" .Subcharts.grafana }}'
+              endpoints:
+                - port: '{{ .Values.grafana.service.portName }}'
         prometheus-node-exporter:
           enabled: true
         kube-state-metrics:
@@ -118,6 +148,16 @@ spec:
                     keySecret:
                       name: etcd-secrets
                       key: server.key
+        defaultDatasources:
+          victoriametrics:
+            perReplica: false
+            datasources:
+              - name: VictoriaMetrics
+                type: prometheus
+                isDefault: true
+              - name: VictoriaMetrics (DS)
+                isDefault: false
+                type: victoriametrics-metrics-datasource
         kubeScheduler:
           enabled: true
           service:

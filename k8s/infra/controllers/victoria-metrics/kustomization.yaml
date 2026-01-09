@@ -9,3 +9,5 @@ resources:
   - role.yaml
   - rolebinding.yaml
   - job.yaml
+  - secrets.yaml
+  - route.yaml
