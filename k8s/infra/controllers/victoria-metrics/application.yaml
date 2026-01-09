@@ -148,7 +148,6 @@ spec:
       selfHeal: true
       prune: true
     syncOptions:
-    - CreateNamespace=true
     - ServerSideApply=true
     # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#respect-ignore-difference-configs
     # argocd must also ignore difference during apply stage

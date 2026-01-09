@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
   - application.yaml
+  - ns.yaml
   - sa.yaml
   - role.yaml
   - rolebinding.yaml

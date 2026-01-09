@@ -5,8 +5,6 @@ metadata:
   namespace: vm-system
   annotations:
     argocd.argoproj.io/sync-wave: "-1" # happen first
-  labels:
-    pod-security.kubernetes.io/enforce: privileged
 spec:
   template:
     metadata:
@@ -21,6 +19,9 @@ spec:
             - matchExpressions:
               - key: node-role.kubernetes.io/control-plane
                 operator: Exists
+      tolerations:
+      - key: node-role.kubernetes.io/controlplane
+        operator: Exists
       containers:
       - image: ghcr.io/schaermu/kubectl:v1.35.0
         command:
