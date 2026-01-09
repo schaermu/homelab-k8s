@@ -70,12 +70,12 @@ kubeControllerManager:
         matchNames:
           - kube-system
       endpoints:
-        - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-          port: http-metrics
+        - port: http-metrics
           scheme: https
           tlsConfig:
-            caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
             insecureSkipVerify: true
+            caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
 
 kubeDns:
   enabled: false
@@ -102,12 +102,12 @@ kubeScheduler:
       namespaceSelector:
         matchNames: [kube-system]
       endpoints:
-        - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-          port: http-metrics
+        - port: http-metrics
           scheme: https
           tlsConfig:
-            caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
             insecureSkipVerify: true
+            caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
 
 kubeProxy:
   enabled: false
