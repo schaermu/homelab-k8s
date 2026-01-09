@@ -20,8 +20,9 @@ spec:
               - key: node-role.kubernetes.io/control-plane
                 operator: Exists
       tolerations:
-      - key: node-role.kubernetes.io/controlplane
+      - key: node-role.kubernetes.io/control-plane
         operator: Exists
+        effect: NoSchedule
       containers:
       - image: ghcr.io/schaermu/kubectl:v1.35.0
         command:
