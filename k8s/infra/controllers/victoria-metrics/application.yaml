@@ -91,9 +91,33 @@ spec:
           service:
             enabled: true
         kubeEtcd:
-          enabled: false
+          enabled: true
           service:
-            enabled: false
+            enabled: true
+            port: 2379
+            targetPort: 2379
+            selector:
+              component: kube-controller-manager
+          vmScrape:
+            spec:
+              jobLabel: jobLabel
+              namespaceSelector:
+                matchNames: [kube-system]
+              endpoints:
+                - port: http-metrics
+                  scheme: https
+                  tlsConfig:
+                    ca:
+                      secret:
+                        name: etcd-secrets
+                        key: ca.crt
+                    cert:
+                      secret:
+                        name: etcd-secrets
+                        key: server.crt
+                    keySecret:
+                      name: etcd-secrets
+                      key: server.key
         kubeScheduler:
           enabled: true
           service:
@@ -133,12 +157,12 @@ spec:
   ignoreDifferences:
     - group: ""
       kind: Secret
-      name: <fullname>-validation
-      namespace: <k8s-stack-namespace>
+      name: vmks-victoria-metrics-operator-validation
+      namespace: vm-system
       jsonPointers:
         - /data
     - group: admissionregistration.k8s.io
       kind: ValidatingWebhookConfiguration
-      name: <fullname>-admission
+      name: vmks-victoria-metrics-operator-admission
       jqPathExpressions:
       - '.webhooks[]?.clientConfig.caBundle'
