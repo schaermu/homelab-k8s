@@ -10,7 +10,7 @@ spec:
     - 'https://github.com/schaermu/homelab-k8s'
     - 'https://cloudnative-pg.github.io/charts'
     - 'oci://ghcr.io/lexfrei/cloudflare-tunnel-gateway-controller/chart'
-    - 'oci://ghcr.io/victoriametrics/helm-charts/victoria-metrics-k8s-stack'
+    - 'https://victoriametrics.github.io/helm-charts/'
   destinations:
     - namespace: 'argocd'
       server: '*'
