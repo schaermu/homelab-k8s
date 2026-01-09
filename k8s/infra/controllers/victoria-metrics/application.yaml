@@ -1,0 +1,143 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vm-operator
+  namespace: argocd
+spec:
+  project: controllers
+  source:
+    chart: victoria-metrics-k8s-stack
+    repoURL: https://victoriametrics.github.io/helm-charts/
+    targetRevision: 0.67.0
+    helm:
+      releaseName: vmks
+      valuesObject:
+        argocdReleaseOverride: "vmks"
+        victoria-metrics-operator:
+          annotations:
+            argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+          crds:
+            enabled: true
+            plain: false
+        vmsingle:
+          enabled: false
+        vmcluster:
+          enabled: true
+          spec:
+            retentionPeriod: "1"
+            replicationFactor: 2
+            vmstorage:
+              extraArgs:
+                dedup.minScrapeInterval: 10s
+              storage:
+                volumeClaimTemplate:
+                  spec:
+                    resources:
+                      requests:
+                        storage: 10Gi
+            vmselect:
+              extraArgs:
+                dedup.minScrapeInterval: 10s
+        alertmanager:
+          enabled: false
+        vmalert:
+          enabled: false
+        vmauth:
+          enabled: false
+        vmagent:
+          spec:
+            scrapeInterval: 10s
+            replicaCount: 2
+          route:
+            enabled: true
+            parentRefs:
+            - name: internal
+              namespace: gateway
+            hostnames:
+            - vmagent.lab.schaermu.ch
+        grafana:
+          enabled: false
+        prometheus-node-exporter:
+          enabled: true
+        kube-state-metrics:
+          enabled: true
+          replicas: 1
+        kubeApiServer:
+          enabled: true
+        kubeControllerManager:
+          enabled: true
+          service:
+            enabled: true
+          vmScrape:
+            spec:
+              jobLabel: jobLabel
+              namespaceSelector:
+                matchNames:
+                  - kube-system
+              endpoints:
+                - port: http-metrics
+                  scheme: https
+                  tlsConfig:
+                    insecureSkipVerify: true
+                    caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                  bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+        kubeDns:
+          enabled: false
+          service:
+            enabled: false
+        coreDns:
+          enabled: true
+          service:
+            enabled: true
+        kubeEtcd:
+          enabled: false
+          service:
+            enabled: false
+        kubeScheduler:
+          enabled: true
+          service:
+            enabled: true
+          vmScrape:
+            spec:
+              jobLabel: jobLabel
+              namespaceSelector:
+                matchNames: [kube-system]
+              endpoints:
+                - port: http-metrics
+                  scheme: https
+                  tlsConfig:
+                    insecureSkipVerify: true
+                    caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                  bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+        kubeProxy:
+          enabled: false
+          service:
+            enabled: false
+        prometheus-operator-crds:
+          enabled: false
+  destination:
+    name: in-cluster
+    namespace: vm-system
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+    # https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#respect-ignore-difference-configs
+    # argocd must also ignore difference during apply stage
+    # otherwise it ll silently override changes and cause a problem
+    - RespectIgnoreDifferences=true
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: <fullname>-validation
+      namespace: <k8s-stack-namespace>
+      jsonPointers:
+        - /data
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      name: <fullname>-admission
+      jqPathExpressions:
+      - '.webhooks[]?.clientConfig.caBundle'
