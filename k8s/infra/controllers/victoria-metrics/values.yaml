@@ -69,8 +69,6 @@ kubeControllerManager:
           - kube-system
       endpoints:
         - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-          # bearerTokenSecret:
-          #   key: ""
           port: http-metrics
           scheme: https
           tlsConfig:
