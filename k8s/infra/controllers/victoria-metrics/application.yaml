@@ -61,8 +61,12 @@ spec:
           grafana.ini:
             server:
               root_url: https://vizmon.schaermu.ch
+            auth:
+              oauth_allow_insecure_email_lookup: true
           admin:
             existingSecret: grafana-admin-password
+          deploymentStrategy:
+            type: Recreate # to avoid issues with persistent volume claims
           persistence:
             type: pvc
             enabled: true
