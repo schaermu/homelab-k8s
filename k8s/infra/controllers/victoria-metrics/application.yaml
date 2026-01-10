@@ -66,6 +66,7 @@ spec:
           admin:
             existingSecret: grafana-admin-password
           deploymentStrategy:
+            rollingUpdate: null
             type: Recreate # to avoid issues with persistent volume claims
           persistence:
             type: pvc
