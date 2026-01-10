@@ -61,7 +61,7 @@ spec:
               routes:
                 - matchers:
                     - severity =~ "info|warning|critical"
-                  receiver: gmail
+                  receiver: discord
                   continue: false
                 - continue: true
                   receiver: blackhole
