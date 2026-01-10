@@ -68,9 +68,7 @@ spec:
             receivers:
               - name: discord
                 discord_configs:
-                - webhook_url:
-                    name: alertmanager-discord-secret
-                    key: ALERT_WEBHOOK_URL
+                - webhook_url: https://discordapp.com/api/webhooks/1459589867729195248/TTeNj3Y6thH9onuxE_QfavGtzU6Ku5QR0xAKyLfojwVOVtx-S8VGVseE5p4lZezS9mqJ
               - name: blackhole
           monzoTemplate:
             enabled: false
