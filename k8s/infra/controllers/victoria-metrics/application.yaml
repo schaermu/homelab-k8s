@@ -40,9 +40,58 @@ spec:
               extraArgs:
                 dedup.minScrapeInterval: 10s
         alertmanager:
-          enabled: false
+          enabled: true
+          spec:
+            replicaCount: 1
+            port: "9093"
+            selectAllByDefault: true
+            image:
+              tag: v0.30.0
+            externalURL: "https://alertmanager.lab.schaermu.ch"
+            routePrefix: /
+            disableNamespaceMatcher: true
+          useManagedConfig: true
+          config:
+            route:
+              receiver: "discord" # this becomes the default
+              group_by: ["alertgroup", "job"]
+              group_wait: 30s
+              group_interval: 5m
+              repeat_interval: 12h
+              routes:
+                - matchers:
+                    - severity =~ "info|warning|critical"
+                  receiver: gmail
+                  continue: false
+                - continue: true
+                  receiver: blackhole
+            receivers:
+              - name: discord
+                discord_configs:
+                - webhook_url:
+                    name: alertmanager-discord-secret
+                    key: ALERT_WEBHOOK_URL
+              - name: blackhole
+          monzoTemplate:
+            enabled: false
+          route:
+            enabled: true
+            parentRefs:
+            - name: internal
+              namespace: gateway
+            hostnames:
+            - alertmanager.lab.schaermu.ch
         vmalert:
-          enabled: false
+          enabled: true
+          remoteWriteVMAgent: false
+          spec:
+            port: "8080"
+            selectAllByDefault: true
+            evaluationInterval: 15s
+            extraArgs:
+              http.pathPrefix: "/"
+          ingress:
+            enabled: false
         vmauth:
           enabled: false
         vmagent:
