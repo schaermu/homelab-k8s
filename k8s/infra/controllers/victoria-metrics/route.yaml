@@ -6,10 +6,10 @@ metadata:
   namespace: vm-system
 spec:
   parentRefs:
-  - name: internal
+  - name: external
     namespace: gateway
   hostnames:
-  - vizmon.lab.schaermu.ch
+  - vizmon.schaermu.ch
   rules:
   - backendRefs:
     - name: vmks-grafana
