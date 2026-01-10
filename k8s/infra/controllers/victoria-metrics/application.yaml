@@ -63,10 +63,10 @@ spec:
               root_url: https://vizmon.schaermu.ch
             auth:
               oauth_allow_insecure_email_lookup: true
+              disable_login_form: true # comment out for initial deployment
           admin:
             existingSecret: grafana-admin-password
           deploymentStrategy:
-            rollingUpdate: null
             type: Recreate # to avoid issues with persistent volume claims
           persistence:
             type: pvc
