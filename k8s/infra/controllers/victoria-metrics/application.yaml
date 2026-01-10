@@ -58,6 +58,9 @@ spec:
             - metrics.lab.schaermu.ch
         grafana:
           enabled: true
+          grafana.ini:
+            server:
+              root_url: https://vizmon.schaermu.ch
           admin:
             existingSecret: grafana-admin-password
           persistence:
