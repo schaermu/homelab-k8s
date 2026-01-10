@@ -55,7 +55,7 @@ spec:
             - name: internal
               namespace: gateway
             hostnames:
-            - vmagent.lab.schaermu.ch
+            - metrics.lab.schaermu.ch
         grafana:
           enabled: true
           admin:

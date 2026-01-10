@@ -6,15 +6,15 @@ metadata:
   namespace: vm-system
 spec:
   parentRefs:
-    - name: internal
-      namespace: gateway
+  - name: internal
+    namespace: gateway
   hostnames:
-    - vizmon.lab.schaermu.ch
+  - vizmon.lab.schaermu.ch
   rules:
-    - backendRefs:
-        - name: vmks-grafana
-          port: 80
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: vmks-grafana
+      port: 80
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
