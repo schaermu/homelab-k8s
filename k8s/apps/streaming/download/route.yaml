@@ -6,18 +6,19 @@ metadata:
   namespace: download
 spec:
   parentRefs:
-    - name: internal
-      namespace: gateway
+  - name: internal
+    namespace: gateway
+    sectionName: https-gateway
   hostnames:
-    - torrent.lab.schaermu.ch
+  - torrent.lab.schaermu.ch
   rules:
-    - backendRefs:
-        - name: qbittorrent
-          port: 8080
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: qbittorrent
+      port: 8080
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
 
 ---
 apiVersion: gateway.networking.k8s.io/v1
@@ -27,15 +28,16 @@ metadata:
   namespace: download
 spec:
   parentRefs:
-    - name: internal
-      namespace: gateway
+  - name: internal
+    namespace: gateway
+    sectionName: https-gateway
   hostnames:
-    - usenet.lab.schaermu.ch
+  - usenet.lab.schaermu.ch
   rules:
-    - backendRefs:
-        - name: sabnzbd
-          port: 8090
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: sabnzbd
+      port: 8090
+    matches:
+    - path:
+        type: PathPrefix
+        value: /

@@ -6,15 +6,16 @@ metadata:
   namespace: prowlarr
 spec:
   parentRefs:
-    - name: internal
-      namespace: gateway
+  - name: internal
+    namespace: gateway
+    sectionName: https-gateway
   hostnames:
-    - prowlarr.lab.schaermu.ch
+  - prowlarr.lab.schaermu.ch
   rules:
-    - backendRefs:
-        - name: prowlarr
-          port: 9696
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: prowlarr
+      port: 9696
+    matches:
+    - path:
+        type: PathPrefix
+        value: /

@@ -6,15 +6,16 @@ metadata:
   namespace: argocd
 spec:
   parentRefs:
-    - name: internal
-      namespace: gateway
+  - name: internal
+    namespace: gateway
+    sectionName: https-gateway
   hostnames:
-    - argocd.lab.schaermu.ch
+  - argocd.lab.schaermu.ch
   rules:
-    - backendRefs:
-        - name: argocd-server
-          port: 80
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: argocd-server
+      port: 80
+    matches:
+    - path:
+        type: PathPrefix
+        value: /

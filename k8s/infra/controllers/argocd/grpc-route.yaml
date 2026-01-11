@@ -8,13 +8,14 @@ spec:
   parentRefs:
     - name: internal
       namespace: gateway
+      sectionName: https-gateway
   hostnames:
-    - argocd.lab.schaermu.ch
+  - argocd.lab.schaermu.ch
   rules:
-    - backendRefs:
-        - name: argocd-server-grpc
-          port: 80
-      matches:
-        - headers:
-            - name: Content-Type
-              value: application/grpc
+  - backendRefs:
+    - name: argocd-server-grpc
+      port: 80
+    matches:
+    - headers:
+        - name: Content-Type
+          value: application/grpc

@@ -6,15 +6,16 @@ metadata:
   namespace: longhorn-system
 spec:
   parentRefs:
-    - name: internal
-      namespace: gateway
+  - name: internal
+    namespace: gateway
+    sectionName: https-gateway
   hostnames:
-    - longhorn.lab.schaermu.ch
+  - longhorn.lab.schaermu.ch
   rules:
-    - backendRefs:
-        - name: longhorn-frontend
-          port: 80
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+  - backendRefs:
+    - name: longhorn-frontend
+      port: 80
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
