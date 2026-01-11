@@ -14,7 +14,8 @@ spec:
       barmanObjectName: cloudflare-r2-store
       serverName: vaultwarden-db
   storage:
-    size: 1Gi
+    storageClass: longhorn-db-volumes
+    size: 5Gi
 
 ---
 apiVersion: postgresql.cnpg.io/v1

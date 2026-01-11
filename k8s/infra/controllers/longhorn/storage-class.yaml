@@ -16,3 +16,16 @@ parameters:
   csi.storage.k8s.io/node-publish-secret-namespace: ${pvc.namespace}
   csi.storage.k8s.io/node-stage-secret-name: ${pvc.name}-longhorn
   csi.storage.k8s.io/node-stage-secret-namespace: ${pvc.namespace}
+
+---
+apiVersion: v1
+kind: StorageClass
+metadata:
+  name: longhorn-db-volumes
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+parameters:
+  numberOfReplicas: 1
+  staleReplicaTimeout: "2880"
+  fromBackup: ""
+  dataLocality: "best-effort"
