@@ -1,6 +1,6 @@
 ---
-kind: StorageClass
 apiVersion: storage.k8s.io/v1
+kind: StorageClass
 metadata:
   name: longhorn-encrypted
 provisioner: driver.longhorn.io
@@ -18,14 +18,14 @@ parameters:
   csi.storage.k8s.io/node-stage-secret-namespace: ${pvc.namespace}
 
 ---
-apiVersion: v1
+apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: longhorn-db-volumes
 provisioner: driver.longhorn.io
 allowVolumeExpansion: true
 parameters:
-  numberOfReplicas: 1
+  numberOfReplicas: "1"
   staleReplicaTimeout: "2880"
   fromBackup: ""
   dataLocality: "best-effort"
