@@ -17,15 +17,16 @@ spec:
         httpRoute:
           enabled: true
           parentRefs:
-            - name: internal
-              namespace: gateway
+          - name: internal
+            namespace: gateway
+            sectionName: https-gateway
           hostnames:
-            - jellyfin.lab.schaermu.ch
+          - jellyfin.lab.schaermu.ch
           rules:
-            - matches:
-                - path:
-                    type: PathPrefix
-                    value: /
+          - matches:
+            - path:
+                type: PathPrefix
+                value: /
         nodeSelector:
           intel.feature.node.kubernetes.io/gpu: "true"
         resources:
@@ -45,5 +46,5 @@ spec:
       selfHeal: true
       prune: true
     syncOptions:
-      - ServerSideApply=true
-      - CreateNamespace=true
+    - ServerSideApply=true
+    - CreateNamespace=true
