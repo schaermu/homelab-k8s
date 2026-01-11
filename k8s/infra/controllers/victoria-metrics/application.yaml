@@ -77,7 +77,6 @@ spec:
             parentRefs:
             - name: internal
               namespace: gateway
-              sectionName: https-gateway
             hostnames:
             - alertmanager.lab.schaermu.ch
         vmalert:
@@ -102,7 +101,6 @@ spec:
             parentRefs:
             - name: internal
               namespace: gateway
-              sectionName: https-gateway
             hostnames:
             - metrics.lab.schaermu.ch
         grafana:

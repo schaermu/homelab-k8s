@@ -19,7 +19,6 @@ spec:
           parentRefs:
           - name: internal
             namespace: gateway
-            sectionName: https-gateway
           hostnames:
           - jellyfin.lab.schaermu.ch
           rules:

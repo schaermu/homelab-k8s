@@ -9,7 +9,7 @@ spec:
   issuerRef:
     group: cert-manager.io
     kind: ClusterIssuer
-    name: cloudflare-cluster-issuer-staging
+    name: cloudflare-cluster-issuer
   dnsNames:
     - "*.lab.schaermu.ch"
     - "lab.schaermu.ch"

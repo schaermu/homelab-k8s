@@ -8,6 +8,7 @@ kustomize = "latest"
 yq = "latest"
 helm = "latest"
 argocd = "3.1.7"
+cilium-cli = "latest"
 
 [env]
 _.file = '.env'
