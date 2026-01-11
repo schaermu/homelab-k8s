@@ -33,20 +33,10 @@ spec:
               gpu.intel.com/i915: 1
           limits:
               gpu.intel.com/i915: 1
-        volumes:
-          - name: media
-            nfs:
-              path: /mnt/MAIN_POOL/data
-              server: 192.168.1.244
-        volumeMounts:
-          - mountPath: /tv
-            name: media
-            subPath: media/tv
-            readOnly: true
-          - mountPath: /movies
-            name: media
-            subPath: media/movies
-            readOnly: true
+        persistence:
+          media:
+            enabled: true
+            existingClaim: jellyfin-data
   destination:
     name: in-cluster
     namespace: jellyfin
@@ -57,3 +47,37 @@ spec:
     syncOptions:
       - ServerSideApply=true
       - CreateNamespace=true
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-data
+  namespace: jellyfin
+spec:
+  storageClassName: ""
+  selector:
+    matchLabels:
+      type: nfs-shared-storage
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 20T
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jellyfin-data-pv
+  labels:
+    type: nfs-shared-storage
+spec:
+  capacity:
+    storage: 20T
+  persistentVolumeReclaimPolicy: Retain
+  accessModes:
+  - ReadWriteMany
+  nfs:
+    server: 192.168.1.244
+    path: /mnt/MAIN_POOL/data
