@@ -18,8 +18,9 @@ spec:
           replicaCount: 2
           persistentVolume:
             enabled: true
-            matchLabels:
-              type: nfs-log-storage
+            name: log-storage
+            existingClaim: log-storage-vls-victoria-logs-single-server
+            size: 250Gi
             mountPath: /storage
             subPath: ""
           route:
