@@ -18,7 +18,8 @@ spec:
           replicaCount: 2
           persistentVolume:
             enabled: true
-            existingClaim: victoria-logs-storage
+            matchLabels:
+              type: nfs-log-storage
             mountPath: /storage
             subPath: ""
           route:
