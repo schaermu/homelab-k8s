@@ -22,6 +22,10 @@ spec:
         app.kubernetes.io/instance: prowlarr
     spec:
       serviceAccountName: prowlarr
+      securityContext:
+        runAsUser: 3001
+        runAsGroup: 3001
+        fsGroup: 3001
       containers:
       - name: prowlarr
         image: lscr.io/linuxserver/prowlarr:2.3.0
