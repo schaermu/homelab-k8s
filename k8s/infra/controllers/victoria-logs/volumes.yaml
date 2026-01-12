@@ -46,7 +46,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: server-volume-vls-victoria-logs-single-server-0
+  name: server-volume-victoria-logs-single-server-0
   namespace: victoria-logs
 spec:
   storageClassName: ""
@@ -64,7 +64,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: server-volume-vls-victoria-logs-single-server-1
+  name: server-volume-victoria-logs-single-server-1
   namespace: victoria-logs
 spec:
   storageClassName: ""
