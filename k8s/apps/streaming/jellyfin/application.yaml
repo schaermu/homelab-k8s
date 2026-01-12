@@ -37,6 +37,10 @@ spec:
           media:
             enabled: true
             existingClaim: jellyfin-data
+        volumeMounts:
+        - name: jellyfin-data
+          mountPath: /media
+          subPath: media
   destination:
     name: in-cluster
     namespace: jellyfin
