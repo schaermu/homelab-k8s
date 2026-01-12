@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana-datasources
-  namespace: victoria-metrics-k8s-stack
+  namespace: vm-system
   labels:
     grafana_datasource: 'true' # default value for: sidecar.datasources.label
 data:

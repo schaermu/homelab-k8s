@@ -11,5 +11,4 @@ resources:
   - job.yaml
   - secrets.yaml
   - route.yaml
-  - volumes.yaml
   - configmap.yaml
