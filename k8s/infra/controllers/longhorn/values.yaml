@@ -12,3 +12,7 @@ defaultSettings:
   createDefaultDiskLabeledNodes: true
   storageReservedPercentageForDefaultDisk: 1
   defaultDataPath: /var/mnt/longhorn
+  orphanAutoDeletion: false
+  autoDeletePodWhenVolumeDetachedUnexpectedly: true
+  nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
+  nodeDrainPolicy: always-allow
