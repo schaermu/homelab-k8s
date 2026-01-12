@@ -5,8 +5,9 @@ metadata:
   name: mediamanager-db
   namespace: mediamanager
 spec:
-  instances: 1
+  instances: 3
   imagePullPolicy: Always
+  primaryUpdateStrategy: unsupervised
   plugins:
   - name: barman-cloud.cloudnative-pg.io
     isWALArchiver: true
@@ -16,6 +17,11 @@ spec:
   storage:
     storageClass: longhorn-db-volumes
     size: 10Gi
+  walStorage:
+    storageClass: longhorn-db-volumes
+    size: 2Gi
+  nodeMaintenanceWindow:
+    reusePVC: false # rebuild from other replica instead
 
 ---
 apiVersion: postgresql.cnpg.io/v1
