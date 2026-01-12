@@ -22,7 +22,17 @@
     terraform ALL=(root) NOPASSWD: /usr/bin/whoami```
 12. Lokal neuen SSH key generieren `ssh-keygen -t ed25519 -C "terraform@pve"` und Public-Key in `/home/terraform/.ssh/authorized_keys` hinterlegen.
 
-# External Access
-1. WireGuard VPN via Terraform auf Mikrotik-Router provisionieren
-2. Über Split-Tunneling alle privaten Adressen routen
-3. Pi-Hole als Proxmox VM einrichten und Split-DNS konfigurieren (*.lab.schaermu.ch)
+# Talos Upgrade
+1. Longhorn Manager updaten und via GUI Engine upgraden
+1. Neue Image-URL generieren: https://factory.talos.dev/?target=cloud (nocloud, Extensions iscsi-tools, qemu-guest-agent, util-linux-tools, i915)
+2. Alle CloudNativePG in Maintenance-Mode versetzen:
+```
+spec:
+...
+  nodeMaintenanceWindow:
+    inProgress: true
+...
+```
+3. Via GitOps deployen.
+4. Node für Node mit `talosctl upgrade --prevent --image $IMAGE_FACTORY_URL -n $IP
+5. Warten
