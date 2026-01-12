@@ -105,6 +105,8 @@ spec:
             - metrics.lab.schaermu.ch
         grafana:
           enabled: true
+          plugins:
+          - victoriametrics-logs-datasource
           grafana.ini:
             server:
               root_url: https://vizmon.schaermu.ch

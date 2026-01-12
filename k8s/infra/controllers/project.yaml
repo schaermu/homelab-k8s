@@ -30,6 +30,8 @@ spec:
       server: '*'
     - namespace: 'vm-system'
       server: '*'
+    - namespace: 'victoria-logs'
+      server: '*'
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'

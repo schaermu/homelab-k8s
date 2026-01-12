@@ -1,0 +1,41 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vls-controller
+  namespace: argocd
+spec:
+  project: controllers
+  source:
+    chart: victoria-logs-single
+    repoURL: https://victoriametrics.github.io/helm-charts/
+    targetRevision: 0.11.24
+    helm:
+      releaseName: vls
+      valuesObject:
+        server:
+          enabled: true
+          replicaCount: 2
+          persistentVolume:
+            enabled: true
+            existingClaim: victoria-logs-storage
+            mountPath: /storage
+            subPath: ""
+          route:
+            enabled: true
+            parentRefs:
+            - name: internal
+              namespace: gateway
+            hostnames:
+            - logs.lab.schaermu.ch
+        vector:
+          enabled: true
+  destination:
+    name: in-cluster
+    namespace: victoria-logs
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+    - ServerSideApply=true

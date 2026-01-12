@@ -5,11 +5,4 @@ kind: Kustomization
 resources:
   - application.yaml
   - ns.yaml
-  - sa.yaml
-  - role.yaml
-  - rolebinding.yaml
-  - job.yaml
-  - secrets.yaml
-  - route.yaml
   - volumes.yaml
-  - configmap.yaml
