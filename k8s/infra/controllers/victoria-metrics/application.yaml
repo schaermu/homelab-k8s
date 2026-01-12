@@ -206,15 +206,11 @@ spec:
                       name: etcd-secrets
                       key: server.key
         defaultDatasources:
-          victoriametrics:
-            perReplica: false
-            datasources:
-              - name: VictoriaMetrics
-                type: prometheus
-                isDefault: true
-              - name: VictoriaMetrics (DS)
-                isDefault: false
-                type: victoriametrics-metrics-datasource
+          extra:
+          - name: VictoriaLogs
+            type: victoriametrics-logs-datasource
+            url: http://victoria-logs-single-server.victoria-logs.svc.cluster.local:9428
+            isDefault: false
         kubeScheduler:
           enabled: true
           service:
