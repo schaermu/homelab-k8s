@@ -12,3 +12,4 @@ resources:
   - backup-store.yaml
   - service.yaml
   - deployment.yaml
+  - configmap.yaml

@@ -39,16 +39,6 @@ spec:
             value: "3001"
           - name: PGID
             value: "3001"
-          - name: PROWLARR__UPDATE__AUTOMATICALLY
-            value: "false"
-          - name: PROWLARR__UPDATE__MECHANISM
-            value: "External"
-          - name: PROWLARR__LOG__SQL
-            value: "false"
-          - name: PROWLARR__LOG__DBENABLED
-            value: "false"
-          - name: PROWLARR__LOG__CONSOLELEVEL
-            value: "Info"
           - name: PROWLARR__POSTGRES__HOST
             value: prowlarr-db-rw.prowlarr
           - name: PROWLARR__POSTGRES__USER
@@ -77,7 +67,13 @@ spec:
         volumeMounts:
           - mountPath: /config
             name: prowlarr-config
+          - name: prowlarr-default-config
+            mountPath: /config/config.xml
+            subPath: config.xml
       volumes:
         - name: prowlarr-config
           persistentVolumeClaim:
             claimName: prowlarr-config
+        - name: prowlarr-default-config
+          configMap:
+            name: prowlarr-default-config
