@@ -14,7 +14,7 @@ spec:
       valuesObject:
         server:
           enabled: true
-          replicaCount: 0
+          replicaCount: 2
           persistentVolume:
             enabled: true
             size: 250Gi
