@@ -5,3 +5,13 @@ metadata:
   name: vm-system
   labels:
     pod.security.kubernetes.io/enforce: privileged
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: victoria-logs
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
