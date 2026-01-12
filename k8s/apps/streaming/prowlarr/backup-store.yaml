@@ -12,18 +12,11 @@ spec:
     s3Credentials:
       accessKeyId:
         name: prowlarr-minio-store
-        key: accessKeyId
+        key: AWS_ACCESS_KEY_ID
       secretAccessKey:
         name: prowlarr-minio-store
-        key: secretAccessKey
+        key: AWS_SECRET_ACCESS_KEY
     wal:
       compression: gzip
     data:
       compression: gzip
-  instanceSidecarConfiguration:
-    env:
-    - name: AWS_REQUEST_CHECKSUM_CALCULATION
-      value: when_required
-    - name: AWS_RESPONSE_CHECKSUM_VALIDATION
-      value: when_required
-    retentionPolicyIntervalSeconds: 1800
