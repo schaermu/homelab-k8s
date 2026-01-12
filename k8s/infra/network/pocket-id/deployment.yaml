@@ -28,7 +28,7 @@ spec:
             claimName: pocket-id-data
       containers:
       - name: pocket-id
-        image: ghcr.io/pocket-id/pocket-id:v1.16.0
+        image: ghcr.io/pocket-id/pocket-id:v2.2.0
         env:
           - name: APP_URL
             value: "https://auth.schaermu.ch"
@@ -39,8 +39,6 @@ spec:
                 key: encryption-key
           - name: TRUST_PROXY
             value: "true"
-          - name: DB_PROVIDER
-            value: "postgres"
           - name: DB_CONNECTION_STRING
             valueFrom:
               secretKeyRef:
