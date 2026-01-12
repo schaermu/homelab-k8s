@@ -106,7 +106,7 @@ spec:
         grafana:
           enabled: true
           plugins:
-          - victoriametrics-logs-datasource
+          - https://github.com/VictoriaMetrics/victorialogs-datasource/releases/download/v0.23.2/victoriametrics-logs-datasource-v0.23.2.zip;victoriametrics-logs-datasource
           grafana.ini:
             server:
               root_url: https://vizmon.schaermu.ch
