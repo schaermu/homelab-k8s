@@ -26,6 +26,7 @@ metadata:
 spec:
   name: prowlarr-log
   owner: app
+  ensure: absent
   cluster:
     name: prowlarr-db
   extensions:
